@@ -1,8 +1,10 @@
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'http://localhost:4321';
+
 export const siteMeta = {
   title: 'Michael Stevan Lapandio | Software Engineer Portfolio',
   description:
     'Software Engineer portfolio of Michael Stevan Lapandio, focused on backend, web engineering, and impactful digital products.',
-  url: 'https://kyomel.github.io'
+  url: siteUrl
 };
 
 export const profile = {
