@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import { profile, projects, siteMeta } from '../data/portfolio';
+
+const title = `Projects | ${profile.name}`;
+---
+
+<BaseLayout title={title} description={siteMeta.description}>
+  <SiteHeader currentPath={Astro.url.pathname} />
+
+  <main class="page-main">
+    <section class="section card terminal-section" aria-labelledby="projects-heading">
+      <p class="kicker">Work module</p>
+      <h1 id="projects-heading" class="page-title">Selected Project</h1>
+      {projects.map((project) => (
+        <article class="project">
+          <h3>{project.name}</h3>
+          <p class="muted">{project.description}</p>
+          <div class="skills">
+            {project.stack.map((item) => <span class="chip">{item}</span>)}
+          </div>
+          <p><a class="social-link" href={project.liveUrl} target="_blank" rel="noopener noreferrer">Live Project</a></p>
+        </article>
+      ))}
+    </section>
+  </main>
+
+  <SiteFooter name={profile.name} />
+</BaseLayout>

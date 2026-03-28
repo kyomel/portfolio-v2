@@ -1,0 +1,102 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import { profile, siteMeta, socials } from '../data/portfolio';
+
+const menuItems = [
+  {
+    href: '/about',
+    command: 'open about',
+    description: 'Profile summary, birthday, and skills'
+  },
+  {
+    href: '/resume',
+    command: 'open resume',
+    description: 'Experience timeline and education'
+  },
+  {
+    href: '/projects',
+    command: 'open projects',
+    description: 'Selected work and technology stack'
+  },
+  {
+    href: '/contact',
+    command: 'open contact',
+    description: 'Email and social profiles'
+  }
+];
+
+const bootLines = [
+  `boot::init profile "${profile.name}"`,
+  'load::modules [about, resume, projects, contact]',
+  `status::online location="${profile.location}"`,
+  'prompt::ready'
+];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: profile.name,
+  jobTitle: profile.role,
+  email: profile.email,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: profile.location
+  },
+  sameAs: socials.map((social) => social.href)
+};
+---
+
+<BaseLayout title={siteMeta.title} description={siteMeta.description}>
+  <SiteHeader currentPath={Astro.url.pathname} />
+
+  <main class="page-main" id="home">
+    <section class="terminal-home card" aria-labelledby="home-heading">
+      <article class="terminal-window">
+        <div class="terminal-window__head" aria-hidden="true">
+          <span class="terminal-window__dot"></span>
+          <span class="terminal-window__dot"></span>
+          <span class="terminal-window__dot"></span>
+          <p class="terminal-window__title">session://portfolio</p>
+        </div>
+
+        <div class="terminal-window__body">
+          <p class="kicker">Software Engineer Portfolio</p>
+          <h1 id="home-heading" class="terminal-title">{profile.name}</h1>
+          <p class="lead">{profile.tagline}</p>
+
+          <div class="hero__meta">
+            <span class="chip">{profile.role}</span>
+            <span class="chip">{profile.location}</span>
+            <span class="chip">{profile.email}</span>
+          </div>
+
+          <ul class="terminal-boot" aria-label="Terminal startup output">
+            {bootLines.map((line, index) => (
+              <li style={`--line-delay: ${220 + index * 230}ms;`}>{line}</li>
+            ))}
+          </ul>
+        </div>
+      </article>
+
+      <aside class="terminal-menu" aria-label="Homepage menu">
+        <p class="terminal-menu__title">menu::navigate</p>
+        <ul class="terminal-menu__list">
+          {menuItems.map((item, index) => (
+            <li style={`--line-delay: ${index * 140}ms;`}>
+              <a class="terminal-menu__link" href={item.href}>
+                <span class="terminal-menu__command">$ {item.command}</span>
+                <span class="terminal-menu__description">{item.description}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </aside>
+    </section>
+
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)}></script>
+  </main>
+
+  <SiteFooter name={profile.name} />
+</BaseLayout>

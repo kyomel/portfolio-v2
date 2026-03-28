@@ -1,0 +1,38 @@
+<!DOCTYPE html><html lang="en" data-theme="light"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><meta name="generator" content="Astro v5.18.0"><title>Projects | Michael Stevan Lapandio</title><meta name="description" content="Software Engineer portfolio of Michael Stevan Lapandio, focused on backend, web engineering, and impactful digital products."><meta property="og:title" content="Projects | Michael Stevan Lapandio"><meta property="og:description" content="Software Engineer portfolio of Michael Stevan Lapandio, focused on backend, web engineering, and impactful digital products."><meta property="og:type" content="website"><meta property="og:image" content="/images.png"><meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)"><meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=VT323&display=swap" rel="stylesheet"><script>
+      (() => {
+        const saved = localStorage.getItem('theme');
+        const preferred = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        const theme = saved === 'dark' || saved === 'light' ? saved : preferred;
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+      })();
+    </script><link rel="stylesheet" href="/_astro/about.BRGG_acm.css"></head> <body>  <header class="topbar"> <div class="topbar__left"> <a class="brand" href="/">KYOMEL</a> <nav class="topbar__nav" aria-label="Primary navigation"> <a href="/" class="topbar__link"> Home </a><a href="/about" class="topbar__link"> About </a><a href="/resume" class="topbar__link"> Resume </a><a href="/projects" class="topbar__link is-active" aria-current="page"> Projects </a><a href="/contact" class="topbar__link"> Contact </a> </nav> </div> <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle theme"> <span class="theme-toggle__light" aria-hidden="true">☀</span> <span class="theme-toggle__dark" aria-hidden="true">☾</span> <span class="theme-toggle__text">Theme</span> </button> <script>
+  (() => {
+    const root = document.documentElement;
+    const button = document.getElementById('theme-toggle');
+    if (!button) return;
+
+    const applyTheme = (value) => {
+      const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const effectiveTheme = value === 'system' ? (systemDark ? 'dark' : 'light') : value;
+      root.dataset.theme = effectiveTheme;
+      root.style.colorScheme = effectiveTheme;
+    };
+
+    const saved = localStorage.getItem('theme') || 'system';
+    applyTheme(saved);
+
+    button.addEventListener('click', () => {
+      const current = localStorage.getItem('theme') || 'system';
+      const next = current === 'dark' ? 'light' : current === 'light' ? 'system' : 'dark';
+      localStorage.setItem('theme', next);
+      applyTheme(next);
+    });
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+      if ((localStorage.getItem('theme') || 'system') === 'system') {
+        applyTheme('system');
+      }
+    });
+  })();
+</script> </header> <main class="page-main"> <section class="section card terminal-section" aria-labelledby="projects-heading"> <p class="kicker">Work module</p> <h1 id="projects-heading" class="page-title">Selected Project</h1> <article class="project"> <h3>Sayembara App</h3> <p class="muted">Backend platform for managing contests and submissions with authentication and robust data workflows.</p> <div class="skills"> <span class="chip">Node.js</span><span class="chip">Express</span><span class="chip">PostgreSQL</span><span class="chip">Sequelize</span><span class="chip">JWT</span> </div> <p><a class="social-link" href="https://sayembara-ga6.herokuapp.com/" target="_blank" rel="noopener noreferrer">Live Project</a></p> </article> </section> </main> <footer> <p>© 2026 Michael Stevan Lapandio. Built with Astro.</p> </footer>  </body></html>

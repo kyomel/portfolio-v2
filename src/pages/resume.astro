@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import { education, experiences, profile, siteMeta } from '../data/portfolio';
+
+const title = `Resume | ${profile.name}`;
+---
+
+<BaseLayout title={title} description={siteMeta.description}>
+  <SiteHeader currentPath={Astro.url.pathname} />
+
+  <main class="page-main">
+    <section class="section card terminal-section" aria-labelledby="resume-heading">
+      <p class="kicker">Career module</p>
+      <h1 id="resume-heading" class="page-title">Resume</h1>
+
+      <div class="grid">
+        <article class="terminal-subsection">
+          <h2>Experience</h2>
+          <div class="timeline">
+            {experiences.map((exp) => (
+              <div class="timeline-item">
+                <p class="period">{exp.period}</p>
+                <h3>{exp.role}</h3>
+                <p>{exp.company}</p>
+                <p class="muted">{exp.location}</p>
+              </div>
+            ))}
+          </div>
+        </article>
+
+        <article class="terminal-subsection">
+          <h2>Education</h2>
+          <div class="timeline">
+            {education.map((item) => (
+              <div class="edu-item">
+                <p class="period">{item.period}</p>
+                <h3>{item.school}</h3>
+                <p class="muted">{item.major}</p>
+              </div>
+            ))}
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <SiteFooter name={profile.name} />
+</BaseLayout>

@@ -1,0 +1,36 @@
+<button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle theme">
+  <span class="theme-toggle__light" aria-hidden="true">☀</span>
+  <span class="theme-toggle__dark" aria-hidden="true">☾</span>
+  <span class="theme-toggle__text">Theme</span>
+</button>
+
+<script is:inline>
+  (() => {
+    const root = document.documentElement;
+    const button = document.getElementById('theme-toggle');
+    if (!button) return;
+
+    const applyTheme = (value) => {
+      const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const effectiveTheme = value === 'system' ? (systemDark ? 'dark' : 'light') : value;
+      root.dataset.theme = effectiveTheme;
+      root.style.colorScheme = effectiveTheme;
+    };
+
+    const saved = localStorage.getItem('theme') || 'system';
+    applyTheme(saved);
+
+    button.addEventListener('click', () => {
+      const current = localStorage.getItem('theme') || 'system';
+      const next = current === 'dark' ? 'light' : current === 'light' ? 'system' : 'dark';
+      localStorage.setItem('theme', next);
+      applyTheme(next);
+    });
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+      if ((localStorage.getItem('theme') || 'system') === 'system') {
+        applyTheme('system');
+      }
+    });
+  })();
+</script>

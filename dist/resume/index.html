@@ -1,0 +1,38 @@
+<!DOCTYPE html><html lang="en" data-theme="light"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><meta name="generator" content="Astro v5.18.0"><title>Resume | Michael Stevan Lapandio</title><meta name="description" content="Software Engineer portfolio of Michael Stevan Lapandio, focused on backend, web engineering, and impactful digital products."><meta property="og:title" content="Resume | Michael Stevan Lapandio"><meta property="og:description" content="Software Engineer portfolio of Michael Stevan Lapandio, focused on backend, web engineering, and impactful digital products."><meta property="og:type" content="website"><meta property="og:image" content="/images.png"><meta name="twitter:card" content="summary_large_image"><meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)"><meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=VT323&display=swap" rel="stylesheet"><script>
+      (() => {
+        const saved = localStorage.getItem('theme');
+        const preferred = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        const theme = saved === 'dark' || saved === 'light' ? saved : preferred;
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+      })();
+    </script><link rel="stylesheet" href="/_astro/about.BRGG_acm.css"></head> <body>  <header class="topbar"> <div class="topbar__left"> <a class="brand" href="/">KYOMEL</a> <nav class="topbar__nav" aria-label="Primary navigation"> <a href="/" class="topbar__link"> Home </a><a href="/about" class="topbar__link"> About </a><a href="/resume" class="topbar__link is-active" aria-current="page"> Resume </a><a href="/projects" class="topbar__link"> Projects </a><a href="/contact" class="topbar__link"> Contact </a> </nav> </div> <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle theme"> <span class="theme-toggle__light" aria-hidden="true">☀</span> <span class="theme-toggle__dark" aria-hidden="true">☾</span> <span class="theme-toggle__text">Theme</span> </button> <script>
+  (() => {
+    const root = document.documentElement;
+    const button = document.getElementById('theme-toggle');
+    if (!button) return;
+
+    const applyTheme = (value) => {
+      const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const effectiveTheme = value === 'system' ? (systemDark ? 'dark' : 'light') : value;
+      root.dataset.theme = effectiveTheme;
+      root.style.colorScheme = effectiveTheme;
+    };
+
+    const saved = localStorage.getItem('theme') || 'system';
+    applyTheme(saved);
+
+    button.addEventListener('click', () => {
+      const current = localStorage.getItem('theme') || 'system';
+      const next = current === 'dark' ? 'light' : current === 'light' ? 'system' : 'dark';
+      localStorage.setItem('theme', next);
+      applyTheme(next);
+    });
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+      if ((localStorage.getItem('theme') || 'system') === 'system') {
+        applyTheme('system');
+      }
+    });
+  })();
+</script> </header> <main class="page-main"> <section class="section card terminal-section" aria-labelledby="resume-heading"> <p class="kicker">Career module</p> <h1 id="resume-heading" class="page-title">Resume</h1> <div class="grid"> <article class="terminal-subsection"> <h2>Experience</h2> <div class="timeline"> <div class="timeline-item"> <p class="period">Oct 2024 - May 2025</p> <h3>Team Lead</h3> <p>RevoU</p> <p class="muted">Remote</p> </div><div class="timeline-item"> <p class="period">Apr 2024 - Jun 2024</p> <h3>Buddy Lab 2</h3> <p>Binar Academy</p> <p class="muted">Remote</p> </div><div class="timeline-item"> <p class="period">Feb 2023 - Jun 2023</p> <h3>Soft Skill Instructor and Advisor</h3> <p>Bangkit Academy</p> <p class="muted">Remote</p> </div><div class="timeline-item"> <p class="period">Feb 2021 - May 2024</p> <h3>Software Engineer</h3> <p>PT Xapiens Teknologi Indonesia</p> <p class="muted">Special Region of Yogyakarta</p> </div><div class="timeline-item"> <p class="period">Nov 2020 - Mar 2022</p> <h3>Part-Time Product Owner</h3> <p>Glints Academy</p> <p class="muted">Remote</p> </div> </div> </article> <article class="terminal-subsection"> <h2>Education</h2> <div class="timeline"> <div class="edu-item"> <p class="period">Aug 2012 - Sept 2019</p> <h3>Atma Jaya Yogyakarta University</h3> <p class="muted">Informatics Engineering</p> </div><div class="edu-item"> <p class="period">Apr 2020 - Jul 2020</p> <h3>Glints x Binar Academy Batch 6</h3> <p class="muted">Back-End Developer Program</p> </div> </div> </article> </div> </section> </main> <footer> <p>© 2026 Michael Stevan Lapandio. Built with Astro.</p> </footer>  </body></html>
