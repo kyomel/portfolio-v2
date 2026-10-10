@@ -42,6 +42,8 @@ pull request --> build only, no deploy
 
 Workflow: `.github/workflows/deploy.yml`.
 
+Do not connect this repo through the dashboard Git integration (Workers & Pages > Connect to Git). A Git-connected Pages project rejects `wrangler pages deploy`, and the Cloudflare build image ships an older Bun (1.2.15) that cannot parse this repo's `bun.lock` (`lockfileVersion: 2`, written by Bun 1.4+). Deploys come from GitHub Actions only.
+
 ### One-time setup
 
 1. Create the Pages project. CI cannot create it for you:
@@ -62,7 +64,7 @@ Workflow: `.github/workflows/deploy.yml`.
    | `CLOUDFLARE_API_TOKEN`  | API token from step 2 |
    | `CLOUDFLARE_ACCOUNT_ID` | Account ID from step 3 |
 
-5. Push `main` to GitHub. The workflow deploys to `https://portfolio-v2.pages.dev`. If the name is taken, Cloudflare appends a random suffix.
+5. Push `main` to GitHub. The workflow deploys to `https://portfolio-v2-6be.pages.dev` (Cloudflare appended the suffix because the plain name was taken).
 
 ### Custom domain
 
