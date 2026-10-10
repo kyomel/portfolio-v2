@@ -47,6 +47,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
       - name: Download build output
         uses: actions/download-artifact@v8
         with:
