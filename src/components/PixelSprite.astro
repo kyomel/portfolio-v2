@@ -1,0 +1,229 @@
+---
+interface Props {
+  size?: "sm" | "md" | "lg";
+  class?: string;
+}
+const { size = "md", class: cls = "" } = Astro.props;
+const block = { sm: 2, md: 3, lg: 4 }[size];
+---
+
+<canvas
+  class:list={["px-sprite", cls]}
+  data-block={block}
+  aria-hidden="true"
+  style={`--b:${block}px`}></canvas>
+
+<style is:global>
+  .px-sprite {
+    /* 13 cols x (14 rows + 2 rows of hop headroom); headroom does not take layout space */
+    width: calc(13 * var(--b));
+    height: calc(16 * var(--b));
+    margin-top: calc(-2 * var(--b));
+    image-rendering: pixelated;
+    vertical-align: baseline;
+    cursor: default;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+</style>
+
+<script>
+  // k = ink, f = fill, a = accent. 13 x 14 blocks.
+  const ART = [
+    "......a......",
+    "......k......",
+    ".kkkkkkkkkkk.",
+    ".kfffffffffk.",
+    ".kffkfffkffk.",
+    ".kfffffffffk.",
+    ".kfffffffffk.",
+    ".kkkkkkkkkkk.",
+    "...kfffffk...",
+    "kkkkffaffkkkk",
+    "k..kfffffk..k",
+    "...kkkkkkk...",
+    "....k...k....",
+    "...kk...kk...",
+  ];
+  const COLS = 13;
+  const HEAD_ROWS = 8;
+  // source columns kept per squashed width; head walls (1, 11) and body walls (3, 9) always kept
+  const COLMAP: Record<number, number[]> = {
+    13: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    9: [1, 3, 4, 5, 6, 7, 8, 9, 11],
+    7: [1, 3, 4, 6, 8, 9, 11],
+  };
+  const HEADROOM = 2;
+  const EYES = [4, 8];
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  type Frame = { dur: number; w?: number; dy?: number; inv?: boolean; glitch?: boolean };
+  const HOP: Frame[] = [{ dur: 160, dy: 2 }, { dur: 110, dy: 1 }];
+  const SPIN: Frame[] = [
+    { dur: 125, w: 9 },
+    { dur: 125, w: 7, dy: 1 },
+    { dur: 125, w: 9, dy: 1 },
+    { dur: 125, w: 13 },
+  ];
+  const GLITCH: Frame[] = [{ dur: 150, inv: true }, { dur: 110, glitch: true }];
+
+  const inst: Array<() => void> = [];
+
+  function init(cv: HTMLCanvasElement) {
+    const b = Number(cv.dataset.block);
+    const dpr = Math.min(2, Math.max(1, Math.round(devicePixelRatio)));
+    cv.width = COLS * b * dpr;
+    cv.height = (ART.length + HEADROOM) * b * dpr;
+    const ctx = cv.getContext("2d")!;
+    ctx.imageSmoothingEnabled = false;
+    ctx.scale(dpr, dpr);
+
+    let ink = "", fill = "", accent = "";
+    const readVar = (v: string) => {
+      cv.style.color = `var(${v})`;
+      const c = getComputedStyle(cv).color;
+      cv.style.color = "";
+      return c;
+    };
+    const readColors = () => {
+      ink = readVar("--fg");
+      fill = readVar("--bg");
+      accent = readVar("--accent");
+    };
+    // "fx off" (footer motion control) silences idle ticks; hover and click still react.
+    const motionOff = () => document.documentElement.dataset.motion === "off";
+
+    let hover = false;
+    let anim: { frames: Frame[]; t0: number } | null = null;
+    let timer = 0;
+    let visible = true;
+    let blinkAt = performance.now() + 1800 + Math.random() * 2000;
+    let last = "";
+    const t00 = performance.now();
+
+    function draw(s: { blink: boolean; happy: boolean; wave: boolean; pulse: boolean; bob: boolean; w: number; dy: number; inv: boolean; glitch: boolean }) {
+      const g = ART.map((r) => [...r]);
+      for (const x of EYES) {
+        if (s.happy) {
+          g[5][x - 1] = "k";
+          g[5][x + 1] = "k";
+        } else if (s.blink) g[4][x] = "f";
+      }
+      if (s.wave) {
+        g[10][12] = ".";
+        g[8][12] = g[9][12] = "k";
+        g[9][11] = "k";
+        g[7][12] = "k";
+      }
+      ctx.clearRect(0, 0, COLS * b, (ART.length + HEADROOM) * b);
+      const x0 = (COLS - s.w) / 2;
+      const top = HEADROOM - s.dy;
+      const cell = (x: number, y: number, ch: string, alpha = 1) => {
+        if (ch === ".") return;
+        const c = ch === "a" ? accent : (ch === "k") !== s.inv ? ink : fill;
+        ctx.globalAlpha = alpha;
+        ctx.fillStyle = c;
+        ctx.fillRect(x * b, y * b, b, b);
+      };
+      for (let y = ART.length - 1; y >= 0; y--) {
+        const isHead = y < HEAD_ROWS;
+        const yy = top + y + (isHead && s.bob ? 1 : 0);
+        const sh = s.glitch && y >= 3 && y <= 5 ? 1 : 0;
+        for (let x = 0; x < s.w; x++) {
+          const src = COLMAP[s.w][x];
+          const ch = g[y][src];
+          cell(x0 + x + sh, yy, ch, y === 0 && !s.pulse ? 0.55 : 1);
+        }
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    function render(now: number) {
+      let f: Frame | undefined;
+      if (anim) {
+        let t = now - anim.t0;
+        f = anim.frames.find((fr) => (t < fr.dur ? true : ((t -= fr.dur), false)));
+        if (!f) anim = null;
+      }
+      const t = now - t00;
+      const blink = now >= blinkAt && now < blinkAt + 150;
+      if (now >= blinkAt + 150) blinkAt = now + 2800 + Math.random() * 2700;
+      const s = {
+        blink,
+        happy: hover,
+        wave: hover,
+        pulse: Math.floor(t / 700) % 2 === 1,
+        bob: t % 2400 < 400,
+        w: f?.w ?? 13,
+        dy: f?.dy ?? 0,
+        inv: !!f?.inv,
+        glitch: !!f?.glitch,
+      };
+      const key = JSON.stringify(s);
+      if (key !== last) {
+        last = key;
+        draw(s);
+      }
+      return t;
+    }
+
+    function schedule() {
+      clearTimeout(timer);
+      if (!visible || document.hidden) return;
+      if (motionOff() && !anim && !hover) return;
+      const now = performance.now();
+      const t = render(now);
+      let next = 700 - (t % 700);
+      next = Math.min(next, t % 2400 < 400 ? 400 - (t % 2400) : 2400 - (t % 2400));
+      next = Math.min(next, (now < blinkAt ? blinkAt : blinkAt + 150) - now);
+      if (anim) {
+        let e = now - anim.t0;
+        for (const fr of anim.frames) {
+          if (e < fr.dur) { next = Math.min(next, fr.dur - e); break; }
+          e -= fr.dur;
+        }
+      }
+      timer = window.setTimeout(schedule, Math.max(16, next + 1));
+    }
+
+    function play(frames: Frame[]) {
+      anim = { frames, t0: performance.now() };
+      schedule();
+    }
+    function hop() { play(HOP); }
+
+    readColors();
+    if (reduce) {
+      draw({ blink: false, happy: false, wave: false, pulse: true, bob: false, w: 13, dy: 0, inv: false, glitch: false });
+      inst.push(() => { readColors(); last = ""; draw({ blink: false, happy: false, wave: false, pulse: true, bob: false, w: 13, dy: 0, inv: false, glitch: false }); });
+      return;
+    }
+
+    // pointer inside the host element (e.g. the avatar slot) also wakes the bot
+    const host = cv.closest<HTMLElement>("[data-px-host]") ?? cv;
+    host.addEventListener("pointerenter", (e) => {
+      if (e.pointerType !== "mouse") return;
+      hover = true;
+      if (!anim) hop();
+      else schedule();
+    });
+    host.addEventListener("pointerleave", () => { hover = false; schedule(); });
+    cv.addEventListener("click", () => play(SPIN));
+    new IntersectionObserver((es) => {
+      visible = es[es.length - 1].isIntersecting;
+      visible ? schedule() : clearTimeout(timer);
+    }).observe(cv);
+    document.addEventListener("visibilitychange", schedule);
+    new MutationObserver(schedule).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-motion"],
+    });
+    inst.push(() => { readColors(); last = ""; play(GLITCH); });
+    schedule();
+  }
+
+  document.querySelectorAll<HTMLCanvasElement>("canvas.px-sprite").forEach(init);
+  const onTheme = () => inst.forEach((f) => f());
+  new MutationObserver(onTheme).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", onTheme);
+</script>

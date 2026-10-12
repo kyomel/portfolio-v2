@@ -1,6 +1,8 @@
 ---
-import { Image } from "astro:assets";
+import PixelPortrait from "../components/PixelPortrait.astro";
 import Base from "../layouts/Base.astro";
+import PixelField from "../components/PixelField.astro";
+import PixelSprite from "../components/PixelSprite.astro";
 import ContactForm from "../components/ContactForm";
 import { profile } from "../data/profile";
 import photo from "../assets/kyomel_anime_v4.png";
@@ -16,6 +18,7 @@ const navItems = [
 ---
 
 <Base title="KyoMel" description={profile.tagline}>
+  <PixelField />
   <div class="shell" id="top">
     <aside class="rail">
       <div class="rail-top">
@@ -25,41 +28,16 @@ const navItems = [
           type="button"
           aria-label="Switch color theme"
         >
-          <svg
-            class="sun"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-          >
-            <circle cx="12" cy="12" r="4"></circle>
-            <path
-              d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"
-            ></path>
-          </svg>
-          <svg
-            class="moon"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"></path>
-          </svg>
+          <svg class="sun" viewBox="0 0 8 8" width="16" height="16" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><rect x="3" y="0" width="1" height="1"/><rect x="1" y="1" width="1" height="1"/><rect x="5" y="1" width="1" height="1"/><rect x="2" y="2" width="3" height="1"/><rect x="1" y="3" width="5" height="1"/><rect x="1" y="4" width="5" height="1"/><rect x="2" y="5" width="3" height="1"/><rect x="1" y="6" width="1" height="1"/><rect x="5" y="6" width="1" height="1"/><rect x="3" y="7" width="1" height="1"/></svg>
+          <svg class="moon" viewBox="0 0 8 8" width="16" height="16" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><rect x="2" y="0" width="3" height="1"/><rect x="1" y="1" width="2" height="1"/><rect x="1" y="2" width="1" height="1"/><rect x="0" y="3" width="2" height="1"/><rect x="0" y="4" width="2" height="1"/><rect x="1" y="5" width="1" height="1"/><rect x="1" y="6" width="2" height="1"/><rect x="2" y="7" width="3" height="1"/></svg>
         </button>
       </div>
 
       <div class="rail-body">
-        <Image
-          class="rail-photo"
-          src={photo}
-          alt={`${profile.name} profile photo`}
-          width={600}
-          height={800}
-        />
+        <div class="rail-photo-slot" data-px-host>
+          <PixelPortrait src={photo} alt={`${profile.name} profile photo`} />
+          <PixelSprite class="rail-bot" size="md" />
+        </div>
         <p class="eyebrow rail-hello">Hello, I'm</p>
         <h1 class="rail-name" aria-label={profile.name}>
           {
@@ -250,8 +228,12 @@ const navItems = [
       </section>
 
       <footer class="site-footer">
-        <div class="wrap">
-          © {new Date().getFullYear()} {profile.name}
+        <div class="wrap foot-row">
+          <span>© {new Date().getFullYear()} {profile.name}</span>
+          <button class="fx-toggle" type="button" aria-pressed="true">
+            <span class="fx-dot" aria-hidden="true"></span>
+            <span class="fx-label">motion: on</span>
+          </button>
         </div>
       </footer>
     </main>
@@ -261,6 +243,21 @@ const navItems = [
     const root = document.documentElement;
     const btn = document.querySelector<HTMLButtonElement>(".theme-toggle");
     const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+
+    // footer motion control: silences the ambient pixel layer
+    const fxBtn = document.querySelector<HTMLButtonElement>(".fx-toggle");
+    const fxLabel = fxBtn?.querySelector<HTMLElement>(".fx-label");
+    const setMotion = (on: boolean) => {
+      root.dataset.motion = on ? "on" : "off";
+      if (fxLabel) fxLabel.textContent = `motion: ${on ? "on" : "off"}`;
+      fxBtn?.setAttribute("aria-pressed", String(on));
+    };
+    fxBtn?.addEventListener("click", () => {
+      const on = root.dataset.motion === "off";
+      localStorage.setItem("motion", on ? "on" : "off");
+      setMotion(on);
+    });
+    if (localStorage.getItem("motion") === "off") setMotion(false);
 
     type VTDocument = Document & {
       startViewTransition?: (cb: () => void) => { ready: Promise<void> };
@@ -341,6 +338,10 @@ const navItems = [
       const cycle = async () => {
         let idx = 0;
         for (;;) {
+          if (root.dataset.motion === "off") {
+            await new Promise((r) => setTimeout(r, 600));
+            continue;
+          }
           await scrambleIn(roles[idx]);
           await new Promise((r) => setTimeout(r, 2400));
           idx = (idx + 1) % roles.length;

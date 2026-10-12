@@ -16,6 +16,8 @@
   --accent-2: light-dark(#7c5cf7, #b9a4f9);
   --accent-fg: light-dark(#ffffff, #131126);
   --wash: light-dark(#eceafc, #232036);
+  /* pixel accent: corner ticks + micro details */
+  --px-tick: color-mix(in srgb, var(--accent) 55%, transparent);
 }
 
 /* explicit theme choice from the rail toggle */
@@ -75,12 +77,27 @@ img {
 }
 
 section {
+  position: relative;
   padding: 88px 0;
-  border-top: 1px solid var(--border);
 }
 
-.main section:first-of-type {
-  border-top: none;
+/* section separators are a 3px-on / 4px-off pixel dash, not a hairline */
+section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--border) 0 3px,
+    transparent 3px 7px
+  );
+}
+
+.main section:first-of-type::before {
+  content: none;
 }
 
 .eyebrow {
@@ -90,6 +107,17 @@ section {
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+}
+
+/* one 5px block before every eyebrow label */
+.eyebrow::before {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-right: 8px;
+  background: currentColor;
+  vertical-align: 1px;
 }
 
 h1,
@@ -185,6 +213,20 @@ h2 {
   border-radius: 14px;
   background: var(--surface);
   flex: none;
+}
+
+/* avatar slot: the portrait plus the pixel bot perched on its corner */
+.rail-photo-slot {
+  position: relative;
+  width: 148px;
+  flex: none;
+}
+
+.rail-bot {
+  position: absolute;
+  right: -14px;
+  bottom: 6px;
+  z-index: 1;
 }
 
 .rail-hello {
@@ -345,8 +387,8 @@ h2 {
 }
 
 .theme-toggle svg {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
 }
 
 /* light shows moon (click -> dark), dark shows sun (click -> light) */
@@ -480,10 +522,21 @@ form .btn {
 }
 
 .tag {
+  display: inline-flex;
+  align-items: center;
   padding: 6px 14px;
   border: 1px solid var(--border);
   border-radius: 999px;
   font-size: 13px;
+}
+
+/* 4px pixel bullet inside every chip */
+.tag::before {
+  content: "";
+  width: 4px;
+  height: 4px;
+  margin-right: 7px;
+  background: color-mix(in srgb, var(--accent) 70%, transparent);
 }
 
 /* Timeline: editorial numbered index */
@@ -508,7 +561,11 @@ form .btn {
   left: 0;
   right: 0;
   height: 1px;
-  background: var(--border);
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--border) 0 3px,
+    transparent 3px 7px
+  );
   transform-origin: left;
   animation: rule-x linear both;
   animation-timeline: view();
@@ -670,10 +727,67 @@ textarea {
 
 /* Footer */
 .site-footer {
+  position: relative;
   padding: 32px 0;
-  border-top: 1px solid var(--border);
   color: var(--muted);
   font-size: 13px;
+}
+
+.site-footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--border) 0 3px,
+    transparent 3px 7px
+  );
+}
+
+.foot-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* footer motion control for the ambient pixel layer (WCAG 2.2.2) */
+.fx-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 0;
+  background: none;
+  border: 0;
+  color: var(--muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.fx-toggle:hover {
+  color: var(--accent);
+}
+
+.fx-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.fx-dot {
+  width: 5px;
+  height: 5px;
+  background: var(--border);
+}
+
+.fx-toggle[aria-pressed="true"] .fx-dot {
+  background: var(--accent);
 }
 
 /* Highlights + certification pointer */
@@ -716,6 +830,31 @@ textarea {
   color: var(--muted);
 }
 
+/* Pixel corner ticks: 7px L-marks, 12px inset, on every surface block */
+.stat,
+.details,
+.card,
+.cert-pointer {
+  background-image:
+    linear-gradient(var(--px-tick), var(--px-tick)),
+    linear-gradient(var(--px-tick), var(--px-tick)),
+    linear-gradient(var(--px-tick), var(--px-tick)),
+    linear-gradient(var(--px-tick), var(--px-tick)),
+    linear-gradient(var(--px-tick), var(--px-tick)),
+    linear-gradient(var(--px-tick), var(--px-tick)),
+    linear-gradient(var(--px-tick), var(--px-tick)),
+    linear-gradient(var(--px-tick), var(--px-tick));
+  background-repeat: no-repeat;
+  background-size:
+    7px 1px, 7px 1px, 7px 1px, 7px 1px,
+    1px 7px, 1px 7px, 1px 7px, 1px 7px;
+  background-position:
+    left 12px top 12px, right 12px top 12px,
+    left 12px bottom 12px, right 12px bottom 12px,
+    left 12px top 12px, right 12px top 12px,
+    left 12px bottom 12px, right 12px bottom 12px;
+}
+
 /* Motion */
 @keyframes fade-up {
   from {
@@ -734,17 +873,6 @@ textarea {
   }
   to {
     transform: translateY(0);
-  }
-}
-
-@keyframes photo-in {
-  from {
-    clip-path: inset(0 0 100% 0);
-    opacity: 0.4;
-  }
-  to {
-    clip-path: inset(0 0 0 0);
-    opacity: 1;
   }
 }
 
@@ -778,10 +906,6 @@ textarea {
 
 .rail-top {
   animation: fade-up 0.6s ease both;
-}
-
-.rail-photo {
-  animation: photo-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
 }
 
 .rail-hello {
@@ -903,7 +1027,8 @@ section[id] {
     border-bottom: 1px solid var(--border);
   }
 
-  .rail-photo {
+  .rail-photo,
+  .rail-photo-slot {
     width: 140px;
   }
 

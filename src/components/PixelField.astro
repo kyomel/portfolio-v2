@@ -1,0 +1,181 @@
+---
+// Ambient pixel background: faint dot lattice + slow drifting 2px dust.
+---
+
+<div class="px-field" aria-hidden="true"><canvas></canvas></div>
+
+<style is:global>
+  .px-field {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+    /* static 8px dot lattice; the canvas only draws the drifting dust */
+    background-image: radial-gradient(
+      color-mix(in srgb, var(--border) 50%, transparent) 1px,
+      transparent 1.5px
+    );
+    background-size: 8px 8px;
+  }
+  .px-field canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+  }
+  .px-field i {
+    position: absolute;
+    visibility: hidden;
+  }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>(".px-field");
+  const canvas = root?.querySelector("canvas");
+  const ctx = canvas?.getContext("2d");
+
+  if (root && canvas && ctx) {
+    const B = 2; // dust block size, CSS px
+    const MAX = 55;
+    const rm = matchMedia("(prefers-reduced-motion: reduce)");
+    const dark = matchMedia("(prefers-color-scheme: dark)");
+    const rnd = (a: number, b: number) => a + Math.random() * (b - a);
+
+    // Resolve light-dark() custom properties to concrete rgb() strings.
+    const probe = document.createElement("i");
+    root.append(probe);
+    const resolve = (name: string) => {
+      probe.style.color = `var(${name})`;
+      return getComputedStyle(probe).color;
+    };
+    let cAccent = "",
+      cAccent2 = "";
+    const readColors = () => {
+      cAccent = resolve("--accent");
+      cAccent2 = resolve("--accent-2");
+    };
+    const x = new Float32Array(MAX); // fraction of width
+    const y = new Float32Array(MAX); // CSS px
+    const speed = new Float32Array(MAX);
+    const phase = new Float32Array(MAX);
+    const alpha = new Float32Array(MAX);
+    const hue = new Uint8Array(MAX);
+    const twStart = new Float32Array(MAX);
+    const twNext = new Float32Array(MAX);
+    const LEVEL = [1.25, 1.6, 1.25];
+
+    let W = 0,
+      H = 0,
+      dpr = 1,
+      n = 0,
+      raf = 0,
+      last = 0,
+      t = 0;
+
+    const respawn = (i: number, atBottom: boolean) => {
+      x[i] = Math.random();
+      y[i] = atBottom ? H + B : rnd(0, H);
+      speed[i] = rnd(4, 16);
+      phase[i] = rnd(0, 6.28);
+      alpha[i] = 0.14 + Math.pow(Math.random(), 2.2) * 0.36;
+      hue[i] = Math.random() < 0.7 ? 0 : 1;
+      twStart[i] = -1e3;
+      twNext[i] = t + rnd(0.5, 6);
+    };
+
+    const draw = () => {
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const animated = !rm.matches;
+      for (let i = 0; i < n; i++) {
+        let a = alpha[i];
+        if (animated) {
+          const el = t - twStart[i];
+          if (el >= 0 && el < 0.36) a *= LEVEL[Math.floor(el / 0.12) % 3];
+        }
+        ctx.globalAlpha = Math.min(a, 0.55);
+        ctx.fillStyle = hue[i] ? cAccent2 : cAccent;
+        const sway = animated ? Math.sin(t * speed[i] * 0.03 + phase[i]) * 6 : 0;
+        // snap to the 2px block grid
+        const px = Math.round((x[i] * W + sway) / B) * B;
+        ctx.fillRect(px, Math.round(y[i] / B) * B, B, B);
+      }
+    };
+
+    const step = (now: number) => {
+      raf = requestAnimationFrame(step);
+      if (now - last < 32) return; // 30fps is plenty for slow dust
+      const dt = Math.min((now - last) / 1000, 0.1);
+      last = now;
+      t += dt;
+      for (let i = 0; i < n; i++) {
+        y[i] -= speed[i] * dt;
+        if (y[i] < -B) respawn(i, true);
+        else if (t >= twNext[i]) {
+          twStart[i] = t;
+          twNext[i] = t + 0.36 + rnd(2.4, 6);
+        }
+      }
+      draw();
+    };
+
+    const stop = () => {
+      cancelAnimationFrame(raf);
+      raf = 0;
+    };
+    const motionOff = () => document.documentElement.dataset.motion === "off";
+    const play = () => {
+      if (raf || rm.matches || motionOff() || document.hidden || !W || !H) return;
+      last = performance.now();
+      raf = requestAnimationFrame(step);
+    };
+
+    const resize = () => {
+      const w = root.clientWidth,
+        h = root.clientHeight;
+      if (w === W && h === H) return;
+      const prevH = H;
+      W = w;
+      H = h;
+      dpr = Math.min(devicePixelRatio || 1, 2);
+      canvas.width = W * dpr;
+      canvas.height = H * dpr;
+      if (!W || !H) return stop();
+      const want = W <= 700 ? 26 : MAX;
+      for (let i = 0; i < want; i++) {
+        if (i >= n) respawn(i, false);
+        else if (prevH) y[i] *= H / prevH;
+      }
+      n = want;
+      draw();
+      play();
+    };
+
+    const recolor = () => {
+      readColors();
+      draw();
+    };
+
+    readColors();
+    new ResizeObserver(resize).observe(root);
+    new MutationObserver(() => {
+      recolor();
+      motionOff() ? stop() : play();
+    }).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme", "data-motion"],
+    });
+    dark.addEventListener("change", recolor);
+    document.addEventListener("visibilitychange", () =>
+      document.hidden ? stop() : play(),
+    );
+    rm.addEventListener("change", () => {
+      stop();
+      draw();
+      play();
+    });
+    resize();
+  }
+</script>
