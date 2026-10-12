@@ -42,7 +42,20 @@ pull request --> build only, no deploy
 
 Workflow: `.github/workflows/deploy.yml`.
 
-Do not connect this repo through the dashboard Git integration (Workers & Pages > Connect to Git). A Git-connected Pages project rejects `wrangler pages deploy`, and the Cloudflare build image ships an older Bun (1.2.15) that cannot parse this repo's `bun.lock` (`lockfileVersion: 2`, written by Bun 1.4+). Deploys come from GitHub Actions only.
+### Bun version
+
+`bun.lock` is `lockfileVersion: 2`, which only Bun 1.4 and newer can parse. Cloudflare's build image defaults to Bun 1.2.15 and stops with `UnknownLockfileVersion: failed to parse lockfile: 'bun.lock'`. `.tool-versions` pins Bun 1.4.2 for every consumer:
+
+| Consumer         | How it reads the pin                        |
+| ---------------- | ------------------------------------------- |
+| GitHub Actions   | `oven-sh/setup-bun` via `bun-version-file`  |
+| Cloudflare build | the build image provisions tools with asdf  |
+
+Keep `.tool-versions`, `bun.lock`, and your local Bun on the same version. If a Cloudflare build still reports Bun 1.2.15, set the `BUN_VERSION` environment variable to `1.4.2` in the project's build settings.
+
+### One deployer only
+
+This Pages project is Direct Upload, so CI is the only deployer. Do not connect the repo through the dashboard Git integration (Workers & Pages > Connect to Git): that flow creates a Worker with Workers Builds, which then builds on every push next to this workflow and deploys somewhere else. If such a Worker already exists, delete it or turn its automatic builds off.
 
 ### One-time setup
 
@@ -63,6 +76,8 @@ Do not connect this repo through the dashboard Git integration (Workers & Pages 
    | ----------------------- | --------------------- |
    | `CLOUDFLARE_API_TOKEN`  | API token from step 2 |
    | `CLOUDFLARE_ACCOUNT_ID` | Account ID from step 3 |
+
+   Without `CLOUDFLARE_API_TOKEN`, the deploy job fails with `In a non-interactive environment, it's necessary to set a CLOUDFLARE_API_TOKEN environment variable for wrangler to work`.
 
 5. Push `main` to GitHub. The workflow deploys to `https://portfolio-v2-6be.pages.dev` (Cloudflare appended the suffix because the plain name was taken).
 
