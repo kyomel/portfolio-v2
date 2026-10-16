@@ -1,0 +1,1243 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>portfolio-v2 - motion and background options</title>
+    <style>
+      /* tokens copied from src/styles/global.css so every demo reads in the real palette */
+      :root {
+        color-scheme: light dark;
+        --bg: light-dark(#f3ead8, #17110b);
+        --surface: light-dark(#faf4e4, #221a11);
+        --fg: light-dark(#241a10, #f0e3cf);
+        --muted: light-dark(#6a5a44, #ab9a80);
+        --border: light-dark(#d9c9ad, #3b2f21);
+        --border-strong: light-dark(#2c2114, #e6d7be);
+        --accent: light-dark(#a1500f, #eeab54);
+        --accent-fg: light-dark(#faf4e4, #241a10);
+        --wash: light-dark(#e0b070, #f7d9a0);
+        --glow: light-dark(rgba(161, 80, 15, 0.22), rgba(247, 217, 160, 0.3));
+        --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica,
+          Arial, sans-serif;
+        --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+        --pad: 28px;
+        --dither: repeating-conic-gradient(var(--border) 0% 25%, transparent 0% 50%);
+        --dither-size: 2px 2px;
+      }
+      :root[data-theme="light"] {
+        color-scheme: light;
+      }
+      :root[data-theme="dark"] {
+        color-scheme: dark;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font-family: var(--sans);
+        font-size: 15px;
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+      }
+      /* the site's grain plate */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        opacity: 0.022;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E");
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) body::before {
+          opacity: 0.05;
+        }
+      }
+      :root[data-theme="dark"] body::before {
+        opacity: 0.05;
+      }
+      .wrap {
+        position: relative;
+        z-index: 2;
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 0 var(--pad) 96px;
+      }
+      .mono,
+      .label {
+        font-family: var(--mono);
+      }
+      .label {
+        font-size: 10.5px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin: 0;
+      }
+      h1 {
+        margin: 14px 0 10px;
+        font-size: clamp(1.6rem, 4vw, 2.4rem);
+        font-weight: 600;
+        letter-spacing: -0.03em;
+      }
+      h2 {
+        margin: 0 0 6px;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      .lead {
+        max-width: 74ch;
+        color: var(--muted);
+        margin: 0 0 18px;
+      }
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 18px;
+        align-items: center;
+        padding: 14px 0;
+        border-top: 1px solid var(--border-strong);
+        border-bottom: 1px solid var(--border-strong);
+        margin-bottom: 8px;
+      }
+      .btn {
+        padding: 8px 14px;
+        background: var(--surface);
+        color: var(--fg);
+        border: 1px solid var(--border-strong);
+        border-radius: 0;
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        cursor: pointer;
+      }
+      .btn:hover {
+        background: var(--fg);
+        color: var(--bg);
+      }
+      .hint {
+        margin: 0;
+        color: var(--muted);
+        font-size: 12.5px;
+      }
+      section {
+        padding: 44px 0 8px;
+        border-top: 1px solid var(--border);
+        margin-top: 36px;
+      }
+      section > p.sub {
+        color: var(--muted);
+        max-width: 80ch;
+        margin: 0 0 4px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(430px, 1fr));
+        gap: 22px;
+        margin-top: 20px;
+      }
+      @media (max-width: 620px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .card {
+        border: 1px solid var(--border-strong);
+        background: var(--surface);
+      }
+      .card .head {
+        padding: 12px 14px 10px;
+        border-bottom: 1px solid var(--border);
+      }
+      .card h3 {
+        margin: 0;
+        font-size: 12.5px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+      .card .note {
+        margin: 5px 0 0;
+        color: var(--muted);
+        font-size: 12.5px;
+        line-height: 1.45;
+      }
+      .card .stage {
+        padding: 18px 14px;
+      }
+      .tag {
+        display: inline-block;
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+
+      /* ---------- M1: dither rule march ---------- */
+      .d-rule {
+        height: 6px;
+        background-image: repeating-conic-gradient(
+          var(--border-strong) 0% 25%,
+          transparent 0% 50%
+        );
+        background-size: 2px 2px;
+        background-repeat: repeat-x;
+      }
+      .d-rule.march {
+        animation: rule-march 3s steps(8, end) infinite;
+      }
+      @keyframes rule-march {
+        to {
+          background-position-x: 16px;
+        }
+      }
+      .row2 {
+        display: grid;
+        gap: 12px;
+      }
+      .row2 .mini {
+        font-family: var(--mono);
+        font-size: 10.5px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 5px;
+      }
+
+      /* ---------- M2: reveal, glide vs stepped ---------- */
+      .d-reveal {
+        min-height: 84px;
+        display: grid;
+        place-items: center;
+        border: 1px dashed var(--border);
+      }
+      .d-reveal span {
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .rv {
+        animation-duration: 3.6s;
+        animation-iteration-count: infinite;
+      }
+      .rv-smooth {
+        animation-name: rv-smooth;
+        animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .rv-step {
+        animation-name: rv-smooth;
+        animation-timing-function: steps(6, end);
+      }
+      @keyframes rv-smooth {
+        0% {
+          opacity: 0;
+          translate: 0 12px;
+        }
+        30%,
+        100% {
+          opacity: 1;
+          translate: 0;
+        }
+      }
+
+      /* ---------- M3: stepped count-up ---------- */
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0 18px;
+        border-top: 1px solid var(--border-strong);
+      }
+      .stat {
+        padding: 12px 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .stat b {
+        display: block;
+        font-size: 26px;
+        font-weight: 600;
+        line-height: 1;
+        letter-spacing: -0.03em;
+        color: var(--accent);
+        font-variant-numeric: tabular-nums;
+      }
+      .stat i {
+        font-style: normal;
+        font-size: 12.5px;
+        color: var(--muted);
+      }
+
+      /* ---------- M4: dust motes ---------- */
+      .stage-area {
+        position: relative;
+        height: 150px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        overflow: hidden;
+      }
+      .mote {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: var(--wash);
+        opacity: 0.42;
+        animation: mote-drift 24s steps(24, end) infinite alternate;
+      }
+      @keyframes mote-drift {
+        to {
+          transform: translate(var(--dx), var(--dy));
+        }
+      }
+
+      /* ---------- M5: petals ---------- */
+      .petal {
+        position: absolute;
+        width: 4px;
+        height: 3px;
+        background: var(--accent);
+        opacity: 0.5;
+        clip-path: polygon(0 50%, 50% 0, 100% 50%, 50% 100%);
+        animation: petal-fall 19s steps(19, end) infinite;
+      }
+      @keyframes petal-fall {
+        0% {
+          translate: 0 -8px;
+          rotate: 0deg;
+        }
+        100% {
+          translate: 30px 150px;
+          rotate: 225deg;
+        }
+      }
+
+      /* ---------- M6: seigaiha band ---------- */
+      .seigaiha {
+        height: 72px;
+        background-color: var(--bg);
+        /* two ring fields in a half-drop tile (96 x 48): corner circles, mid circles.
+           radii step 12px, stroke 2px: the arcs read as 2D pixel stairs. */
+        background-image: radial-gradient(
+            circle at 0 0,
+            var(--bg) 0 9px,
+            var(--border-strong) 9px 11px,
+            var(--bg) 11px 21px,
+            var(--border-strong) 21px 23px,
+            var(--bg) 23px 33px,
+            var(--border-strong) 33px 35px,
+            var(--bg) 35px 45px,
+            var(--border-strong) 45px 47px,
+            transparent 47px
+          ),
+          radial-gradient(
+            circle at 48px 24px,
+            var(--bg) 0 9px,
+            var(--border-strong) 9px 11px,
+            var(--bg) 11px 21px,
+            var(--border-strong) 21px 23px,
+            var(--bg) 23px 33px,
+            var(--border-strong) 33px 35px,
+            var(--bg) 35px 45px,
+            var(--border-strong) 45px 47px,
+            transparent 47px
+          );
+        background-size: 96px 48px, 96px 48px;
+        background-repeat: repeat;
+        opacity: 0.42;
+      }
+      .seigaiha.march {
+        animation: wave-march 9s steps(24, end) infinite;
+      }
+      @keyframes wave-march {
+        to {
+          background-position-x: 96px, 96px;
+        }
+      }
+
+      /* ---------- M7: frame flip + stepped link ---------- */
+      @property --tf {
+        syntax: "<length>";
+        inherits: false;
+        initial-value: 0px;
+      }
+      .flip {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: none;
+        border: 0;
+        padding: 0;
+        cursor: pointer;
+        color: var(--fg);
+      }
+      .flip .win {
+        width: 30px;
+        height: 18px;
+        border: 1px solid var(--border);
+        overflow: hidden;
+        display: grid;
+        place-items: center;
+      }
+      .flip .icons {
+        display: block;
+        height: 16px;
+        translate: round(var(--tf, 0px), 16px);
+        transition: --tf 360ms linear;
+      }
+      .flip[data-state="b"] .icons {
+        --tf: -16px;
+      }
+      .flip .icons svg {
+        display: block;
+        width: 16px;
+        height: 16px;
+        margin: 0 auto;
+      }
+      .flip .cap {
+        font-family: var(--mono);
+        font-size: 10.5px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .stepper {
+        color: var(--fg);
+        text-decoration: none;
+        padding-bottom: 3px;
+        background-image: repeating-linear-gradient(
+          90deg,
+          var(--accent) 0 4px,
+          transparent 4px 8px
+        );
+        background-size: 8px 2px;
+        background-repeat: repeat-x;
+        background-position: 0 100%;
+      }
+      .stepper:hover,
+      .stepper:focus-visible {
+        animation: march-blocks 0.7s steps(4, end) infinite;
+      }
+      @keyframes march-blocks {
+        to {
+          background-position-x: 8px;
+        }
+      }
+
+      /* ---------- B1: screentone + ramp ---------- */
+      .screen-panel {
+        position: relative;
+        padding: 16px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+      }
+      .screen-panel::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background-image: radial-gradient(
+          circle,
+          color-mix(in srgb, var(--fg) 9%, transparent) 1px,
+          transparent 1.3px
+        );
+        background-size: 6px 6px;
+      }
+      .screen-panel p {
+        margin: 0;
+        position: relative;
+        z-index: 1;
+        max-width: 46ch;
+      }
+      .screen-panel p + p {
+        margin-top: 8px;
+        color: var(--muted);
+      }
+      .ht {
+        position: relative;
+        height: 190px;
+        background: linear-gradient(180deg, var(--surface), var(--bg));
+        border: 1px solid var(--border);
+        overflow: hidden;
+      }
+      .ht::before,
+      .ht::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+      }
+      .ht::before {
+        background-image: radial-gradient(
+          circle,
+          color-mix(in srgb, var(--fg) 55%, transparent) 0 2.6px,
+          transparent 3px
+        );
+        background-size: 10px 10px;
+        mask-image: linear-gradient(215deg, #000 4%, transparent 68%);
+      }
+      .ht::after {
+        background-image: radial-gradient(
+          circle,
+          color-mix(in srgb, var(--fg) 45%, transparent) 0 1.5px,
+          transparent 1.9px
+        );
+        background-size: 6px 6px;
+        mask-image: linear-gradient(215deg, #000 0%, transparent 44%);
+      }
+      .ht span {
+        position: absolute;
+        left: 14px;
+        bottom: 12px;
+        font-family: var(--mono);
+        font-size: 10.5px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      /* ---------- B3: dusk window (plate mock, dark palette) ---------- */
+      .window {
+        position: relative;
+        height: 220px;
+        background: linear-gradient(180deg, #17110b 0%, #221a11 62%, #2a2013 100%);
+        border: 1px solid #3b2f21;
+        overflow: hidden;
+      }
+      .window .star {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: #f7d9a0;
+        opacity: 0.8;
+      }
+      .window .moon {
+        position: absolute;
+        top: 26px;
+        right: 46px;
+        width: 10px;
+        height: 10px;
+        background: #f7d9a0;
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 40% 100%, 40% 60%, 0 60%);
+      }
+      .window .glow {
+        position: absolute;
+        right: -30px;
+        bottom: -70px;
+        width: 260px;
+        height: 190px;
+        background: radial-gradient(closest-side, rgba(247, 217, 160, 0.3), transparent);
+      }
+      .window .slot {
+        position: absolute;
+        left: 18px;
+        bottom: 14px;
+        width: 84px;
+        height: 108px;
+        border: 1px solid #3b2f21;
+        background: #221a11;
+        display: grid;
+        place-items: center;
+        font-family: var(--mono);
+        font-size: 9.5px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #ab9a80;
+      }
+
+      /* ---------- B5: panel corners ---------- */
+      .panel {
+        position: relative;
+        height: 120px;
+        background: var(--surface);
+        border: 1px solid var(--border-strong);
+        display: grid;
+        place-items: center;
+        font-family: var(--mono);
+        font-size: 10.5px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .panel i {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        background: var(--border-strong);
+      }
+      .panel i:nth-child(1) {
+        top: 0;
+        left: 0;
+      }
+      .panel i:nth-child(2) {
+        top: 0;
+        right: 0;
+      }
+      .panel i:nth-child(3) {
+        bottom: 0;
+        left: 0;
+      }
+      .panel i:nth-child(4) {
+        bottom: 0;
+        right: 0;
+      }
+      .panel.cut {
+        clip-path: polygon(
+          0 0,
+          calc(100% - 16px) 0,
+          100% 16px,
+          100% 100%,
+          16px 100%,
+          0 calc(100% - 16px)
+        );
+      }
+      .panel.cut i {
+        display: none;
+      }
+
+      /* ---------- combined mock ---------- */
+      .mock {
+        position: relative;
+        border: 1px solid var(--border-strong);
+        background: var(--bg);
+        margin-top: 20px;
+        overflow: hidden;
+      }
+      .mock .inner {
+        padding: 26px 22px 0;
+      }
+      .mock .head-line {
+        display: flex;
+        justify-content: space-between;
+        gap: 14px;
+        font-family: var(--mono);
+        font-size: 10.5px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--muted);
+        padding-bottom: 10px;
+      }
+      .mock h4 {
+        margin: 16px 0 8px;
+        font-size: clamp(1.3rem, 3vw, 1.9rem);
+        font-weight: 600;
+        letter-spacing: -0.03em;
+      }
+      .mock .cols {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 220px);
+        gap: 22px;
+        align-items: start;
+        padding-bottom: 26px;
+      }
+      @media (max-width: 620px) {
+        .mock .cols {
+          grid-template-columns: 1fr;
+        }
+      }
+      .mock .plate {
+        position: relative;
+        height: 200px;
+        border: 1px solid var(--border-strong);
+        background: linear-gradient(180deg, var(--surface), var(--bg));
+        overflow: hidden;
+      }
+      .mock .plate i {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        background: var(--border-strong);
+      }
+      .mock .plate i:nth-child(1) {
+        top: 0;
+        left: 0;
+      }
+      .mock .plate i:nth-child(2) {
+        top: 0;
+        right: 0;
+      }
+      .mock .plate i:nth-child(3) {
+        bottom: 0;
+        left: 0;
+      }
+      .mock .plate i:nth-child(4) {
+        bottom: 0;
+        right: 0;
+      }
+      .mock .plate .star {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: var(--wash);
+        opacity: 0.85;
+      }
+      .mock .plate .lamp {
+        position: absolute;
+        left: 16px;
+        bottom: 10px;
+        width: 27px;
+        height: 24px;
+        background:
+          linear-gradient(#e0b070, #e0b070) 12px 12px / 3px 3px no-repeat,
+          linear-gradient(#a1500f, #a1500f) 0 0 / 21px 3px no-repeat,
+          linear-gradient(#a1500f, #a1500f) 3px 3px / 15px 3px no-repeat,
+          linear-gradient(#e0b070, #e0b070) 9px 6px / 3px 3px no-repeat,
+          linear-gradient(#e0b070, #e0b070) 0 3px / 3px 3px no-repeat,
+          linear-gradient(#e0b070, #e0b070) 18px 3px / 3px 3px no-repeat;
+        filter: drop-shadow(0 0 8px var(--glow));
+      }
+      .mock .plate .lamp::after {
+        content: "";
+        position: absolute;
+        inset: -30px -40px auto auto;
+        width: 160px;
+        height: 140px;
+        background: radial-gradient(closest-side, var(--glow), transparent);
+      }
+      .mock .mote {
+        z-index: 2;
+      }
+      .mock .seigaiha {
+        height: 64px;
+      }
+      .mock .foot {
+        display: flex;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 14px 22px;
+        border-top: 1px solid var(--border);
+        font-family: var(--mono);
+        font-size: 10.5px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      /* motion off switch (the footer control the site would get back) */
+      html[data-motion="off"] .demo-motion,
+      html[data-motion="off"] .demo-motion * {
+        animation-play-state: paused !important;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .demo-motion,
+        .demo-motion * {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+
+      .sources {
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 12.5px;
+      }
+      .sources a {
+        color: inherit;
+        border-bottom: 1px solid var(--border);
+      }
+      .sources a:hover {
+        color: var(--accent);
+        border-color: var(--accent);
+      }
+      .sources li {
+        margin: 4px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <p class="label">portfolio-v2 / research / 2026-10-16</p>
+        <h1>Motion and background options</h1>
+        <p class="lead">
+          Every demo runs in the real dossier palette (tokens copied from
+          <span class="mono">global.css</span>). Toggle the theme and the motion
+          switch to judge both palettes and the reduced state. Status: proposal,
+          nothing here is on the site yet. The note with findings and the
+          recommendation: <span class="mono">motion-background-options.md</span>.
+        </p>
+        <div class="controls">
+          <button class="btn" id="theme" type="button">theme: auto</button>
+          <button class="btn" id="motion" type="button" aria-pressed="true">
+            motion: on
+          </button>
+          <p class="hint">
+            The motion switch is the footer control the site lost in the dossier
+            rebuild; ambient motion needs it back (WCAG 2.2.2).
+          </p>
+        </div>
+      </header>
+
+      <section id="motion-options">
+        <h2>01 - Motion options</h2>
+        <p class="sub">
+          Seven candidates, each built on the page's existing language: dither,
+          stepped time, one lamp. All are CSS-first; only the count-up needs a few
+          lines of JS.
+        </p>
+        <div class="grid">
+          <div class="card">
+            <div class="head">
+              <h3>M1 - Dither rule march</h3>
+              <p class="note">
+                The section dither rule crawls sideways in 2px steps, like a
+                screentone breathing. Static rule above, marching rule below.
+                <span class="tag">cost: css only</span>
+              </p>
+            </div>
+            <div class="stage demo-motion">
+              <div class="row2">
+                <div>
+                  <p class="mini">now - static</p>
+                  <div class="d-rule"></div>
+                </div>
+                <div>
+                  <p class="mini">proposed - steps(8), 3s</p>
+                  <div class="d-rule march"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="head">
+              <h3>M2 - Reveal: glide vs stepped</h3>
+              <p class="note">
+                The current view() reveal glides. A stepped reveal reads as print:
+                the row lands in six jumps. Same timing, different taste.
+                <span class="tag">cost: one line per rule</span>
+              </p>
+            </div>
+            <div class="stage demo-motion">
+              <div class="row2">
+                <div>
+                  <p class="mini">now - glide</p>
+                  <div class="d-reveal">
+                    <span class="rv rv-smooth">record row</span>
+                  </div>
+                </div>
+                <div>
+                  <p class="mini">proposed - steps(6)</p>
+                  <div class="d-reveal">
+                    <span class="rv rv-step">record row</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="head">
+              <h3>M3 - Stepped metric count</h3>
+              <p class="note">
+                The four summary numbers tick up in integer steps on first view,
+                the way a scoreboard counts. Final values are in the DOM for no-JS
+                and reduced motion.
+                <span class="tag">cost: ~12 lines JS</span>
+              </p>
+            </div>
+            <div class="stage" id="count-stage">
+              <div class="stats">
+                <div class="stat">
+                  <b><span class="count" data-to="5">5</span></b>
+                  <i>Engineering track, years</i>
+                </div>
+                <div class="stat">
+                  <b><span class="count" data-to="70">70</span>%</b>
+                  <i>Manual work removed</i>
+                </div>
+                <div class="stat">
+                  <b><span class="count" data-to="100">100</span>+</b>
+                  <i>Engineers trained</i>
+                </div>
+                <div class="stat">
+                  <b><span class="count" data-to="4">4</span></b>
+                  <i>Teams led to Best Team</i>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="head">
+              <h3>M4 - Dust motes in the lamp light</h3>
+              <p class="note">
+                The lofi loopable element: a few 2px motes drifting inside the lit
+                area. CSS only here; the site can run the dormant
+                <span class="mono">PixelField</span> dust canvas instead.
+                <span class="tag">cost: css / 4 kB canvas</span>
+              </p>
+            </div>
+            <div class="stage demo-motion">
+              <div class="stage-area">
+                <span class="mote" style="left: 8%; top: 72%; --dx: 30px; --dy: -70px; animation-duration: 21s; animation-delay: -3s"></span>
+                <span class="mote" style="left: 22%; top: 84%; --dx: -18px; --dy: -88px; animation-duration: 26s; animation-delay: -9s"></span>
+                <span class="mote" style="left: 37%; top: 66%; --dx: 24px; --dy: -54px; animation-duration: 23s; animation-delay: -14s"></span>
+                <span class="mote" style="left: 52%; top: 88%; --dx: -26px; --dy: -74px; animation-duration: 27s; animation-delay: -6s"></span>
+                <span class="mote" style="left: 66%; top: 70%; --dx: 20px; --dy: -92px; animation-duration: 24s; animation-delay: -18s"></span>
+                <span class="mote" style="left: 81%; top: 82%; --dx: -22px; --dy: -60px; animation-duration: 22s; animation-delay: -11s"></span>
+                <span class="mote" style="left: 92%; top: 74%; --dx: -30px; --dy: -80px; animation-duration: 28s; animation-delay: -2s"></span>
+                <span class="mote" style="left: 45%; top: 60%; --dx: 16px; --dy: -48px; animation-duration: 25s; animation-delay: -20s"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="head">
+              <h3>M5 - Sakura petals (taste call)</h3>
+              <p class="note">
+                The same drift with 4px pixel petals in the accent. Reads clearly
+                Japanese, and clearly riskier: show it to a hiring reviewer first.
+                <span class="tag">cost: css only</span>
+              </p>
+            </div>
+            <div class="stage demo-motion">
+              <div class="stage-area">
+                <span class="petal" style="left: 12%; top: 6%; animation-delay: -4s"></span>
+                <span class="petal" style="left: 38%; top: 2%; animation-delay: -11s"></span>
+                <span class="petal" style="left: 63%; top: 8%; animation-delay: -7s"></span>
+                <span class="petal" style="left: 86%; top: 3%; animation-delay: -15s"></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="head">
+              <h3>M6 - Seigaiha wave band</h3>
+              <p class="note">
+                The traditional wave pattern rebuilt in CSS as 2px pixel stairs
+                (radii step 12px), sitting still above the footer, or marching in
+                slow steps. See also B2.
+                <span class="tag">cost: css only</span>
+              </p>
+            </div>
+            <div class="stage demo-motion">
+              <div class="row2">
+                <div>
+                  <p class="mini">still</p>
+                  <div class="seigaiha"></div>
+                </div>
+                <div>
+                  <p class="mini">marching - steps(24), 9s</p>
+                  <div class="seigaiha march"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="head">
+              <h3>M7 - Micro: frame flip and block hover</h3>
+              <p class="note">
+                Theme icon flips on whole frames (<span class="mono">@property</span>
+                + <span class="mono">round()</span>), and links get a marching 2px
+                block underline on hover. Interaction only, so it never runs
+                unattended.
+                <span class="tag">cost: css only</span>
+              </p>
+            </div>
+            <div class="stage">
+              <div class="row2">
+                <div>
+                  <p class="mini">toggle icon - whole-frame flip</p>
+                  <button class="flip" id="flip" type="button" data-state="a">
+                    <span class="win">
+                      <span class="icons">
+                        <svg viewBox="0 0 8 8" width="16" height="16" shape-rendering="crispEdges" fill="currentColor" aria-hidden="true"><rect x="3" y="0" width="1" height="1"/><rect x="1" y="1" width="1" height="1"/><rect x="5" y="1" width="1" height="1"/><rect x="2" y="2" width="3" height="1"/><rect x="1" y="3" width="5" height="1"/><rect x="1" y="4" width="5" height="1"/><rect x="2" y="5" width="3" height="1"/><rect x="1" y="6" width="1" height="1"/><rect x="5" y="6" width="1" height="1"/><rect x="3" y="7" width="1" height="1"/></svg>
+                        <svg viewBox="0 0 8 8" width="16" height="16" shape-rendering="crispEdges" fill="currentColor" aria-hidden="true"><rect x="2" y="0" width="3" height="1"/><rect x="1" y="1" width="2" height="1"/><rect x="1" y="2" width="1" height="1"/><rect x="0" y="3" width="2" height="1"/><rect x="0" y="4" width="2" height="1"/><rect x="1" y="5" width="1" height="1"/><rect x="1" y="6" width="2" height="1"/><rect x="2" y="7" width="3" height="1"/></svg>
+                      </span>
+                    </span>
+                    <span class="cap">click to flip</span>
+                  </button>
+                </div>
+                <div>
+                  <p class="mini">link hover - marching blocks</p>
+                  <p style="margin: 0">
+                    <a class="stepper" href="#motion-options">watch the demo on YouTube</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="background-options">
+        <h2>02 - Background options</h2>
+        <p class="sub">
+          Four ways to carry "lofi Japanese manga + 2D pixel" on the surface
+          without breaking the dossier rules (one signature object, no second
+          colour, accent reserved for values).
+        </p>
+        <div class="grid">
+          <div class="card">
+            <div class="head">
+              <h3>B1a - Screentone wash, uniform</h3>
+              <p class="note">
+                A 1px dot screen at 6px pitch, 9 percent ink. Reads as paper for a
+                printed comic. Keep it under ten percent where text lives.
+                <span class="tag">cost: css only</span>
+              </p>
+            </div>
+            <div class="stage">
+              <div class="screen-panel">
+                <p>Every surface gains the dot screen of a printed manga page.</p>
+                <p>Body text sits above the screen, still at full contrast.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="head">
+              <h3>B1b - Screentone ramp, corner</h3>
+              <p class="note">
+                Two dot grids, a coarse one fading from the corner and a fine one
+                under it: the manga shading gradient. Decorative layer only, never
+                under text.
+                <span class="tag">cost: css only</span>
+              </p>
+            </div>
+            <div class="stage">
+              <div class="ht">
+                <span>decorative - no text inside</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="head">
+              <h3>B2 - Seigaiha band</h3>
+              <p class="note">
+                The wave pattern as a quiet band above the footer. Pixel stairs,
+                border ink, 50 percent. The page gets a horizon without a second
+                object.
+                <span class="tag">cost: css only</span>
+              </p>
+            </div>
+            <div class="stage demo-motion">
+              <div class="seigaiha march"></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="head">
+              <h3>B3 - Dusk window (plate stars)</h3>
+              <p class="note">
+                The plate becomes the room's window at dusk: pixel stars and a
+                crescent in the dark palette, the lamp glow at the corner. Static;
+                no twinkle.
+                <span class="tag">cost: css only, dark palette</span>
+              </p>
+            </div>
+            <div class="stage">
+              <div class="window">
+                <span class="star" style="left: 12%; top: 18%"></span>
+                <span class="star" style="left: 26%; top: 32%; opacity: 0.55"></span>
+                <span class="star" style="left: 44%; top: 14%; opacity: 0.65"></span>
+                <span class="star" style="left: 58%; top: 38%; opacity: 0.5"></span>
+                <span class="star" style="left: 72%; top: 22%; opacity: 0.6"></span>
+                <span class="star" style="left: 86%; top: 44%; opacity: 0.45"></span>
+                <span class="moon"></span>
+                <span class="glow"></span>
+                <span class="slot">portrait</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="head">
+              <h3>B5 - Manga panel frame</h3>
+              <p class="note">
+                The plate reads as one manga panel: ink corner blocks, or a cut
+                corner. One style only, keep the caption.
+                <span class="tag">cost: css only</span>
+              </p>
+            </div>
+            <div class="stage">
+              <div class="row2">
+                <div class="panel"><i></i><i></i><i></i><i></i>corner blocks</div>
+                <div class="panel cut">cut corner</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="combined">
+        <h2>03 - Combined mock - the calm bundle</h2>
+        <p class="sub">
+          The recommendation, composed: M1 + M2 + M3 + M4 + M7 with B1b, B2, B3,
+          B5, and the motion switch back in the footer. This is the bundle to
+          judge; the demos above are the parts.
+        </p>
+        <div class="mock demo-motion">
+          <div class="inner">
+            <div class="head-line">
+              <span>kyomel / yogyakarta, indonesia</span>
+              <span>profile record contact</span>
+            </div>
+            <div class="d-rule march"></div>
+            <h4>Software engineer, five years, measured work.</h4>
+            <div class="stats">
+              <div class="stat">
+                <b><span class="count" data-to="5">5</span></b>
+                <i>Engineering track, years</i>
+              </div>
+              <div class="stat">
+                <b><span class="count" data-to="70">70</span>%</b>
+                <i>Manual work removed</i>
+              </div>
+              <div class="stat">
+                <b><span class="count" data-to="100">100</span>+</b>
+                <i>Engineers trained</i>
+              </div>
+              <div class="stat">
+                <b><span class="count" data-to="4">4</span></b>
+                <i>Teams led to Best Team</i>
+              </div>
+            </div>
+            <div class="cols">
+              <div>
+                <p style="margin: 6px 0 0; color: var(--muted); max-width: 52ch">
+                  Web products end to end: React front ends, Node.js and Go
+                  services, measured outcomes. The plate keeps its lamp, now with
+                  the room's window behind it.
+                </p>
+                <p style="margin: 12px 0 0">
+                  <a class="stepper" href="#combined">watch the demo on YouTube</a>
+                </p>
+              </div>
+              <div class="plate">
+                <i></i><i></i><i></i><i></i>
+                <span class="star" style="left: 18%; top: 20%"></span>
+                <span class="star" style="left: 62%; top: 14%; opacity: 0.6"></span>
+                <span class="star" style="left: 82%; top: 38%; opacity: 0.5"></span>
+                <span class="lamp"></span>
+              </div>
+            </div>
+          </div>
+          <span class="mote" style="left: 12%; top: 30%; --dx: 34px; --dy: 90px; animation-duration: 26s; animation-delay: -5s"></span>
+          <span class="mote" style="left: 46%; top: 18%; --dx: -24px; --dy: 120px; animation-duration: 29s; animation-delay: -13s"></span>
+          <span class="mote" style="left: 74%; top: 26%; --dx: 18px; --dy: 110px; animation-duration: 24s; animation-delay: -20s"></span>
+          <div class="seigaiha march"></div>
+          <div class="foot">
+            <span>(c) 2026 kyomel</span>
+            <span>astro, static, no framework shipped to the browser</span>
+            <span>[ motion: on ]</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="sources">
+        <h2>Sources</h2>
+        <ul class="sources">
+          <li>
+            Lofi visual codes (warm desk-lamp light, minimal motion, dust motes,
+            rain, restraint):
+            <a href="https://echonos.ai/blog/lofi-visualizer">echonos.ai/blog/lofi-visualizer</a>,
+            <a href="https://ethanthompson.org/blog/looping-lofi-animation-scene">ethanthompson.org/blog/looping-lofi-animation-scene</a>
+          </li>
+          <li>
+            Halftone and screentone in CSS:
+            <a href="https://nodlume.dev/texture-playground/halftone">nodlume.dev (halftone texture)</a>,
+            <a href="https://css-irl.info/css-halftone-patterns/">css-irl.info (halftone patterns)</a>,
+            <a href="https://leanrada.com/notes/pure-css-halftone/">leanrada.com (pure CSS halftone)</a>
+          </li>
+          <li>
+            Seigaiha construction (720 tile, radii step 36px):
+            <a href="https://nghia.pt/blog/seigaiha/">nghia.pt/blog/seigaiha</a>,
+            <a href="https://commons.wikimedia.org/wiki/File:Japanese_Wave_Pattern.svg">Wikimedia: Japanese Wave Pattern.svg</a>
+          </li>
+          <li>
+            Japanese pattern usage precedent (0.03 to 0.06 opacity, 150 to 250px
+            tiles):
+            <a href="https://mintlify.wiki/RogerCiv/japanese-portfolio/customization/japanese-patterns">RogerCiv japanese-portfolio</a>
+          </li>
+          <li>
+            Stepped sprite / @property frame snapping:
+            <a href="https://kbravh.dev/interactive-pixel-spritesheet-animations-with-css">kbravh.dev</a>
+          </li>
+          <li>
+            In-repo prior art:
+            <span class="mono">docs/research/pixel-animation.md</span>,
+            <span class="mono">docs/research/style-directions.md</span>,
+            <span class="mono">knowledge/pixel-accent-layer.md</span> (vault)
+          </li>
+        </ul>
+      </section>
+    </div>
+
+    <script>
+      const root = document.documentElement;
+
+      // theme: auto -> light -> dark -> auto
+      const themeBtn = document.getElementById("theme");
+      const order = ["auto", "light", "dark"];
+      themeBtn.addEventListener("click", () => {
+        const cur = root.dataset.theme ?? "auto";
+        const next = order[(order.indexOf(cur) + 1) % order.length];
+        if (next === "auto") delete root.dataset.theme;
+        else root.dataset.theme = next;
+        themeBtn.textContent = "theme: " + next;
+      });
+
+      // motion switch: pauses every demo animation (WCAG 2.2.2)
+      const motionBtn = document.getElementById("motion");
+      motionBtn.addEventListener("click", () => {
+        const off = root.dataset.motion === "off";
+        if (off) delete root.dataset.motion;
+        else root.dataset.motion = "off";
+        motionBtn.setAttribute("aria-pressed", String(!off));
+        motionBtn.textContent = off ? "motion: on" : "motion: off";
+      });
+
+      // frame flip demo
+      const flip = document.getElementById("flip");
+      flip.addEventListener("click", () => {
+        flip.dataset.state = flip.dataset.state === "a" ? "b" : "a";
+      });
+
+      // stepped count-up: integer jumps, final value stays in the DOM
+      const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+      const counters = [...document.querySelectorAll(".count")];
+      const run = (el) => {
+        const to = Number(el.dataset.to);
+        if (reduce.matches || root.dataset.motion === "off") {
+          el.textContent = String(to);
+          return;
+        }
+        const steps = 7;
+        let i = 0;
+        const timer = setInterval(() => {
+          i++;
+          el.textContent = String(Math.round((to * i) / steps));
+          if (i >= steps) clearInterval(timer);
+        }, 130);
+      };
+      const seen = new WeakSet();
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) {
+            const el = e.target;
+            if (e.isIntersecting && !seen.has(el)) {
+              seen.add(el);
+              run(el);
+            } else if (!e.isIntersecting && seen.has(el)) {
+              seen.delete(el);
+              if (!reduce.matches && root.dataset.motion !== "off")
+                el.textContent = "0";
+            }
+          }
+        },
+        { threshold: 0.6 },
+      );
+      counters.forEach((c) => io.observe(c));
+    </script>
+  </body>
+</html>
