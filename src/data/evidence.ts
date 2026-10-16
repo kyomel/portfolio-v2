@@ -71,8 +71,8 @@ export const records: RecordEntry[] = [
     current: true,
     outcomes: [
       {
-        text: "Builds Web3 products end to end, React front end to Go back end.",
-        metric: "current",
+        text: "Focuses on the backend for Orbitum users: NestJS services, from API design to deploy.",
+        metric: "backend",
         proofs: [{ label: "Profile", href: GH, external: true }],
       },
     ],

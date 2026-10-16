@@ -18,6 +18,13 @@ export type Education = {
   place: string;
 };
 
+export type Project = {
+  title: string;
+  category: string;
+  desc: string;
+  tags: string[];
+};
+
 export const profile = {
   name: "Michael Stevan Lapandio",
   roles: "Software Engineer, Web3 Enthusiast, AI Enthusiast, Basketball Player",
@@ -178,5 +185,5 @@ export const profile = {
       desc: "Exploring the intersection of AI and Web3 technologies. Currently in development phase.",
       tags: ["AI", "Web3", "Rust"],
     },
-  ],
+  ] as Project[],
 };

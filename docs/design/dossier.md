@@ -19,9 +19,11 @@ masthead        name, section links, theme toggle (sticky, opaque)
 02 profile      prose from profile.ts, then the method table
 03 record       one row per role: period, org, outcomes with a metric each
 04 stack        tools in two or three columns
-05 education    education, builds, licenses in one definition list
-06 proof        pixel plate plus the build-time facts
-07 contact      direct links and the React form
+05 education    one row per school: period, school, degree
+06 projects     one row per shipped build: category, title, summary, stack
+07 licenses     certifications overview, full list on LinkedIn
+08 proof        pixel plate plus the build-time facts
+09 contact      direct links and the React form
 ```
 
 ## Visual language: 2D pixel, lofi, anime
