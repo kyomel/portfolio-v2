@@ -1,0 +1,50 @@
+---
+import Site from "../layouts/Site.astro";
+import ContactForm from "../components/ContactForm";
+import { profile } from "../data/profile";
+---
+
+<Site
+  title={`Contact - ${profile.brand}`}
+  description="Direct links and a form that sends straight to email."
+>
+  <section class="section">
+    <p class="label"><b>Contact</b> {profile.location}</p>
+    <div class="body">
+      <h1 class="headline">Start a conversation.</h1>
+      <p class="lead">
+        Open to conversations about software engineering, Web3, AI, and
+        mentoring. The form sends straight to email.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="label"><b>Direct</b></p>
+    <div class="body">
+      <div class="contact">
+        <div>
+          <div class="contact-list">
+            <a href={`mailto:${profile.email}`}>
+              <span class="k">Email</span>
+              <span class="v">{profile.email}</span>
+            </a>
+            {
+              profile.socials.map((s) => (
+                <a href={s.url} target="_blank" rel="noopener">
+                  <span class="k">{s.label}</span>
+                  <span class="v">{s.url.replace("https://", "")}</span>
+                </a>
+              ))
+            }
+            <span>
+              <span class="k">Location</span>
+              <span class="v">{profile.location}</span>
+            </span>
+          </div>
+        </div>
+        <ContactForm client:load />
+      </div>
+    </div>
+  </section>
+</Site>

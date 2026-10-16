@@ -1,0 +1,152 @@
+---
+import Site from "../layouts/Site.astro";
+import {
+  communityRepos,
+  measured,
+  resources,
+  totals,
+  upstream,
+} from "../data/contributions";
+import { profile } from "../data/profile";
+
+const merged = upstream.filter((p) => p.merged).length;
+---
+
+<Site
+  title={`Contribute - ${profile.brand}`}
+  description="Open source work and the repositories maintained for the community."
+>
+  <section class="section">
+    <p class="label"><b>Contribute</b> since 2024</p>
+    <div class="body">
+      <h1 class="headline">Work that is not mine alone.</h1>
+      <p class="lead">
+        Pull requests into other people's projects, and the repositories I
+        maintain for the community. Counted from the GitHub API on {measured}.
+      </p>
+      <div class="facts reveal">
+        <div class="fact">
+          <span class="n">
+            <span class="num" data-to={totals.merged}>{totals.merged}</span>
+          </span>
+          <span class="k">Merged pull requests</span>
+          <span class="note">Across {totals.repos} repositories, {measured}</span>
+        </div>
+        <div class="fact">
+          <span class="n">
+            <span class="num" data-to={totals.prs}>{totals.prs}</span>
+          </span>
+          <span class="k">Pull requests opened</span>
+          <span class="note">Six were closed without a merge</span>
+        </div>
+        <div class="fact">
+          <span class="n">
+            <span class="num" data-to={resources.reduce((n, r) => n + r.stars, 0)}>
+              {resources.reduce((n, r) => n + r.stars, 0)}
+            </span>
+          </span>
+          <span class="k">Stars on maintained repos</span>
+          <span class="note">Across {resources.length} community resources</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="label"><b>Upstream</b> {merged} merged</p>
+    <div class="body">
+      <h3 class="sub">Pull requests into other people's projects</h3>
+      <div class="record">
+        {
+          upstream.map((p) => (
+            <article class="row reveal">
+              <p class="per">{p.date}</p>
+              <div>
+                <h2 class="org">
+                  <a href={p.href} target="_blank" rel="noopener">
+                    {p.repo}
+                  </a>
+                </h2>
+                <p class="role">{p.title}</p>
+              </div>
+              <div>
+                <p class="what">{p.what}</p>
+                <p class="proof">
+                  <span>{p.merged ? "merged" : "closed"}</span>
+                </p>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="label"><b>Community</b> {communityRepos.length} repos</p>
+    <div class="body">
+      <h3 class="sub">Repositories I contribute to for the community</h3>
+      <div class="record">
+        {
+          communityRepos.map((r) => (
+            <article class="row reveal">
+              <p class="per">{r.role}</p>
+              <div>
+                <h2 class="org">
+                  <a href={r.href} target="_blank" rel="noopener">
+                    {r.repo}
+                  </a>
+                </h2>
+                <p class="what">{r.what}</p>
+              </div>
+              <div>
+                <ul class="out">
+                  <li>
+                    <span class="m">{r.merged} merged</span>
+                    <span class="t">Pull requests into this repository.</span>
+                  </li>
+                  <li>
+                    <span class="m">{r.stars} stars</span>
+                    <span class="t">Public interest in the repository.</span>
+                  </li>
+                </ul>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="label"><b>Resources</b> {resources.length} repos</p>
+    <div class="body">
+      <h3 class="sub">Repositories I maintain for the community</h3>
+      <div class="record">
+        {
+          resources.map((r) => (
+            <article class="row reveal">
+              <p class="per">{r.language}</p>
+              <div>
+                <h2 class="org">
+                  <a href={r.href} target="_blank" rel="noopener">
+                    {r.repo}
+                  </a>
+                </h2>
+                <p class="what">{r.what}</p>
+              </div>
+              <div>
+                <ul class="out">
+                  <li>
+                    <span class="m">{r.stars} stars</span>
+                    <span class="t">Public interest in the repository.</span>
+                  </li>
+                </ul>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Site>

@@ -1,0 +1,64 @@
+---
+import Site from "../../layouts/Site.astro";
+import { caseStudies } from "../../data/work";
+import { profile } from "../../data/profile";
+
+const count = caseStudies.length;
+---
+
+<Site
+  title={`Work - ${profile.brand}`}
+  description="Case studies: the problem, the decisions that mattered, and the measured outcome."
+>
+  <section class="section">
+    <p class="label"><b>Work</b> {count} case studies</p>
+    <div class="body">
+      <h1 class="headline">Shipped work, measured.</h1>
+      <p class="lead">
+        Each case study states the problem, the decisions that mattered, and the
+        outcome. No stack list without a reason.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="label"><b>Index</b> newest first</p>
+    <div class="body">
+      {
+        count === 0 ? (
+          <p class="empty">
+            Case studies are being written. The full record is on the{" "}
+            <a href="/about/">about page</a>.
+          </p>
+        ) : (
+          <div class="record">
+            {caseStudies.map((c) => (
+              <article class="row reveal">
+                <p class="per">{c.period}</p>
+                <div>
+                  <h2 class="org">
+                    <a href={`/work/${c.slug}/`}>{c.title}</a>
+                  </h2>
+                  <p class="role">
+                    {c.category} - {c.role}
+                  </p>
+                  <p class="what">{c.oneLiner}</p>
+                </div>
+                <div>
+                  <ul class="tags">
+                    {c.stack.map((s) => (
+                      <li>{s}</li>
+                    ))}
+                  </ul>
+                  <a class="more" href={`/work/${c.slug}/`}>
+                    Read the case study
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </section>
+</Site>

@@ -185,10 +185,39 @@ body::before {
 
 .topnav a {
   color: var(--muted);
+  /* room for the active underline below the text */
+  padding-bottom: 3px;
 }
 
 .topnav a:hover {
   color: var(--fg);
+}
+
+/* the current page keeps a 2px block underline, the same mark as a hovered link */
+.topnav a[aria-current="page"] {
+  color: var(--fg);
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--accent) 0 4px,
+    transparent 4px 8px
+  );
+  background-size: 8px 2px;
+  background-repeat: repeat-x;
+  background-position: 0 100%;
+}
+
+.topnav .nav-cta {
+  padding: 4px 10px;
+  border: 1px solid var(--border-strong);
+  color: var(--fg);
+}
+
+.topnav .nav-cta:hover,
+.topnav .nav-cta[aria-current="page"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-fg);
+  background-image: none;
 }
 
 /* ---------- sections ---------- */
@@ -237,7 +266,7 @@ body::before {
   min-width: 0;
 }
 
-h2.headline {
+.headline {
   margin: 0 0 18px;
   font-size: clamp(2.1rem, 5.4vw, 3.9rem);
   font-weight: 600;
@@ -284,6 +313,11 @@ h3.sub {
   gap: 0 30px;
   margin: 0 0 4px;
   border-top: 1px solid var(--border-strong);
+}
+
+/* one fact should not stretch across the whole content column */
+.facts.narrow {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 340px));
 }
 
 .facts .fact {
@@ -774,6 +808,231 @@ form .btn {
   justify-self: start;
 }
 
+/* ---------- lanes: the three doors on the hub ---------- */
+
+.lanes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 0 30px;
+  border-top: 1px solid var(--border-strong);
+}
+
+.lane {
+  display: grid;
+  gap: 4px;
+  padding: 18px 0 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.lane .n {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+}
+
+.lane .k {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.lane .d {
+  color: var(--muted);
+  font-size: 13.5px;
+  line-height: 1.45;
+}
+
+.lane .c {
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.lane:hover .k,
+.lane:focus-visible .k {
+  color: var(--accent);
+}
+
+/* ---------- contact band ---------- */
+
+.contact-band {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px 30px;
+}
+
+.contact-band .lead {
+  margin: 0;
+}
+
+/* ---------- row extras: what, did, tags, more ---------- */
+
+.row .what,
+.row .did {
+  margin: 8px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.row .what {
+  color: var(--fg);
+}
+
+.row .did {
+  color: var(--muted);
+}
+
+.row .org a:hover,
+.row .org a:focus-visible {
+  color: var(--accent);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tags li {
+  padding: 2px 7px;
+  border: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.more {
+  display: inline-block;
+  margin-top: 12px;
+  padding-bottom: 1px;
+  border-bottom: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.more:hover,
+.more:focus-visible {
+  color: var(--accent);
+  border-bottom-color: transparent;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--accent) 0 4px,
+    transparent 4px 8px
+  );
+  background-size: 8px 2px;
+  background-repeat: repeat-x;
+  background-position: 0 100%;
+  animation: march-blocks 0.7s steps(4, end) infinite;
+}
+
+.empty {
+  margin: 0;
+  padding: 20px 0;
+  border-top: 1px solid var(--border-strong);
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+/* ---------- case study ---------- */
+
+.decisions {
+  border-top: 1px solid var(--border-strong);
+}
+
+.decision {
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.decision .sub {
+  margin: 0 0 8px;
+}
+
+.decision .choice {
+  margin: 0;
+  max-width: 68ch;
+  font-size: 15px;
+}
+
+.decision .tradeoff {
+  margin: 10px 0 0;
+  max-width: 68ch;
+  color: var(--muted);
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.decision .tradeoff .k {
+  display: inline-block;
+  margin-right: 8px;
+  padding: 1px 6px;
+  border: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.outcomes {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--border-strong);
+}
+
+.outcomes li {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  gap: 6px 26px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.outcomes .m {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 15px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+.outcomes .t {
+  font-size: 15px;
+}
+
+.case-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 30px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-strong);
+}
+
+.case-nav .more {
+  margin-top: 0;
+}
+
 /* ---------- horizon: dusk print strip above the footer ---------- */
 
 .horizon {
@@ -915,11 +1174,13 @@ form .btn {
   height: 16px;
 }
 
-/* the icon stack flips one whole 16px frame when the palette changes */
+/* the icon stack flips one whole 16px frame when the palette changes.
+   Two values on purpose: a single value is the X axis, which slides the icon
+   sideways out of the button instead of flipping it. */
 .theme-toggle .icons {
   display: block;
   height: 16px;
-  translate: round(var(--tf, 0px), 16px);
+  translate: 0 round(var(--tf, 0px), 16px);
   transition: --tf 360ms linear;
 }
 
@@ -1067,6 +1328,15 @@ html[data-motion="off"] *::after {
     align-items: flex-start;
     gap: 10px;
   }
+
+  .outcomes li {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+
+  .contact-band {
+    align-items: flex-start;
+  }
 }
 
 @media (max-width: 620px) {
@@ -1086,9 +1356,10 @@ html[data-motion="off"] *::after {
 
   .topnav {
     grid-column: 1 / -1;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    justify-content: flex-start;
     font-size: 10px;
-    gap: 6px;
+    gap: 6px 14px;
   }
 
   .theme-toggle {

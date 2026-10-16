@@ -1,0 +1,79 @@
+---
+import Site from "../layouts/Site.astro";
+import { programs } from "../data/community";
+import { metrics } from "../data/evidence";
+import { profile } from "../data/profile";
+
+const people = metrics.find((m) => m.label === "Engineers trained and mentored");
+const count = programs.length;
+---
+
+<Site
+  title={`Community - ${profile.brand}`}
+  description="Mentoring programs and a community that meets every weekday."
+>
+  <section class="section">
+    <p class="label"><b>Community</b> {count} programs</p>
+    <div class="body">
+      <h1 class="headline">Growing the engineers around me.</h1>
+      <p class="lead">
+        Team-lead roles, structured mentoring programs, and a community that
+        meets every weekday. This is the part of the work that outlives the
+        release.
+      </p>
+      {
+        people && (
+          <div class="facts narrow reveal">
+            <div class="fact">
+              <span class="n">
+                <span class="num" data-to={people.value}>{people.value}</span>
+                {people.unit && <i>{people.unit}</i>}
+              </span>
+              <span class="k">{people.label}</span>
+              <span class="note">{people.note}</span>
+            </div>
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="label"><b>Programs</b> newest first</p>
+    <div class="body">
+      <div class="record">
+        {
+          programs.map((p) => (
+            <article class="row reveal">
+              <p class="per">
+                {p.period}
+                {p.current && <span class="now">now</span>}
+              </p>
+              <div>
+                <h2 class="org">{p.org}</h2>
+                <p class="role">{p.role}</p>
+                <p class="what">{p.what}</p>
+                <p class="did">{p.did}</p>
+                {p.link && (
+                  <a class="more" href={p.link.href} target="_blank" rel="noopener">
+                    {p.link.label}
+                  </a>
+                )}
+              </div>
+              <div>
+                <ul class="out">
+                  {p.outcomes.map((o) => (
+                    <li>
+                      <span class="m">{o.metric}</span>
+                      <span class="t">{o.text}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Site>

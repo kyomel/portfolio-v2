@@ -1,437 +1,142 @@
 ---
-import { Image } from "astro:assets";
-import Base from "../layouts/Base.astro";
+import Site from "../layouts/Site.astro";
 import PixelPortrait from "../components/PixelPortrait.astro";
 import PixelSprite from "../components/PixelSprite.astro";
 import PixelLamp from "../components/PixelLamp.astro";
-import ContactForm from "../components/ContactForm";
 import photo from "../assets/kyomel_anime_v4.png";
 import { profile } from "../data/profile";
-import { buildFacts, metrics, records } from "../data/evidence";
+import { buildFacts, metrics } from "../data/evidence";
+import { caseStudies } from "../data/work";
+import { programs } from "../data/community";
+import { totals } from "../data/contributions";
 
-const shortRoles = profile.roles.split(",").slice(0, 3).join(" / ").trim();
 const facts = buildFacts();
-const builds = profile.projects.map((p) => ({
-  label: p.category,
-  value: p.title,
-  detail: `${p.desc} Stack: ${p.tags.join(", ")}.`,
-  link: p.link,
-}));
-const nav = [
-  { label: "Profile", href: "#profile" },
-  { label: "Record", href: "#record" },
-  { label: "Contact", href: "#contact" },
+
+const lanes = [
+  {
+    n: "01",
+    k: "Build",
+    href: "/work/",
+    d: "Shipped products, with the problem, the decisions, and the measured outcome.",
+    c: `${caseStudies.length} case studies`,
+  },
+  {
+    n: "02",
+    k: "Grow",
+    href: "/community/",
+    d: "Mentoring programs and a community that meets every weekday.",
+    c: `${programs.length} programs`,
+  },
+  {
+    n: "03",
+    k: "Contribute",
+    href: "/contribute/",
+    d: "Open source work and the repositories I maintain for the community.",
+    c: `${totals.merged} merged pull requests`,
+  },
 ];
 ---
 
-<Base title={profile.brand} description={profile.tagline}>
-  <div class="page">
-    <header class="masthead">
-      <p class="who">
-        <b>{profile.brand}</b>
-        <span class="ref"> / {profile.location}</span>
-      </p>
-      <div class="masthead-right">
-        <nav class="topnav" aria-label="Sections">
-          {nav.map((n) => <a href={n.href}>{n.label}</a>)}
-        </nav>
-        <button class="theme-toggle" type="button" aria-label="Switch color theme">
-          <span class="icons">
-            <svg class="moon" viewBox="0 0 8 8" width="16" height="16" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><rect x="2" y="0" width="3" height="1"/><rect x="1" y="1" width="2" height="1"/><rect x="1" y="2" width="1" height="1"/><rect x="0" y="3" width="2" height="1"/><rect x="0" y="4" width="2" height="1"/><rect x="1" y="5" width="1" height="1"/><rect x="1" y="6" width="2" height="1"/><rect x="2" y="7" width="3" height="1"/></svg>
-            <svg class="sun" viewBox="0 0 8 8" width="16" height="16" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><rect x="3" y="0" width="1" height="1"/><rect x="1" y="1" width="1" height="1"/><rect x="5" y="1" width="1" height="1"/><rect x="2" y="2" width="3" height="1"/><rect x="1" y="3" width="5" height="1"/><rect x="1" y="4" width="5" height="1"/><rect x="2" y="5" width="3" height="1"/><rect x="1" y="6" width="1" height="1"/><rect x="5" y="6" width="1" height="1"/><rect x="3" y="7" width="1" height="1"/></svg>
-          </span>
-        </button>
-      </div>
-    </header>
-
-    <section class="section" id="top">
-      <p class="label"><b>01</b> Summary</p>
-      <div class="body">
-        <h2 class="headline">
-          Software engineer, five years, measured work.
-        </h2>
-        <p class="lead">{profile.tagline}</p>
-        <div class="facts reveal">
-          {
-            metrics.map((m) => (
-              <div class="fact">
-                <span class="n">
-                  <span class="num" data-to={m.value}>{m.value}</span>
-                  {m.unit && <i>{m.unit}</i>}
-                </span>
-                <span class="k">{m.label}</span>
-                <span class="note">{m.note}</span>
-              </div>
-            ))
-          }
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="profile">
-      <p class="label"><b>02</b> Profile</p>
-      <div class="body">
-        <div class="prose">
-          {profile.about.map((p) => <p>{p}</p>)}
-        </div>
-
-        <h3 class="sub" style="margin-top:34px">Method</h3>
-        <dl class="derived">
-          <div>
-            <dt>Focus</dt>
-            <dd>
-              Web products, internal tools, Web3
-              <small>
-                React front ends against Node.js and Go services, from problem
-                statement to deploy.
-              </small>
-            </dd>
-          </div>
-          <div>
-            <dt>Working style</dt>
-            <dd>
-              Outcome first, then the smallest change that moves it
-              <small>
-                Approval automation, incident reporting, and refactors were all
-                scoped against a number before any code was written.
-              </small>
-            </dd>
-          </div>
-        </dl>
-      </div>
-    </section>
-
-    <section class="section" id="record">
-      <p class="label"><b>03</b> Record</p>
-      <div class="body">
-        <h3 class="sub">Experience, newest first</h3>
-        <div class="record">
-          {
-            records.map((r) => (
-              <article class="row reveal">
-                <p class="per">
-                  {r.period}
-                  {r.current && <span class="now">now</span>}
-                </p>
-                <div>
-                  <h4 class="org">{r.org}</h4>
-                  <p class="role">{r.role}</p>
-                  <p class="place">{r.place}</p>
-                </div>
-                <div>
-                  <ul class="out">
-                    {r.outcomes.map((o) => (
-                      <li>
-                        <span class="m">{o.metric}</span>
-                        <span class="t">{o.text}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  {r.detail && (
-                    <span class="out detail">{r.detail.join(" ")}</span>
-                  )}
-                  {
-                    r.outcomes.some((o) => o.proofs?.length) && (
-                      <p class="proof">
-                        {r.outcomes
-                          .flatMap((o) => o.proofs ?? [])
-                          .map((p) =>
-                            p.external ? (
-                              <a href={p.href} target="_blank" rel="noopener">
-                                {p.label}
-                              </a>
-                            ) : (
-                              <span>{p.label}, private</span>
-                            ),
-                          )}
-                      </p>
-                    )
-                  }
-                </div>
-              </article>
-            ))
-          }
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <p class="label"><b>04</b> Stack</p>
-      <div class="body">
-        <h3 class="sub">Tools used in shipped work</h3>
-        <ul class="stack">
-          {
-            profile.stack.map((s) => (
-              <li>
-                <span>{s}</span>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
-    </section>
-
-    <section class="section">
-      <p class="label"><b>05</b> Education</p>
-      <div class="body">
-        <dl class="derived">
-          {
-            profile.education.map((e) => (
-              <div>
-                <dt>{e.period}</dt>
-                <dd>
-                  {e.school}
-                  <small>
-                    {e.degree} - {e.place}
-                  </small>
-                </dd>
-              </div>
-            ))
-          }
-        </dl>
-      </div>
-    </section>
-
-    <section class="section">
-      <p class="label"><b>06</b> Projects</p>
-      <div class="body">
-        <dl class="derived">
-          {
-            builds.map((b) => (
-              <div>
-                <dt>{b.label}</dt>
-                <dd>
-                  {b.value}
-                  <small>{b.detail}</small>
-                  {
-                    b.link && (
-                      <a href={b.link.href} target="_blank" rel="noopener">
-                        {b.link.label}
-                      </a>
-                    )
-                  }
-                </dd>
-              </div>
-            ))
-          }
-        </dl>
-      </div>
-    </section>
-
-    <section class="section">
-      <p class="label"><b>07</b> Licenses</p>
-      <div class="body">
-        <dl class="derived">
-          <div>
-            <dt>Certifications</dt>
-            <dd>
-              Go, identity and access engineering, front-end and back-end web
-              development, data science
-              <small>
-                {profile.certificationsNote}{" "}
-                <a href={profile.linkedin} target="_blank" rel="noopener">
-                  Full list on LinkedIn
-                </a>
-              </small>
-            </dd>
-          </div>
-        </dl>
-      </div>
-    </section>
-
-    <section class="section">
-      <p class="label"><b>08</b> Proof</p>
-      <div class="body">
-        <div class="plate">
-          <figure class="plate-figure">
-            <div class="plate-slot" data-px-host>
-              <PixelPortrait
-                src={photo}
-                alt={`${profile.name} portrait`}
-                block={4}
-                class="pp-warm"
-              />
-              <PixelLamp class="plate-lamp" block={4} />
-              <PixelSprite class="plate-bot" size="md" />
-              <span class="mote" style="left: 10%; top: 68%; --dx: 24px; --dy: -58px; animation-duration: 23s; animation-delay: -3s"></span>
-              <span class="mote" style="left: 26%; top: 82%; --dx: -18px; --dy: -74px; animation-duration: 27s; animation-delay: -9s"></span>
-              <span class="mote" style="left: 44%; top: 58%; --dx: 20px; --dy: -48px; animation-duration: 25s; animation-delay: -16s"></span>
-              <span class="mote" style="left: 62%; top: 86%; --dx: -22px; --dy: -66px; animation-duration: 29s; animation-delay: -6s"></span>
-              <span class="mote" style="left: 78%; top: 64%; --dx: 16px; --dy: -52px; animation-duration: 24s; animation-delay: -20s"></span>
-              <span class="mote" style="left: 90%; top: 78%; --dx: -24px; --dy: -70px; animation-duration: 28s; animation-delay: -12s"></span>
-            </div>
-            <figcaption class="plate-caption">
-              <span>Plate 01 - portrait</span>
-              <span>Lamp on - tap to sharpen</span>
-            </figcaption>
-          </figure>
-          <div>
-            <h3 class="sub">This page, measured at build time</h3>
-            <dl class="derived">
-              {
-                facts.map((f) => (
-                  <div>
-                    <dt>{f.label}</dt>
-                    <dd>
-                      {f.value}
-                      {f.detail && <small>{f.detail}</small>}
-                    </dd>
-                  </div>
-                ))
-              }
-            </dl>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="contact">
-      <p class="label"><b>09</b> Contact</p>
-      <div class="body">
-        <div class="contact">
-          <div>
-            <h3 class="sub">Direct</h3>
-            <div class="contact-list">
-              <a href={`mailto:${profile.email}`}>
-                <span class="k">Email</span>
-                <span class="v">{profile.email}</span>
-              </a>
-              {
-                profile.socials.map((s) => (
-                  <a href={s.url} target="_blank" rel="noopener">
-                    <span class="k">{s.label}</span>
-                    <span class="v">{s.url.replace("https://", "")}</span>
-                  </a>
-                ))
-              }
-              <span>
-                <span class="k">Location</span>
-                <span class="v">{profile.location}</span>
+<Site title={profile.brand} description={profile.tagline}>
+  <section class="section" id="top">
+    <p class="label"><b>01</b> Summary</p>
+    <div class="body">
+      <h1 class="headline">{profile.headline}</h1>
+      <p class="lead">{profile.tagline}</p>
+      <div class="facts reveal">
+        {
+          metrics.map((m) => (
+            <div class="fact">
+              <span class="n">
+                <span class="num" data-to={m.value}>{m.value}</span>
+                {m.unit && <i>{m.unit}</i>}
               </span>
+              <span class="k">{m.label}</span>
+              <span class="note">{m.note}</span>
             </div>
-            <p class="contact-note">
-              Open to conversations about software engineering, Web3, AI, and
-              mentoring. The form sends straight to email.
-            </p>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="lanes">
+    <p class="label"><b>02</b> Sections</p>
+    <div class="body">
+      <div class="lanes">
+        {
+          lanes.map((l) => (
+            <a class="lane" href={l.href}>
+              <span class="n">{l.n}</span>
+              <span class="k">{l.k}</span>
+              <span class="d">{l.d}</span>
+              <span class="c">{l.c}</span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="proof">
+    <p class="label"><b>03</b> Proof</p>
+    <div class="body">
+      <div class="plate">
+        <figure class="plate-figure">
+          <div class="plate-slot" data-px-host>
+            <PixelPortrait
+              src={photo}
+              alt={`${profile.name} portrait`}
+              block={4}
+              class="pp-warm"
+            />
+            <PixelLamp class="plate-lamp" block={4} />
+            <PixelSprite class="plate-bot" size="md" />
+            <span class="mote" style="left: 10%; top: 68%; --dx: 24px; --dy: -58px; animation-duration: 23s; animation-delay: -3s"></span>
+            <span class="mote" style="left: 26%; top: 82%; --dx: -18px; --dy: -74px; animation-duration: 27s; animation-delay: -9s"></span>
+            <span class="mote" style="left: 44%; top: 58%; --dx: 20px; --dy: -48px; animation-duration: 25s; animation-delay: -16s"></span>
+            <span class="mote" style="left: 62%; top: 86%; --dx: -22px; --dy: -66px; animation-duration: 29s; animation-delay: -6s"></span>
+            <span class="mote" style="left: 78%; top: 64%; --dx: 16px; --dy: -52px; animation-duration: 24s; animation-delay: -20s"></span>
+            <span class="mote" style="left: 90%; top: 78%; --dx: -24px; --dy: -70px; animation-duration: 28s; animation-delay: -12s"></span>
           </div>
-          <ContactForm client:load />
+          <figcaption class="plate-caption">
+            <span>Plate 01 - portrait</span>
+            <span>Lamp on - tap to sharpen</span>
+          </figcaption>
+        </figure>
+        <div>
+          <h3 class="sub">This page, measured at build time</h3>
+          <dl class="derived">
+            {
+              facts.map((f) => (
+                <div>
+                  <dt>{f.label}</dt>
+                  <dd>
+                    {f.value}
+                    {f.detail && <small>{f.detail}</small>}
+                  </dd>
+                </div>
+              ))
+            }
+          </dl>
         </div>
       </div>
-    </section>
-
-    <div class="horizon" aria-hidden="true">
-      <span class="star" style="left: 8%; top: 26%"></span>
-      <span class="star" style="left: 21%; top: 44%; opacity: 0.4"></span>
-      <span class="star" style="left: 36%; top: 20%; opacity: 0.5"></span>
-      <span class="star" style="left: 52%; top: 38%; opacity: 0.35"></span>
-      <span class="star" style="left: 66%; top: 24%; opacity: 0.45"></span>
-      <span class="star" style="left: 81%; top: 46%; opacity: 0.35"></span>
-      <span class="star" style="left: 92%; top: 28%; opacity: 0.4"></span>
-      <span class="moon"></span>
-      <span class="seigaiha"></span>
     </div>
+  </section>
 
-    <footer class="footer">
-      <span>(c) {new Date().getFullYear()} {profile.brand}</span>
-      <span>Astro, static, no framework shipped to the browser</span>
-      <button class="motion-toggle" type="button" aria-pressed="true">
-        motion: on
-      </button>
-    </footer>
-  </div>
-
-  <script>
-    const root = document.documentElement;
-    const btn = document.querySelector<HTMLButtonElement>(".theme-toggle");
-    const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
-
-    type VTDocument = Document & {
-      startViewTransition?: (cb: () => void) => { ready: Promise<void> };
-    };
-
-    btn?.addEventListener("click", (e) => {
-      const dark =
-        root.dataset.theme === "dark" ||
-        (root.dataset.theme !== "light" &&
-          matchMedia("(prefers-color-scheme: dark)").matches);
-      const next = dark ? "light" : "dark";
-      const apply = () => {
-        root.dataset.theme = next;
-        localStorage.setItem("theme", next);
-      };
-      const doc = document as VTDocument;
-      if (reducedMotion.matches || !doc.startViewTransition) {
-        apply();
-        return;
-      }
-      const rect = btn.getBoundingClientRect();
-      const x = e.clientX || rect.left + rect.width / 2;
-      const y = e.clientY || rect.top + rect.height / 2;
-      const vt = doc.startViewTransition(apply);
-      vt.ready
-        .then(() => {
-          const r = Math.hypot(
-            Math.max(x, innerWidth - x),
-            Math.max(y, innerHeight - y),
-          );
-          root.animate(
-            {
-              clipPath: [
-                `circle(0px at ${x}px ${y}px)`,
-                `circle(${r}px at ${x}px ${y}px)`,
-              ],
-            },
-            {
-              duration: 480,
-              easing: "cubic-bezier(.16,1,.3,1)",
-              pseudoElement: "::view-transition-new(root)",
-            },
-          );
-        })
-        .catch(() => {});
-    });
-
-    // footer motion switch: freezes CSS animation; survives reload
-    const motionBtn = document.querySelector<HTMLButtonElement>(".motion-toggle");
-    const setMotion = (on: boolean) => {
-      if (on) delete root.dataset.motion;
-      else root.dataset.motion = "off";
-      localStorage.setItem("motion", on ? "on" : "off");
-      motionBtn?.setAttribute("aria-pressed", String(on));
-      if (motionBtn) motionBtn.textContent = `motion: ${on ? "on" : "off"}`;
-    };
-    if (motionBtn && root.dataset.motion === "off") {
-      motionBtn.setAttribute("aria-pressed", "false");
-      motionBtn.textContent = "motion: off";
-    }
-    motionBtn?.addEventListener("click", () => {
-      setMotion(root.dataset.motion === "off");
-    });
-
-    // stepped count-up; the final value stays in the DOM for no-JS and reduced motion
-    const counted = new WeakSet<Element>();
-    const numObserver = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (!entry.isIntersecting || counted.has(entry.target)) continue;
-          counted.add(entry.target);
-          const el = entry.target as HTMLElement;
-          const to = Number(el.dataset.to);
-          if (!Number.isFinite(to)) continue;
-          if (reducedMotion.matches || root.dataset.motion === "off") continue;
-          let i = 0;
-          el.textContent = "0";
-          const tick = setInterval(() => {
-            i += 1;
-            el.textContent = String(Math.round((to * i) / 7));
-            if (i >= 7) clearInterval(tick);
-          }, 130);
-        }
-      },
-      { threshold: 0.6 },
-    );
-    document
-      .querySelectorAll<HTMLElement>(".facts .num")
-      .forEach((el) => numObserver.observe(el));
-  </script>
-</Base>
+  <section class="section" id="contact">
+    <p class="label"><b>04</b> Contact</p>
+    <div class="body">
+      <div class="contact-band">
+        <div>
+          <h3 class="sub">Get in touch</h3>
+          <p class="lead">
+            Open to conversations about software engineering, Web3, AI, and
+            mentoring.
+          </p>
+        </div>
+        <a class="btn btn-primary" href="/contact/">Start a conversation</a>
+      </div>
+    </div>
+  </section>
+</Site>

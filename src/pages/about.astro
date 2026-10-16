@@ -1,0 +1,122 @@
+---
+import Site from "../layouts/Site.astro";
+import { records } from "../data/evidence";
+import { profile } from "../data/profile";
+---
+
+<Site
+  title={`About - ${profile.brand}`}
+  description="The full record: experience, education, licenses, and the stack."
+>
+  <section class="section">
+    <p class="label"><b>About</b> {profile.location}</p>
+    <div class="body">
+      <h1 class="headline">The full record.</h1>
+      <p class="lead">{profile.tagline}</p>
+      <div class="prose">
+        {profile.about.map((p) => <p>{p}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="label"><b>Record</b> newest first</p>
+    <div class="body">
+      <div class="record">
+        {
+          records.map((r) => (
+            <article class="row reveal">
+              <p class="per">
+                {r.period}
+                {r.current && <span class="now">now</span>}
+              </p>
+              <div>
+                <h2 class="org">{r.org}</h2>
+                <p class="role">{r.role}</p>
+                <p class="place">{r.place}</p>
+              </div>
+              <div>
+                <ul class="out">
+                  {r.outcomes.map((o) => (
+                    <li>
+                      <span class="m">{o.metric}</span>
+                      <span class="t">{o.text}</span>
+                    </li>
+                  ))}
+                </ul>
+                {r.detail && <span class="out detail">{r.detail.join(" ")}</span>}
+                {r.outcomes.some((o) => o.proofs?.length) && (
+                  <p class="proof">
+                    {r.outcomes
+                      .flatMap((o) => o.proofs ?? [])
+                      .map((p) =>
+                        p.external ? (
+                          <a href={p.href} target="_blank" rel="noopener">
+                            {p.label}
+                          </a>
+                        ) : (
+                          <span>{p.label}, private</span>
+                        ),
+                      )}
+                  </p>
+                )}
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="label"><b>Education</b></p>
+    <div class="body">
+      <dl class="derived">
+        {
+          profile.education.map((e) => (
+            <div>
+              <dt>{e.period}</dt>
+              <dd>
+                {e.school}
+                <small>
+                  {e.degree} - {e.place}
+                </small>
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="label"><b>Licenses</b></p>
+    <div class="body">
+      <dl class="derived">
+        <div>
+          <dt>Certifications</dt>
+          <dd>
+            Go, identity and access engineering, front-end and back-end web
+            development, data science
+            <small>
+              {profile.certificationsNote}{" "}
+              <a href={profile.linkedin} target="_blank" rel="noopener">
+                Full list on LinkedIn
+              </a>
+            </small>
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="label"><b>Stack</b></p>
+    <div class="body">
+      <h3 class="sub">Tools used in shipped work</h3>
+      <ul class="stack">
+        {profile.stack.map((s) => <li><span>{s}</span></li>)}
+      </ul>
+    </div>
+  </section>
+</Site>

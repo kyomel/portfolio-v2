@@ -1,0 +1,129 @@
+---
+import Site from "../../layouts/Site.astro";
+import { caseStudies } from "../../data/work";
+import type { CaseStudy } from "../../data/work";
+import { profile } from "../../data/profile";
+
+export function getStaticPaths() {
+  return caseStudies.map((study) => ({
+    params: { slug: study.slug },
+    props: { study },
+  }));
+}
+
+interface Props {
+  study: CaseStudy;
+}
+
+const { study } = Astro.props;
+const index = caseStudies.findIndex((c) => c.slug === study.slug);
+const next = caseStudies[index + 1];
+const position = String(index + 1).padStart(2, "0");
+const total = String(caseStudies.length).padStart(2, "0");
+---
+
+<Site title={`${study.title} - ${profile.brand}`} description={study.oneLiner}>
+  <section class="section">
+    <p class="label">
+      <b>Case {position}</b>
+      {position} / {total}
+    </p>
+    <div class="body">
+      <h1 class="headline">{study.title}</h1>
+      <p class="lead">{study.oneLiner}</p>
+      <dl class="derived">
+        <div>
+          <dt>Role</dt>
+          <dd>{study.role}</dd>
+        </div>
+        <div>
+          <dt>Period</dt>
+          <dd>{study.period}</dd>
+        </div>
+        <div>
+          <dt>Stack</dt>
+          <dd>{study.stack.join(", ")}</dd>
+        </div>
+        <div>
+          <dt>Artifact</dt>
+          <dd>
+            {
+              study.visibility === "private" ? (
+                <span class="muted">
+                  Private - internal product, no public link
+                </span>
+              ) : (
+                study.links.map((l) => (
+                  <a href={l.href} target="_blank" rel="noopener">
+                    {l.label}
+                  </a>
+                ))
+              )
+            }
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="label"><b>Problem</b></p>
+    <div class="body">
+      <div class="prose">
+        {study.problem.map((p) => <p>{p}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="label"><b>Decisions</b> {study.decisions.length}</p>
+    <div class="body">
+      <div class="decisions">
+        {
+          study.decisions.map((d) => (
+            <article class="decision">
+              <h3 class="sub">{d.title}</h3>
+              <p class="choice">{d.choice}</p>
+              <p class="tradeoff">
+                <span class="k">Cost</span>
+                {d.tradeoff}
+              </p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="label"><b>Outcome</b></p>
+    <div class="body">
+      <ul class="outcomes">
+        {
+          study.outcomes.map((o) => (
+            <li>
+              <span class="m">{o.metric}</span>
+              <span class="t">{o.text}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="label"><b>Next</b></p>
+    <div class="body">
+      <div class="case-nav">
+        <a class="more" href="/work/">All case studies</a>
+        {
+          next && (
+            <a class="more" href={`/work/${next.slug}/`}>
+              Next: {next.title}
+            </a>
+          )
+        }
+      </div>
+    </div>
+  </section>
+</Site>
