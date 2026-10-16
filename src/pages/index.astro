@@ -5,9 +5,8 @@ import PixelSprite from "../components/PixelSprite.astro";
 import PixelLamp from "../components/PixelLamp.astro";
 import photo from "../assets/kyomel_anime_v4.png";
 import { profile } from "../data/profile";
-import { buildFacts, metrics } from "../data/evidence";
+import { buildFacts, metrics, records } from "../data/evidence";
 import { caseStudies } from "../data/work";
-import { programs } from "../data/community";
 import { totals } from "../data/contributions";
 
 const facts = buildFacts();
@@ -15,20 +14,13 @@ const facts = buildFacts();
 const lanes = [
   {
     n: "01",
-    k: "Build",
+    k: "Build & Grow",
     href: "/work/",
-    d: "Shipped products, with the problem, the decisions, and the measured outcome.",
-    c: `${caseStudies.length} case studies`,
+    d: "Case studies, the full role list, and the community programs behind them.",
+    c: `${caseStudies.length} case studies, ${records.length} roles`,
   },
   {
     n: "02",
-    k: "Grow",
-    href: "/community/",
-    d: "Mentoring programs and a community that meets every weekday.",
-    c: `${programs.length} programs`,
-  },
-  {
-    n: "03",
     k: "Contribute",
     href: "/contribute/",
     d: "Open source work and the repositories I maintain for the community.",

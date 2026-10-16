@@ -11,22 +11,26 @@ stats strip, timeline, card grid, pill tags) and carried its identity in decorat
 The new page carries identity in the order of the information: claim, evidence,
 record, proof.
 
-## Structure
+## Pages
 
-```
-masthead        KyoMel brand, section links, theme toggle (sticky, opaque)
-01 summary      headline claim, tagline, four headline metrics (stepped count-up)
-02 profile      prose from profile.ts, then the method table
-03 record       one row per role: period, org, outcomes with a metric each
-04 stack        tools in two or three columns
-05 education    one row per school: period, school, degree
-06 projects     one row per shipped build: category, title, summary, stack
-07 licenses     certifications overview, full list on LinkedIn
-08 proof        pixel plate plus the build-time facts
-09 contact      direct links and the React form
+```text
+/               hub: summary metrics, two doors (Build & Grow, Contribute), proof, contact
+/work/          case studies, then the record: one row per role, jobs and community programs
+/work/<slug>/   one case study: problem, decisions, outcome
+/contribute/    pull requests upstream, community repos, maintained resources
+/about/         bio, education, licenses, stack
+/contact/       direct links and the React form
+masthead        KyoMel brand, page links, theme toggle (sticky, opaque)
 horizon         wave band, screentone ramp, stars (decorative)
 footer          copyright, Astro line, motion switch
 ```
+
+Work and community merged into `/work/` on 2026-10-16: the programs fold into the
+record rows (`what`, `did`, `link` in `evidence.ts`), so one list of roles covers
+both. The record left `/about/`, which keeps the bio, education, licenses, and
+stack. Job rows follow the LinkedIn profile; Build App Today Heroes stays in the
+record (it predates LinkedIn and lives in the commit history and the old
+`kyomel.github.io` CV).
 
 ## Visual language: 2D pixel, lofi, anime
 

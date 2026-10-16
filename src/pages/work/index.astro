@@ -1,34 +1,50 @@
 ---
 import Site from "../../layouts/Site.astro";
 import { caseStudies } from "../../data/work";
+import { metrics, records } from "../../data/evidence";
 import { profile } from "../../data/profile";
 
+const people = metrics.find((m) => m.label === "Engineers trained and mentored");
 const count = caseStudies.length;
 ---
 
 <Site
-  title={`Work - ${profile.brand}`}
-  description="Case studies: the problem, the decisions that mattered, and the measured outcome."
+  title={`Work & Community - ${profile.brand}`}
+  description="Case studies with the problem, the decisions, and the outcome, plus every role and community program behind them."
 >
   <section class="section">
-    <p class="label"><b>Work</b> {count} case studies</p>
+    <p class="label"><b>Work &amp; Community</b> {records.length} roles</p>
     <div class="body">
       <h1 class="headline">Shipped work, measured.</h1>
       <p class="lead">
-        Each case study states the problem, the decisions that mattered, and the
-        outcome. No stack list without a reason.
+        Case studies state the problem, the decisions that mattered, and the
+        outcome. The record lists every role behind them, jobs and community
+        programs. No stack list without a reason.
       </p>
+      {
+        people && (
+          <div class="facts narrow reveal">
+            <div class="fact">
+              <span class="n">
+                <span class="num" data-to={people.value}>{people.value}</span>
+                {people.unit && <i>{people.unit}</i>}
+              </span>
+              <span class="k">{people.label}</span>
+              <span class="note">{people.note}</span>
+            </div>
+          </div>
+        )
+      }
     </div>
   </section>
 
   <section class="section">
-    <p class="label"><b>Index</b> newest first</p>
+    <p class="label"><b>Case studies</b> {count}</p>
     <div class="body">
       {
         count === 0 ? (
           <p class="empty">
-            Case studies are being written. The full record is on the{" "}
-            <a href="/about/">about page</a>.
+            Case studies are being written. The full role list is below.
           </p>
         ) : (
           <div class="record">
@@ -59,6 +75,61 @@ const count = caseStudies.length;
           </div>
         )
       }
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="label"><b>Record</b> newest first</p>
+    <div class="body">
+      <div class="record">
+        {
+          records.map((r) => (
+            <article class="row reveal">
+              <p class="per">
+                {r.period}
+                {r.current && <span class="now">now</span>}
+              </p>
+              <div>
+                <h2 class="org">{r.org}</h2>
+                <p class="role">{r.role}</p>
+                <p class="place">{r.place}</p>
+                {r.what && <p class="what">{r.what}</p>}
+                {r.did && <p class="did">{r.did}</p>}
+                {r.link && (
+                  <a class="more" href={r.link.href} target="_blank" rel="noopener">
+                    {r.link.label}
+                  </a>
+                )}
+              </div>
+              <div>
+                <ul class="out">
+                  {r.outcomes.map((o) => (
+                    <li>
+                      <span class="m">{o.metric}</span>
+                      <span class="t">{o.text}</span>
+                    </li>
+                  ))}
+                </ul>
+                {r.outcomes.some((o) => o.proofs?.length) && (
+                  <p class="proof">
+                    {r.outcomes
+                      .flatMap((o) => o.proofs ?? [])
+                      .map((p) =>
+                        p.external ? (
+                          <a href={p.href} target="_blank" rel="noopener">
+                            {p.label}
+                          </a>
+                        ) : (
+                          <span>{p.label}, private</span>
+                        ),
+                      )}
+                  </p>
+                )}
+              </div>
+            </article>
+          ))
+        }
+      </div>
     </div>
   </section>
 </Site>

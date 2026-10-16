@@ -1,6 +1,7 @@
 /**
- * Evidence layer. Every number here is either stated in `profile.ts` or derived at
- * build time from this repository. Nothing is invented, so the page can show its work.
+ * Evidence layer. Every number here is stated in `profile.ts`, on the LinkedIn
+ * profile, or derived at build time from this repository. Nothing is invented, so
+ * the page can show its work.
  */
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
@@ -43,8 +44,13 @@ export type RecordEntry = {
   place: string;
   period: string;
   current: boolean;
+  /** What the org or program is, when a reader may not know it. */
+  what?: string;
+  /** What I did there, when the outcomes alone do not say it. */
+  did?: string;
   outcomes: Outcome[];
-  detail?: string[];
+  /** Public page for the org or program. */
+  link?: { href: string; label: string };
 };
 
 export type Metric = {
@@ -62,6 +68,7 @@ export type BuildFact = {
 
 const GH = "https://github.com/kyomel";
 
+/** One row per role, newest first: jobs and the community programs. */
 export const records: RecordEntry[] = [
   {
     org: "Orbitum",
@@ -83,14 +90,14 @@ export const records: RecordEntry[] = [
     place: "Indonesia",
     period: "Dec 2023 - Present",
     current: true,
+    what: "A community of Indonesian software engineers that meets every weekday.",
+    did: "I run the weekday tech-term program, host System Design sessions, and share AI tooling news.",
     outcomes: [
-      {
-        text: "Runs the weekday tech-term program and hosts System Design sessions.",
-        metric: "daily",
-        proofs: [{ label: "Profile", href: GH, external: true }],
-      },
+      { text: "Daily tech-term program, running since Dec 2023.", metric: "weekday" },
+      { text: "System Design discussions and AI tooling news.", metric: "weekly" },
+      { text: "Engineers trained across the community and its programs.", metric: "100+" },
     ],
-    detail: ["Shares AI tooling news with the community."],
+    link: { href: "https://github.com/swegrowthid", label: "swegrowthid on GitHub" },
   },
   {
     org: "Dicoding Indonesia",
@@ -98,9 +105,11 @@ export const records: RecordEntry[] = [
     place: "Indonesia",
     period: "Jun 2025 - Apr 2026",
     current: false,
+    what: "A national coding bootcamp run by Dicoding and the DBS Foundation.",
+    did: "I mentored capstone teams through the final project, at full session attendance.",
     outcomes: [
       {
-        text: "Mentored capstone teams at full session attendance.",
+        text: "Mentoring satisfaction across the 2025 and 2026 cohorts.",
         metric: "4.8-5/5",
       },
       {
@@ -115,9 +124,12 @@ export const records: RecordEntry[] = [
     place: "Indonesia",
     period: "Oct 2024 - May 2025",
     current: false,
+    what: "A software engineering bootcamp.",
+    did: "I mentored 14 students and led three final-project teams.",
     outcomes: [
-      { text: "Mentored 14 students to the end of the program.", metric: "85% done" },
-      { text: "Led three final-project teams; two won Best Team.", metric: "2 won" },
+      { text: "Mentored students reached the end of the program.", metric: "85% done" },
+      { text: "Reached the final project phase.", metric: "70%" },
+      { text: "Two of the three teams won Best Team.", metric: "2 won" },
     ],
   },
   {
@@ -126,9 +138,11 @@ export const records: RecordEntry[] = [
     place: "Indonesia",
     period: "Apr 2024 - Jul 2024",
     current: false,
+    what: "A backend engineering lab for Binar Academy students.",
+    did: "I guided the backend team day to day and reviewed progress against the plan.",
     outcomes: [
-      { text: "Guided the backend team to cleaner code.", metric: "+20% code" },
-      { text: "Daily progress reviews against the plan.", metric: "-30% delay" },
+      { text: "Cleaner code from the backend team.", metric: "+20% code" },
+      { text: "Project delays, from daily progress reviews.", metric: "-30% delay" },
     ],
   },
   {
@@ -162,9 +176,12 @@ export const records: RecordEntry[] = [
     place: "Indonesia",
     period: "Feb 2023 - Jun 2023",
     current: false,
+    what: "A national talent program led by Google, GoTo, and Traveloka.",
+    did: "I taught soft skills and advised final-project teams to completion.",
     outcomes: [
-      { text: "Trained more than 100 students in soft skills.", metric: "+40% engage" },
-      { text: "Advised final-project teams to completion.", metric: "+25% quality" },
+      { text: "Students trained in soft skills.", metric: "100+" },
+      { text: "Engagement in the sessions.", metric: "+40%" },
+      { text: "Completion and quality of the advised teams.", metric: "+25%" },
     ],
   },
   {
@@ -173,9 +190,11 @@ export const records: RecordEntry[] = [
     place: "Indonesia",
     period: "Nov 2020 - Mar 2022",
     current: false,
+    what: "A product and engineering academy run by Glints.",
+    did: "I wrote the PRDs with the Glints team and mentored four teams.",
     outcomes: [
-      { text: "Wrote the PRDs with the Glints team.", metric: "+30% flow" },
-      { text: "Mentored four teams to the final showcase.", metric: "4x Best Team" },
+      { text: "Project flow efficiency from the PRDs.", metric: "+30% flow" },
+      { text: "Mentored to Best Team in the final showcase.", metric: "4 teams" },
     ],
   },
   {
