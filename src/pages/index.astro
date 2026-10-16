@@ -15,6 +15,7 @@ const builds = profile.projects.map((p) => ({
   label: p.category,
   value: p.title,
   detail: `${p.desc} Stack: ${p.tags.join(", ")}.`,
+  link: p.link,
 }));
 const nav = [
   { label: "Profile", href: "#profile" },
@@ -23,11 +24,11 @@ const nav = [
 ];
 ---
 
-<Base title={`${profile.name} - Software Engineer`} description={profile.tagline}>
+<Base title={profile.brand} description={profile.tagline}>
   <div class="page">
     <header class="masthead">
       <p class="who">
-        <b>{profile.name}</b>
+        <b>{profile.brand}</b>
         <span class="ref"> / {profile.location}</span>
       </p>
       <div class="masthead-right">
@@ -200,6 +201,13 @@ const nav = [
                 <dd>
                   {b.value}
                   <small>{b.detail}</small>
+                  {
+                    b.link && (
+                      <a href={b.link.href} target="_blank" rel="noopener">
+                        {b.link.label}
+                      </a>
+                    )
+                  }
                 </dd>
               </div>
             ))
@@ -304,7 +312,7 @@ const nav = [
     </section>
 
     <footer class="footer">
-      <span>(c) {new Date().getFullYear()} {profile.name}</span>
+      <span>(c) {new Date().getFullYear()} {profile.brand}</span>
       <span>Astro, static, no framework shipped to the browser</span>
     </footer>
   </div>

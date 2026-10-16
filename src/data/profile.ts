@@ -23,13 +23,15 @@ export type Project = {
   category: string;
   desc: string;
   tags: string[];
+  link?: { href: string; label: string };
 };
 
 export const profile = {
   name: "Michael Stevan Lapandio",
+  brand: "KyoMel",
   roles: "Software Engineer, Web3 Enthusiast, AI Enthusiast, Basketball Player",
   tagline:
-    "Building robust web applications with clean code, scalable architecture, and a focus on user experience.",
+    "Web products end to end: React front ends, Node.js and Go services, measured outcomes.",
   birthday: "13 May 1994",
   email: "michaellapandio04@gmail.com",
   location: "Yogyakarta, Indonesia",
@@ -43,7 +45,7 @@ export const profile = {
   about: [
     "Software Engineer with 5+ years of experience building web products end to end. I work across ReactJS front-ends and Node.js and Go back-ends. I currently build Web3 products at Orbitum.",
     "How I work: find the outcome that matters, scope the smallest change that moves it, then ship and measure. Approvals, incident reporting, and performance work all started as a number on a page, not as a rewrite.",
-    "I also grow engineers, through team leads, structured mentoring programs, and a community that meets every weekday. Growing people is the part of the work that outlives the release.",
+    "I also grow engineers, through team-lead roles, structured mentoring programs, and a community that meets every weekday. Growing people is the part of the work that outlives the release.",
     "I am open to conversations about software engineering, Web3, AI, and mentoring. The fastest way to reach me is michaellapandio04@gmail.com.",
   ],
   stats: [
@@ -178,11 +180,15 @@ export const profile = {
       category: "Backend",
       desc: "Contest management API with authentication, submissions, and admin dashboard.",
       tags: ["Node.js", "Express", "PostgreSQL", "JWT"],
+      link: {
+        href: "https://www.youtube.com/watch?v=xCECMFUDp70",
+        label: "Watch the demo on YouTube",
+      },
     },
     {
       title: "AI / Web3 Project",
       category: "Coming Soon",
-      desc: "Exploring the intersection of AI and Web3 technologies. Currently in development phase.",
+      desc: "AI and Web3 experiments in early development.",
       tags: ["AI", "Web3", "Rust"],
     },
   ] as Project[],
