@@ -14,8 +14,8 @@ record, proof.
 ## Structure
 
 ```
-masthead        name, section links, theme toggle (sticky, opaque)
-01 summary      headline claim, tagline, four headline metrics
+masthead        KyoMel brand, section links, theme toggle (sticky, opaque)
+01 summary      headline claim, tagline, four headline metrics (stepped count-up)
 02 profile      prose from profile.ts, then the method table
 03 record       one row per role: period, org, outcomes with a metric each
 04 stack        tools in two or three columns
@@ -24,6 +24,8 @@ masthead        name, section links, theme toggle (sticky, opaque)
 07 licenses     certifications overview, full list on LinkedIn
 08 proof        pixel plate plus the build-time facts
 09 contact      direct links and the React form
+horizon         wave band, screentone ramp, stars (decorative)
+footer          copyright, Astro line, motion switch
 ```
 
 ## Visual language: 2D pixel, lofi, anime
@@ -44,8 +46,11 @@ the page, dithered rules instead of hairlines, and pixel objects drawn in code.
 - Objects drawn in code: `PixelSprite.astro` (13x14 bot) and `PixelLamp.astro`
   (9x8 desk lamp). The lamp is the light source of the page: its glow, the sprite
   halo, and the warm cast on the portrait all use `--glow` and `--wash`.
-- The lamp pulse is the only ambient motion, and it stops under
-  `prefers-reduced-motion`.
+- The lamp pulse and the 2px rule march are the ambient motion. The reveals land
+  in `steps(6)` instead of gliding, and the measured metrics count up in seven
+  integer steps when they enter the viewport. Everything stops under
+  `prefers-reduced-motion`, and the footer motion switch freezes it on demand
+  (WCAG 2.2.2); the choice survives reload.
 
 ## Rules that hold the look
 
@@ -53,7 +58,14 @@ the page, dithered rules instead of hairlines, and pixel objects drawn in code.
 - One label rail (132px) on desktop, stacked labels below 860px.
 - Solid 1px rules only. No shadows, no gradients, no rounded corners.
 - Accent is reserved for metrics and links. It never fills a large area.
-- One signature element: the pixel plate, with the bot and the lamp on it.
+- One signature element: the pixel plate, with the bot and the lamp on it. The
+  plate keeps its frame and gains 8px ink corner blocks (manga panel marks).
+- The lofi/manga pass (2026-10-16, from `research/motion-background-options`): a
+  decorative horizon strip above the footer carries the screentone dot ramp, the
+  seigaiha waves as 2px pixel stairs (96x48 half-drop tile, radii step 12px), seven
+  2px stars and a pixel crescent; six 2px motes drift in the plate's lamp light;
+  the theme icon flips one whole 16px frame (`@property` + `round()`); links
+  march a 2px block underline on hover and focus.
 - Warmth comes from light, not from extra hues. One accent, one glow, no second colour.
 
 ## Evidence layer

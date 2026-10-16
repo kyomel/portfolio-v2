@@ -36,8 +36,10 @@ const nav = [
           {nav.map((n) => <a href={n.href}>{n.label}</a>)}
         </nav>
         <button class="theme-toggle" type="button" aria-label="Switch color theme">
-          <svg class="sun" viewBox="0 0 8 8" width="16" height="16" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><rect x="3" y="0" width="1" height="1"/><rect x="1" y="1" width="1" height="1"/><rect x="5" y="1" width="1" height="1"/><rect x="2" y="2" width="3" height="1"/><rect x="1" y="3" width="5" height="1"/><rect x="1" y="4" width="5" height="1"/><rect x="2" y="5" width="3" height="1"/><rect x="1" y="6" width="1" height="1"/><rect x="5" y="6" width="1" height="1"/><rect x="3" y="7" width="1" height="1"/></svg>
-          <svg class="moon" viewBox="0 0 8 8" width="16" height="16" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><rect x="2" y="0" width="3" height="1"/><rect x="1" y="1" width="2" height="1"/><rect x="1" y="2" width="1" height="1"/><rect x="0" y="3" width="2" height="1"/><rect x="0" y="4" width="2" height="1"/><rect x="1" y="5" width="1" height="1"/><rect x="1" y="6" width="2" height="1"/><rect x="2" y="7" width="3" height="1"/></svg>
+          <span class="icons">
+            <svg class="moon" viewBox="0 0 8 8" width="16" height="16" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><rect x="2" y="0" width="3" height="1"/><rect x="1" y="1" width="2" height="1"/><rect x="1" y="2" width="1" height="1"/><rect x="0" y="3" width="2" height="1"/><rect x="0" y="4" width="2" height="1"/><rect x="1" y="5" width="1" height="1"/><rect x="1" y="6" width="2" height="1"/><rect x="2" y="7" width="3" height="1"/></svg>
+            <svg class="sun" viewBox="0 0 8 8" width="16" height="16" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><rect x="3" y="0" width="1" height="1"/><rect x="1" y="1" width="1" height="1"/><rect x="5" y="1" width="1" height="1"/><rect x="2" y="2" width="3" height="1"/><rect x="1" y="3" width="5" height="1"/><rect x="1" y="4" width="5" height="1"/><rect x="2" y="5" width="3" height="1"/><rect x="1" y="6" width="1" height="1"/><rect x="5" y="6" width="1" height="1"/><rect x="3" y="7" width="1" height="1"/></svg>
+          </span>
         </button>
       </div>
     </header>
@@ -54,7 +56,7 @@ const nav = [
             metrics.map((m) => (
               <div class="fact">
                 <span class="n">
-                  {m.value}
+                  <span class="num" data-to={m.value}>{m.value}</span>
                   {m.unit && <i>{m.unit}</i>}
                 </span>
                 <span class="k">{m.label}</span>
@@ -251,6 +253,12 @@ const nav = [
               />
               <PixelLamp class="plate-lamp" block={4} />
               <PixelSprite class="plate-bot" size="md" />
+              <span class="mote" style="left: 10%; top: 68%; --dx: 24px; --dy: -58px; animation-duration: 23s; animation-delay: -3s"></span>
+              <span class="mote" style="left: 26%; top: 82%; --dx: -18px; --dy: -74px; animation-duration: 27s; animation-delay: -9s"></span>
+              <span class="mote" style="left: 44%; top: 58%; --dx: 20px; --dy: -48px; animation-duration: 25s; animation-delay: -16s"></span>
+              <span class="mote" style="left: 62%; top: 86%; --dx: -22px; --dy: -66px; animation-duration: 29s; animation-delay: -6s"></span>
+              <span class="mote" style="left: 78%; top: 64%; --dx: 16px; --dy: -52px; animation-duration: 24s; animation-delay: -20s"></span>
+              <span class="mote" style="left: 90%; top: 78%; --dx: -24px; --dy: -70px; animation-duration: 28s; animation-delay: -12s"></span>
             </div>
             <figcaption class="plate-caption">
               <span>Plate 01 - portrait</span>
@@ -311,9 +319,24 @@ const nav = [
       </div>
     </section>
 
+    <div class="horizon" aria-hidden="true">
+      <span class="star" style="left: 8%; top: 26%"></span>
+      <span class="star" style="left: 21%; top: 44%; opacity: 0.4"></span>
+      <span class="star" style="left: 36%; top: 20%; opacity: 0.5"></span>
+      <span class="star" style="left: 52%; top: 38%; opacity: 0.35"></span>
+      <span class="star" style="left: 66%; top: 24%; opacity: 0.45"></span>
+      <span class="star" style="left: 81%; top: 46%; opacity: 0.35"></span>
+      <span class="star" style="left: 92%; top: 28%; opacity: 0.4"></span>
+      <span class="moon"></span>
+      <span class="seigaiha"></span>
+    </div>
+
     <footer class="footer">
       <span>(c) {new Date().getFullYear()} {profile.brand}</span>
       <span>Astro, static, no framework shipped to the browser</span>
+      <button class="motion-toggle" type="button" aria-pressed="true">
+        motion: on
+      </button>
     </footer>
   </div>
 
@@ -367,5 +390,48 @@ const nav = [
         })
         .catch(() => {});
     });
+
+    // footer motion switch: freezes CSS animation; survives reload
+    const motionBtn = document.querySelector<HTMLButtonElement>(".motion-toggle");
+    const setMotion = (on: boolean) => {
+      if (on) delete root.dataset.motion;
+      else root.dataset.motion = "off";
+      localStorage.setItem("motion", on ? "on" : "off");
+      motionBtn?.setAttribute("aria-pressed", String(on));
+      if (motionBtn) motionBtn.textContent = `motion: ${on ? "on" : "off"}`;
+    };
+    if (motionBtn && root.dataset.motion === "off") {
+      motionBtn.setAttribute("aria-pressed", "false");
+      motionBtn.textContent = "motion: off";
+    }
+    motionBtn?.addEventListener("click", () => {
+      setMotion(root.dataset.motion === "off");
+    });
+
+    // stepped count-up; the final value stays in the DOM for no-JS and reduced motion
+    const counted = new WeakSet<Element>();
+    const numObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting || counted.has(entry.target)) continue;
+          counted.add(entry.target);
+          const el = entry.target as HTMLElement;
+          const to = Number(el.dataset.to);
+          if (!Number.isFinite(to)) continue;
+          if (reducedMotion.matches || root.dataset.motion === "off") continue;
+          let i = 0;
+          el.textContent = "0";
+          const tick = setInterval(() => {
+            i += 1;
+            el.textContent = String(Math.round((to * i) / 7));
+            if (i >= 7) clearInterval(tick);
+          }, 130);
+        }
+      },
+      { threshold: 0.6 },
+    );
+    document
+      .querySelectorAll<HTMLElement>(".facts .num")
+      .forEach((el) => numObserver.observe(el));
   </script>
 </Base>

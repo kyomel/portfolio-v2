@@ -5,6 +5,13 @@
   font-display: swap;
 }
 
+/* the theme toggle flips between whole 16px icon frames */
+@property --tf {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
 /*
   Swiss dossier. One label rail, one content column, solid rules.
   Identity comes from the order of the information, not from surface decoration.
@@ -192,6 +199,12 @@ body::before {
   --dither-size: 2px 2px;
 }
 
+@keyframes rule-march {
+  to {
+    background-position-x: 32px;
+  }
+}
+
 .section {
   display: grid;
   grid-template-columns: 132px minmax(0, 1fr);
@@ -201,6 +214,8 @@ body::before {
   background-size: var(--dither-size);
   background-repeat: repeat-x;
   background-position: top left;
+  /* the rule crawls in whole 2px steps: a screentone breathing */
+  animation: rule-march 7s steps(16, end) infinite;
 }
 
 .section > .label {
@@ -410,9 +425,28 @@ h3.sub {
   padding-bottom: 1px;
 }
 
-.row .proof a:hover {
+/* links march a 2px block underline on hover */
+.row .proof a:hover,
+.row .proof a:focus-visible,
+.derived dd a:hover,
+.derived dd a:focus-visible {
   color: var(--accent);
-  border-bottom-color: var(--accent);
+  border-bottom-color: transparent;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--accent) 0 4px,
+    transparent 4px 8px
+  );
+  background-size: 8px 2px;
+  background-repeat: repeat-x;
+  background-position: 0 100%;
+  animation: march-blocks 0.7s steps(4, end) infinite;
+}
+
+@keyframes march-blocks {
+  to {
+    background-position-x: 8px;
+  }
 }
 
 .row .out .detail {
@@ -466,11 +500,19 @@ h3.sub {
   position: relative;
   margin: 0;
   border: 1px solid var(--border-strong);
-  background: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--accent) 7%, var(--surface)),
-    var(--surface) 62%
-  );
+  background: linear-gradient(var(--border-strong), var(--border-strong)) 0 0 /
+      8px 8px no-repeat,
+    linear-gradient(var(--border-strong), var(--border-strong)) 100% 0 / 8px 8px
+      no-repeat,
+    linear-gradient(var(--border-strong), var(--border-strong)) 0 100% / 8px 8px
+      no-repeat,
+    linear-gradient(var(--border-strong), var(--border-strong)) 100% 100% / 8px
+      8px no-repeat,
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--accent) 7%, var(--surface)),
+      var(--surface) 62%
+    );
   padding: 10px;
 }
 
@@ -509,6 +551,24 @@ h3.sub {
   z-index: 1;
   /* the lamp halo: soft light, not a shadow */
   filter: drop-shadow(0 0 6px var(--glow));
+}
+
+/* dust in the lamp light: pixel motes drifting over the plate */
+.plate-slot .mote {
+  position: absolute;
+  z-index: 1;
+  width: 2px;
+  height: 2px;
+  background: var(--wash);
+  opacity: 0.4;
+  pointer-events: none;
+  animation: mote-drift 24s steps(24, end) infinite alternate;
+}
+
+@keyframes mote-drift {
+  to {
+    transform: translate(var(--dx, 0), var(--dy, 0));
+  }
 }
 
 /* warm cast on the plate photo: the page has one light source */
@@ -587,11 +647,6 @@ h3.sub {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--muted);
-}
-
-.derived dd a:hover {
-  color: var(--accent);
-  border-bottom-color: var(--accent);
 }
 
 /* ---------- contact ---------- */
@@ -719,6 +774,101 @@ form .btn {
   justify-self: start;
 }
 
+/* ---------- horizon: dusk print strip above the footer ---------- */
+
+.horizon {
+  position: relative;
+  height: 132px;
+  margin-top: 54px;
+  overflow: hidden;
+}
+
+/* screentone ramp rising from the waves: coarse dots over fine dots */
+.horizon::before,
+.horizon::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.horizon::before {
+  background-image: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--fg) 24%, transparent) 0 2.4px,
+    transparent 2.8px
+  );
+  background-size: 10px 10px;
+  mask-image: linear-gradient(180deg, transparent 4%, #000 92%);
+}
+
+.horizon::after {
+  background-image: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--fg) 16%, transparent) 0 1.4px,
+    transparent 1.8px
+  );
+  background-size: 6px 6px;
+  mask-image: linear-gradient(180deg, transparent 34%, #000 96%);
+}
+
+.horizon .star {
+  position: absolute;
+  z-index: 1;
+  width: 2px;
+  height: 2px;
+  background: var(--border-strong);
+  opacity: 0.5;
+}
+
+.horizon .moon {
+  position: absolute;
+  z-index: 1;
+  top: 18px;
+  right: 72px;
+  width: 10px;
+  height: 10px;
+  background: var(--border-strong);
+  opacity: 0.65;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 40% 100%, 40% 60%, 0 60%);
+}
+
+/* seigaiha as 2px pixel stairs: a 96x48 half-drop tile, radii step 12px */
+.horizon .seigaiha {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 64px;
+  background-image: radial-gradient(
+      circle at 0 0,
+      var(--bg) 0 9px,
+      var(--border-strong) 9px 11px,
+      var(--bg) 11px 21px,
+      var(--border-strong) 21px 23px,
+      var(--bg) 23px 33px,
+      var(--border-strong) 33px 35px,
+      var(--bg) 35px 45px,
+      var(--border-strong) 45px 47px,
+      transparent 47px
+    ),
+    radial-gradient(
+      circle at 48px 24px,
+      var(--bg) 0 9px,
+      var(--border-strong) 9px 11px,
+      var(--bg) 11px 21px,
+      var(--border-strong) 21px 23px,
+      var(--bg) 23px 33px,
+      var(--border-strong) 33px 35px,
+      var(--bg) 35px 45px,
+      var(--border-strong) 45px 47px,
+      transparent 47px
+    );
+  background-size: 96px 48px, 96px 48px;
+  background-repeat: repeat;
+  opacity: 0.42;
+}
+
 /* ---------- footer ---------- */
 
 .footer {
@@ -732,6 +882,7 @@ form .btn {
   background-size: var(--dither-size);
   background-repeat: repeat-x;
   background-position: top left;
+  animation: rule-march 7s steps(16, end) infinite;
   color: var(--muted);
   font-family: var(--mono);
   font-size: 10.5px;
@@ -746,6 +897,7 @@ form .btn {
   justify-content: center;
   width: 30px;
   height: 30px;
+  overflow: hidden;
   padding: 0;
   background: none;
   border: 1px solid var(--border);
@@ -758,30 +910,43 @@ form .btn {
 }
 
 .theme-toggle svg {
+  display: block;
   width: 16px;
   height: 16px;
 }
 
-.theme-toggle .sun {
-  display: none;
+/* the icon stack flips one whole 16px frame when the palette changes */
+.theme-toggle .icons {
+  display: block;
+  height: 16px;
+  translate: round(var(--tf, 0px), 16px);
+  transition: --tf 360ms linear;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .theme-toggle .sun {
-    display: block;
-  }
-
-  :root:not([data-theme="light"]) .theme-toggle .moon {
-    display: none;
+  :root:not([data-theme="light"]) .theme-toggle .icons {
+    --tf: -16px;
   }
 }
 
-:root[data-theme="dark"] .theme-toggle .sun {
-  display: block;
+:root[data-theme="dark"] .theme-toggle .icons {
+  --tf: -16px;
 }
 
-:root[data-theme="dark"] .theme-toggle .moon {
-  display: none;
+/* footer motion switch: plain text button, mono like the footer */
+.motion-toggle {
+  padding: 0;
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+}
+
+.motion-toggle:hover,
+.motion-toggle:focus-visible {
+  color: var(--accent);
 }
 
 /* ---------- motion ---------- */
@@ -797,9 +962,16 @@ form .btn {
   }
 }
 
+/* the footer switch freezes CSS animation; hover and click still react */
+html[data-motion="off"] *,
+html[data-motion="off"] *::before,
+html[data-motion="off"] *::after {
+  animation-play-state: paused !important;
+}
+
 /* Scroll-driven entry; browsers without view() show the final state at once. */
 .reveal {
-  animation: fade-up linear both;
+  animation: fade-up steps(6, end) both;
   animation-timeline: view();
   animation-range: entry 0% entry 60%;
 }

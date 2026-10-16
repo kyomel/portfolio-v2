@@ -7,6 +7,11 @@ Live preview, real CSS in both palettes: `motion-background-options.html`
 Method: audit of the shipped page (`src/`), Exa search over primary sources, and the
 repo's own prior notes (`pixel-animation.md`, `style-directions.md`, `dossier.md`).
 
+Shipped 2026-10-16: the calm bundle. M1, M2, M3, M4, M7 and the footer motion
+switch; B5 as 8px corner blocks on the plate; B1b and B2 live in a horizon strip
+above the footer; B3's stars and crescent sit in that strip's sky rather than over
+the portrait. Implementation: `src/styles/global.css` + `src/pages/index.astro`.
+
 ## 1. What the page runs now
 
 ```text
