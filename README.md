@@ -1,6 +1,6 @@
 # portfolio-v2
 
-Personal CV portfolio of Michael Stevan Lapandio ([KyoMel](https://github.com/kyomel)). Minimalist single-page site: sticky sidebar rail, editorial main column, light/dark theme, CSS-only motion.
+Personal CV portfolio of Michael Stevan Lapandio ([KyoMel](https://github.com/kyomel)). Single-page Swiss dossier: label rail, evidence-first record rows, light/dark theme, one pixel signature element. Design note: `docs/design/dossier.md`.
 
 ## Stack
 
@@ -14,9 +14,12 @@ Personal CV portfolio of Michael Stevan Lapandio ([KyoMel](https://github.com/ky
 ```
 src/
   data/profile.ts            # all CV content (typed)
+  data/evidence.ts           # record rows, headline metrics, build-time facts
   pages/index.astro          # the single page
   layouts/Base.astro         # head: favicon, OG tags, theme restore script
   components/ContactForm.tsx # only React island; builds a mailto: link
+  components/PixelPortrait.astro  # pixel plate for the portrait
+  components/PixelSprite.astro    # the signature bot
   styles/global.css          # all styling
   assets/                    # profile photo (optimized by astro:assets)
 public/                      # favicon set, og.png, brand font subset

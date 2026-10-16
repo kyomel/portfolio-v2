@@ -1,0 +1,561 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Style directions - portfolio-v2</title>
+<style>
+  /* ---------- shell (the report itself) ---------- */
+  * { box-sizing: border-box; }
+  :root {
+    --ink: #14130f;
+    --paper: #f4f1ea;
+    --line: #d8d2c4;
+    --dim: #6d675c;
+    --mark: #b8442a;
+    --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+    --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .doc { max-width: 1180px; margin: 0 auto; padding: 48px 24px 120px; }
+  .doc h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); letter-spacing: -0.03em; margin: 0 0 10px; }
+  .doc .lede { color: var(--dim); max-width: 62ch; margin: 0 0 8px; }
+  .doc .meta { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--dim); }
+  .doc a { color: inherit; }
+  hr.rule { border: 0; border-top: 1px solid var(--line); margin: 40px 0; }
+
+  .verdict { background: #fff; border: 1px solid var(--line); padding: 24px 28px; margin: 32px 0 0; }
+  .verdict h2 { margin: 0 0 12px; font-size: 1rem; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.12em; }
+  .verdict ul { margin: 0; padding-left: 20px; }
+  .verdict li { margin-bottom: 8px; }
+
+  .dir { margin-top: 56px; }
+  .dir-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px; border-top: 3px solid var(--ink); padding-top: 14px; }
+  .dir-head .tag { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mark); }
+  .dir-head h2 { margin: 0; font-size: clamp(1.3rem, 2.6vw, 1.8rem); letter-spacing: -0.02em; }
+  .dir-head .score { margin-left: auto; font-family: var(--mono); font-size: 12px; color: var(--dim); }
+  .dir p.why { max-width: 74ch; color: #3b372f; }
+  .refs { font-size: 13px; color: var(--dim); margin: 6px 0 20px; }
+  .refs a { text-decoration: underline; text-underline-offset: 2px; }
+
+  .frame {
+    border: 1px solid var(--line);
+    background: #fff;
+    overflow: hidden;
+    box-shadow: 0 24px 60px -30px rgba(20,19,15,.35);
+  }
+  .frame .cap {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--dim); padding: 8px 12px; border-bottom: 1px solid var(--line); background: #fbfaf7;
+  }
+
+  .pros { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 20px; font-size: 14px; }
+  .pros h3 { margin: 0 0 8px; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--dim); }
+  .pros ul { margin: 0; padding-left: 18px; }
+  .pros li { margin-bottom: 6px; }
+
+  table.matrix { width: 100%; table-layout: fixed; border-collapse: collapse; margin-top: 28px; font-size: 14px; }
+  table.matrix td:first-child, table.matrix th:first-child { width: 20%; }
+  table.matrix th, table.matrix td { text-align: left; padding: 12px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  table.matrix thead th { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--dim); }
+  table.matrix td:first-child { font-weight: 600; white-space: nowrap; }
+
+  /* ---------- mockup primitives ---------- */
+  .mock { padding: 0; }
+  .mock * { box-sizing: border-box; }
+  .mock .ph {
+    display: grid; place-items: center; text-align: center;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; line-height: 1.5;
+    background-image: repeating-linear-gradient(45deg, rgba(0,0,0,.06) 0 6px, transparent 6px 12px);
+    border: 1px dashed currentColor; opacity: .75; padding: 6px;
+  }
+  .mock img.face { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .mock .dot { width: 8px; height: 8px; display: inline-block; }
+  .mock .chk { color: #2f7d4f; }
+
+  @media (max-width: 820px) {
+    .pros { grid-template-columns: 1fr; }
+    table.matrix { display: block; overflow-x: auto; }
+  }
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <p class="meta">research output - 2026-10-16 - Exa + primary sources</p>
+  <h1>Four style directions, measured against the current build</h1>
+  <p class="lede">The current site is a clean, well-made dev-portfolio rail. The problem is the skeleton, not the polish. This page shows four replacements, rendered as real CSS in this file. Each one reuses your existing content.</p>
+
+  <div class="verdict">
+    <h2>Why the current page reads as mainstream</h2>
+    <ul>
+      <li><b>The skeleton is a 2015 template.</b> Sticky rail + avatar + name + numbered nav (01-04) + timeline + rounded card grid + pill tags. Delete the pixel accents and it is indistinguishable from any Astro or Framer theme.</li>
+      <li><b>Identity lives in the decoration.</b> The pixel layer is corner ticks, dashed rules, and a bot on the avatar. It is paint over a neutral grid, so the personality stops at the surface.</li>
+      <li><b>The numbers do not pay off.</b> "100+ engineers mentored" sits in a stat card. The evidence behind it is a text list. A hiring manager reads the claim and never sees the artifact.</li>
+      <li><b>One layout for one audience.</b> Recruiter, engineer lead, and client all get the same scroll. Nothing is fast for the skimmer and deep for the reader.</li>
+    </ul>
+    <p style="margin:14px 0 0;font-size:14px;color:var(--dim)">Sources: <a href="https://parthh.in/blogs/why-90-percent-of-developer-portfolios-look-the-same">Why 90% of developer portfolios look the same</a>, <a href="https://nicopicotto.dev/blog/your-portfolio-should-look-like-you/">Your portfolio should look like you</a>, <a href="https://thecrit.co/resources/why-every-portfolio-looks-the-same">Why every design portfolio looks the same</a>, <a href="https://vanschneider.com/blog/portfolio-tips/the-case-against-portfolio-tempaltes/">The case against portfolio templates</a>.</p>
+  </div>
+
+  <!-- ============================================================ 01 -->
+  <section class="dir">
+    <div class="dir-head">
+      <span class="tag">Direction 01</span>
+      <h2>Operators desk - a portfolio that boots</h2>
+      <span class="score">highest identity, highest build cost</span>
+    </div>
+    <p class="why">The whole site becomes one working desktop. The rail is gone. Navigation is a menu bar and a taskbar, sections open as windows, and your CV is a draggable stack of documents. The pixel work you already own becomes the design system instead of an accent, and the terminal answers real commands against your own data.</p>
+    <p class="refs">Precedent: <a href="https://zezinos.site/">ZezinOS 98</a>, <a href="https://chusmargallo.com/2026/06/19/retro-os-portfolio/">Retro OS portfolio</a>, <a href="https://github.com/signingoff-dubey/desktop-portfolio">KABIR-OS</a>, <a href="https://www.awwwards.com/sites/abhishek-jha-folio-25">Abhishek Jha (SOTD, Tetris easter egg)</a>. Trend risk: browsers-as-OS is now a named genre, so the differentiator must be your real artifacts, not the nostalgia.</p>
+
+    <div class="frame">
+      <div class="cap">mockup - desktop, 1180px</div>
+      <div class="mock desk">
+        <style>
+          .desk { font-family: var(--mono); background: #14120f; color: #e8e2d4; position: relative; min-height: 620px; overflow: hidden; }
+          .desk::after { /* dot lattice, the current PixelField, now structural */
+            content: ""; position: absolute; inset: 0; pointer-events: none;
+            background-image: radial-gradient(rgba(232,226,212,.10) 1px, transparent 1px);
+            background-size: 8px 8px;
+          }
+          .desk .bar { display: flex; gap: 18px; align-items: center; font-size: 12px; padding: 8px 14px; border-bottom: 1px solid #3a352c; background: #1b1814; position: relative; z-index: 2; }
+          .desk .bar .logo { letter-spacing: .18em; color: #d9a441; }
+          .desk .bar .sp { margin-left: auto; color: #9a9284; }
+          .desk .win { position: relative; z-index: 2; margin: 18px; border: 1px solid #4a4438; background: #1e1b16; box-shadow: 6px 6px 0 #0c0a08; }
+          .desk .win > header { display: flex; align-items: center; gap: 10px; padding: 6px 10px; background: #2a251d; border-bottom: 1px solid #4a4438; font-size: 12px; letter-spacing: .08em; }
+          .desk .win > header .x { margin-left: auto; color: #9a9284; }
+          .desk .cols { display: grid; grid-template-columns: 1.05fr .95fr; }
+          .desk .pad { padding: 20px; }
+          .desk .hero { border-right: 1px solid #4a4438; }
+          .desk .hero .face-frame { width: 118px; height: 148px; border: 1px solid #4a4438; }
+          .desk h1 { font-size: 30px; letter-spacing: -.01em; margin: 14px 0 6px; line-height: 1.15; }
+          .desk .role { color: #d9a441; font-size: 13px; }
+          .desk .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+          .desk .tags span { font-size: 11px; border: 1px solid #4a4438; padding: 2px 7px; color: #cfc7b6; }
+          .desk .term { background: #100e0b; font-size: 12.5px; line-height: 1.9; color: #cfc7b6; }
+          .desk .term .cmd { color: #7fb069; }
+          .desk .term .out { color: #9a9284; }
+          .desk .term .cur { background: #d9a441; color: #100e0b; padding: 0 3px; }
+          .desk .icons { display: flex; gap: 26px; padding: 4px 20px 26px; position: relative; z-index: 2; font-size: 11px; text-align: center; color: #cfc7b6; }
+          .desk .icons .ic { width: 62px; }
+          .desk .icons .glyph { width: 40px; height: 34px; border: 1px solid #4a4438; margin: 0 auto 6px; display: grid; place-items: center; background: #241f18; color: #d9a441; font-size: 16px; }
+          .desk .task { display: flex; align-items: center; gap: 10px; padding: 7px 12px; border-top: 1px solid #3a352c; background: #1b1814; font-size: 12px; position: relative; z-index: 2; }
+          .desk .task .pill { border: 1px solid #4a4438; padding: 2px 10px; }
+          .desk .task .clock { margin-left: auto; color: #9a9284; }
+          @media (max-width: 820px) { .desk .cols { grid-template-columns: 1fr; } .desk .hero { border-right: 0; border-bottom: 1px solid #4a4438; } }
+        </style>
+
+        <div class="bar">
+          <span class="logo">KYOMEL-OS</span>
+          <span>File</span><span>Work</span><span>Resume</span><span>Contact</span>
+          <span class="sp">motion: on &nbsp;|&nbsp; UTC+7 &nbsp;|&nbsp; theme: dusk</span>
+        </div>
+
+        <div class="win">
+          <header><span>&#9633;</span><span>~/about/README.md</span><span class="x">&#10005;</span></header>
+          <div class="cols">
+            <div class="pad hero">
+              <div class="face-frame"><img class="face" src="./assets/portrait.jpg" alt="Kyomel portrait" /></div>
+              <h1>Michael Stevan<br />Lapandio</h1>
+              <div class="role">Software Engineer / Web3 / AI</div>
+              <div class="tags">
+                <span>TypeScript</span><span>Go</span><span>React</span><span>Rust</span><span>Kubernetes</span><span>SQL</span>
+              </div>
+            </div>
+            <div class="pad term">
+              <div><span class="cmd">kyomel@orbit:~$</span> whoami</div>
+              <div class="out">Software Engineer in Yogyakarta. Product Owner at Glints Academy.</div>
+              <div><span class="cmd">kyomel@orbit:~$</span> cat impact.log</div>
+              <div class="out">70% manual approval work removed - Xapiens</div>
+              <div class="out">60% reporting time cut - incident feature</div>
+              <div class="out">100+ engineers mentored, 4 teams led</div>
+              <div><span class="cmd">kyomel@orbit:~$</span> open work/</div>
+              <div><span class="cmd">kyomel@orbit:~$</span> <span class="cur">&#9608;</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="icons">
+          <div class="ic"><div class="glyph">&#9635;</div>work/</div>
+          <div class="ic"><div class="glyph">&#9776;</div>resume.pdf</div>
+          <div class="ic"><div class="glyph">&#9993;</div>contact</div>
+          <div class="ic"><div class="glyph">&#10022;</div>guestbook</div>
+        </div>
+
+        <div class="task">
+          <span class="pill">&#9635; work/</span>
+          <span class="pill">&#9776; resume.pdf</span>
+          <span class="pill">&#9776; about.md</span>
+          <span class="clock">motion on - 09:41</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pros">
+      <div>
+        <h3>Wins</h3>
+        <ul>
+          <li>Maximum memorability. Nobody forgets a portfolio that boots.</li>
+          <li>Reuses the pixel layer you already built, as the system instead of the trim.</li>
+          <li>Memorable for engineering leads. Signals craft and restraint under constraints.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Costs and risks</h3>
+        <ul>
+          <li>Genre risk: browsers-as-OS is a crowded trend of its own now.</li>
+          <li>Mobile needs a real plan. Drag and hover do not exist on touch.</li>
+          <li>Accessibility must be rebuilt: focus order, keyboard window management, reduced motion.</li>
+          <li>Highest build cost of the four.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ 02 -->
+  <section class="dir">
+    <div class="dir-head">
+      <span class="tag">Direction 02</span>
+      <h2>Swiss dossier - evidence over decoration</h2>
+      <span class="score">best hiring signal, lowest risk</span>
+    </div>
+    <p class="why">No cards, no pills, no rounded corners. A strict two-rail grid, a numbered index of work, and a fact table that prints fine at A4. Every claim carries its artifact: metric, period, and proof link. The design statement is the restraint, and the page proves engineering discipline more than it describes it.</p>
+    <p class="refs">Precedent: Swiss editorial direction in the <a href="https://dillonsimeone.com/MiniProjects/StyleCollection/index.html">Style and Aesthetic hub</a>, <a href="https://www.a1.gallery/websites/varied-layout-portfolio">varied-layout portfolio gallery</a>, <a href="https://www.awwwards.com/sites/nahel-moussi-portfolio">Nahel Moussi (SOTD, single type size)</a>.</p>
+
+    <div class="frame">
+      <div class="cap">mockup - desktop, 1180px</div>
+      <div class="mock swiss">
+        <style>
+          .swiss { background: #f2efe9; color: #16150f; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; padding: 0 34px 40px; }
+          .swiss .top { display: flex; justify-content: space-between; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; padding: 16px 0; border-bottom: 1px solid #16150f; }
+          .swiss .grid { display: grid; grid-template-columns: 132px 1fr; gap: 0 34px; }
+          .swiss .label { font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: #6b675c; padding-top: 6px; }
+          .swiss .row { grid-column: 2; }
+          .swiss .name { font-size: clamp(2.2rem, 6.2vw, 4.4rem); line-height: .96; letter-spacing: -.035em; margin: 26px 0 18px; }
+          .swiss .claim { font-size: 19px; line-height: 1.45; max-width: 46ch; margin: 0 0 26px; }
+          .swiss .facts { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid #16150f; }
+          .swiss .facts div { padding: 14px 14px 14px 0; border-bottom: 1px solid #d5d0c4; }
+          .swiss .facts b { display: block; font-size: 30px; letter-spacing: -.03em; font-weight: 600; }
+          .swiss .facts span { font-size: 12px; color: #6b675c; }
+          .swiss .index { margin-top: 30px; border-top: 1px solid #16150f; }
+          .swiss .item { display: grid; grid-template-columns: 44px 1fr 96px 78px; gap: 14px; align-items: baseline; padding: 13px 0; border-bottom: 1px solid #d5d0c4; font-size: 14px; }
+          .swiss .item .no { color: #6b675c; font-variant-numeric: tabular-nums; }
+          .swiss .item .what { font-weight: 600; }
+          .swiss .item .what em { display: block; font-weight: 400; font-style: normal; color: #55524a; font-size: 12.5px; margin-top: 3px; }
+          .swiss .item .yr, .swiss .item .proof { font-size: 12px; color: #6b675c; }
+          .swiss .item .proof { text-align: right; }
+          .swiss .foot { display: flex; justify-content: space-between; margin-top: 22px; font-size: 12px; color: #6b675c; }
+          @media (max-width: 820px) {
+            .swiss .grid { grid-template-columns: 1fr; }
+            .swiss .row, .swiss .label { grid-column: 1; }
+            .swiss .label { padding: 18px 0 4px; }
+            .swiss .facts { grid-template-columns: 1fr 1fr; }
+            .swiss .item { grid-template-columns: 34px 1fr; }
+            .swiss .item .yr, .swiss .item .proof { display: none; }
+          }
+        </style>
+
+        <div class="top">
+          <span>Michael Stevan Lapandio - Software Engineer</span>
+          <span>Yogyakarta, ID - CV 2026 - Ref. MSL-2601</span>
+        </div>
+
+        <div class="grid">
+          <div class="label">Profile</div>
+          <div class="row">
+            <h1 class="name">Software<br />engineer, 5 years,<br />measured work.</h1>
+            <p class="claim">I build web products and internal tools. My work is judged on the numbers it moved, so this page shows the numbers and the artifacts behind them.</p>
+            <div class="facts">
+              <div><b>70%</b><span>manual approval work removed, Xapiens</span></div>
+              <div><b>100+</b><span>engineers trained and mentored</span></div>
+              <div><b>4</b><span>teams led, 2 won Best Team</span></div>
+            </div>
+          </div>
+
+          <div class="label" style="padding-top:24px">Index</div>
+          <div class="row">
+            <div class="index">
+              <div class="item"><span class="no">001</span><span class="what">Internal Go approval product<em>Owner and builder - cut manual processing 70%</em></span><span class="yr">2024-2025</span><span class="proof">case &#8599;</span></div>
+              <div class="item"><span class="no">002</span><span class="what">Incident reporting feature<em>Reporting time down 60%, data accuracy up 40%</em></span><span class="yr">2025</span><span class="proof">case &#8599;</span></div>
+              <div class="item"><span class="no">003</span><span class="what">SWE Growth Community<em>Co-founder - daily tech-term program</em></span><span class="yr">2023-now</span><span class="proof">log &#8599;</span></div>
+              <div class="item"><span class="no">004</span><span class="what">Revou team lead<em>14 students, 85% completion, 2 Best Team</em></span><span class="yr">2024-2025</span><span class="proof">report &#8599;</span></div>
+            </div>
+          </div>
+
+          <div class="label" style="padding-top:24px">Stack</div>
+          <div class="row">
+            <div class="index" style="border-top:0">
+              <div class="item" style="grid-template-columns:1fr;border-bottom:0;padding:10px 0">
+                <span class="what" style="font-weight:400">TypeScript - JavaScript - Go - Rust - Node.js - React - Python - Git - Docker - Kubernetes - SQL - HTML/CSS</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="foot">
+          <span>michaelapandio04@gmail.com</span>
+          <span>GitHub - LinkedIn - Medium - DEV</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pros">
+      <div>
+        <h3>Wins</h3>
+        <ul>
+          <li>Fastest to scan. A recruiter gets the claim and the proof in one line.</li>
+          <li>Lowest risk: no metaphor to explain, prints and exports cleanly.</li>
+          <li>Works on any device with one grid, because there is no spatial model to break.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Costs and risks</h3>
+        <ul>
+          <li>Less playful. It competes on taste, not on spectacle.</li>
+          <li>Needs real proof links per claim, or the table looks like bravado.</li>
+          <li>Retires most of the pixel layer. That work moves to the detail pages, or stops.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ 03 -->
+  <section class="dir">
+    <div class="dir-head">
+      <span class="tag">Direction 03</span>
+      <h2>Zine press - print, not screen</h2>
+      <span class="score">highest memorability per pixel</span>
+    </div>
+    <p class="why">The page becomes a printed object: two spot inks on uncoated stock, a real serif for headlines, mono for data, grain and slight misregistration instead of gradients. The pixel portrait becomes a coarse halftone plate. Your CV reads as a spread in a small-run magazine about one engineer.</p>
+    <p class="refs">Precedent: <a href="https://chrislemke.github.io/website_designs/designs/Risograph.html">risograph design reference</a>, <a href="https://www.indiebytes.dev/ui-kit">retro futuristic UI kit</a>, <a href="https://git.xszz.org/pulkitxm/claude-directory/blob/main/portfolios/inkpress-atelier-h46/prompt.md">Inkpress Atelier zine brief</a>, <a href="https://europacircuit.com/scene/how-a-design-studio-built-a-website-that-looks-like-its-running-on-1988-hardware">PX PUSH on a simulated CRT</a>.</p>
+
+    <div class="frame">
+      <div class="cap">mockup - desktop, 1180px</div>
+      <div class="mock zine">
+        <style>
+          .zine {
+            --ink-a: #23262e; --ink-b: #cf4a2c; --stock: #eee7d8;
+            background: var(--stock); color: var(--ink-a);
+            font-family: Georgia, "Times New Roman", serif; position: relative; padding: 30px 34px 44px;
+          }
+          .zine::before { /* grain */
+            content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .5;
+            background-image: radial-gradient(rgba(35,38,46,.16) .6px, transparent .7px);
+            background-size: 4px 4px;
+          }
+          .zine .masthead { display: flex; align-items: flex-end; justify-content: space-between; border-bottom: 3px solid var(--ink-a); padding-bottom: 8px; position: relative; }
+          .zine .masthead .title { font-size: 13px; letter-spacing: .34em; text-transform: uppercase; font-family: var(--mono); }
+          .zine .masthead .issue { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; }
+          .zine .spread { display: grid; grid-template-columns: 1fr 1.15fr; gap: 30px; margin-top: 22px; position: relative; }
+          .zine .plate { border: 1px solid var(--ink-a); background: #f6f1e5; padding: 10px; }
+          .zine .plate .frame2 { border: 1px solid var(--ink-a); overflow: hidden; }
+          .zine .plate img { display: block; width: 100%; filter: grayscale(1) contrast(1.45) brightness(1.02); mix-blend-mode: multiply; }
+          .zine .plate .cut { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; margin-top: 8px; display: flex; justify-content: space-between; }
+          .zine h1 { font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1; margin: 0 0 12px; letter-spacing: -.02em; font-weight: 400; }
+          .zine h1 em { font-style: italic; color: var(--ink-b); }
+          .zine .standfirst { font-size: 15px; line-height: 1.6; column-count: 2; column-gap: 22px; margin: 0 0 18px; }
+          .zine .standfirst::first-letter { font-size: 44px; float: left; line-height: .8; padding: 4px 8px 0 0; color: var(--ink-b); }
+          .zine .pull { border-top: 1px solid var(--ink-a); border-bottom: 1px solid var(--ink-a); padding: 12px 0; font-size: 19px; font-style: italic; }
+          .zine .pull b { font-style: normal; color: var(--ink-b); }
+          .zine .ledger { margin-top: 22px; position: relative; }
+          .zine .ledger h2 { font-family: var(--mono); font-size: 11px; letter-spacing: .18em; text-transform: uppercase; margin: 0 0 10px; }
+          .zine .ledger table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+          .zine .ledger td { padding: 8px 0; border-bottom: 1px dotted rgba(35,38,46,.4); vertical-align: top; }
+          .zine .ledger td:first-child { font-family: var(--mono); font-size: 12px; white-space: nowrap; width: 108px; color: var(--ink-b); }
+          .zine .ledger td:last-child { text-align: right; width: 90px; font-family: var(--mono); font-size: 11px; }
+          .zine .colophon { margin-top: 26px; display: flex; gap: 18px; justify-content: space-between; font-family: var(--mono); font-size: 10.5px; letter-spacing: .08em; border-top: 3px solid var(--ink-a); padding-top: 10px; position: relative; }
+          @media (max-width: 820px) { .zine .spread { grid-template-columns: 1fr; } .zine .standfirst { column-count: 1; } }
+        </style>
+
+        <div class="masthead">
+          <span class="title">KyoMel Press</span>
+          <span class="issue">Issue 01 - Yogyakarta - 2026 - Two inks</span>
+        </div>
+
+        <div class="spread">
+          <div>
+            <div class="plate">
+              <div class="frame2"><img src="./assets/portrait.jpg" alt="Halftone portrait plate" /></div>
+              <div class="cut"><span>PLATE 1 - portrait</span><span>INK 2 / 4</span></div>
+            </div>
+            <p class="standfirst">Five years of building web products, internal tools, and the teams that keep them running. I care about work you can measure: the approval queue that got shorter, the report that stopped taking an afternoon, the engineers who stopped needing me.</p>
+          </div>
+          <div>
+            <h1>The engineer as a <em>print run</em>.</h1>
+            <div class="pull">70% of manual approvals removed. <b>100+ engineers trained.</b> One page, no filler.</div>
+            <div class="ledger">
+              <h2>Selected record</h2>
+              <table>
+                <tr><td>2024 - 2025</td><td>Internal approval product, Go. Owner.</td><td>-70% manual</td></tr>
+                <tr><td>2025</td><td>Incident reporting feature.</td><td>-60% time</td></tr>
+                <tr><td>2023 - now</td><td>SWE Growth Community, co-founder.</td><td>daily</td></tr>
+                <tr><td>2024 - 2025</td><td>Revou team lead, 14 students.</td><td>85% done</td></tr>
+                <tr><td>2020 - 2022</td><td>Glints Academy, product owner.</td><td>+30% flow</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="colophon">
+          <span>Set in Georgia and Paper Mono</span>
+          <span>michaelapandio04@gmail.com</span>
+          <span>GitHub / LinkedIn / Medium / DEV</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="pros">
+      <div>
+        <h3>Wins</h3>
+        <ul>
+          <li>Feels authored. Print logic resists the sameness that template logic creates.</li>
+          <li>Keeps your pixel portrait, recast as a halftone plate.</li>
+          <li>Cheap in bandwidth: type, two inks, one image.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Costs and risks</h3>
+        <ul>
+          <li>Must be executed hard. A half-printed look reads as a mistake.</li>
+          <li>Ink contrast needs an audit in both themes for WCAG AA.</li>
+          <li>Signals design over engineering. Pair it with one technical proof section.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================ 04 -->
+  <section class="dir">
+    <div class="dir-head">
+      <span class="tag">Direction 04</span>
+      <h2>Build status - the proof is the product</h2>
+      <span class="score">strongest senior signal, needs real data</span>
+    </div>
+    <p class="why">The page is a live control panel of your engineering practice: deploy status, commit activity, uptime of the projects you run, and mentoring throughput as a real time series. It answers the one question a skeptical lead has: does this person actually operate software, or only describe it. Built at build time, so it stays static and cheap.</p>
+    <p class="refs">Precedent: <a href="https://www.indiebytes.dev/ui-kit">retro terminal and telemetry components</a>, <a href="https://skills.rest/skill/industrial-brutalist-ui-otto-poblysh">industrial brutalist and CRT telemetry direction</a>, <a href="https://www.techtrust.com/post/key-projects-in-developer-portfolios-for-hiring">how hiring managers evaluate portfolios</a>, <a href="https://www.index.dev/blog/evaluate-freelance-developer-portfolio">evaluate a portfolio in 10 checks</a>.</p>
+
+    <div class="frame">
+      <div class="cap">mockup - desktop, 1180px</div>
+      <div class="mock status">
+        <style>
+          .status { background: #0e1113; color: #d7e0e2; font-family: var(--mono); font-size: 13px; padding: 0 0 30px; }
+          .status .head { display: flex; align-items: center; gap: 16px; padding: 14px 22px; border-bottom: 1px solid #22302f; font-size: 12px; }
+          .status .head .id { letter-spacing: .12em; color: #6fd3a8; }
+          .status .head .sp { margin-left: auto; color: #7d8f92; }
+          .status .panels { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: #22302f; border-bottom: 1px solid #22302f; }
+          .status .kpi { background: #111619; padding: 16px 18px; }
+          .status .kpi b { display: block; font-size: 26px; color: #d7e0e2; letter-spacing: -.02em; }
+          .status .kpi span { color: #7d8f92; font-size: 11px; letter-spacing: .06em; }
+          .status .kpi em { display: block; margin-top: 6px; font-style: normal; font-size: 11px; color: #6fd3a8; }
+          .status .body { display: grid; grid-template-columns: 1.25fr 1fr; gap: 26px; padding: 22px; }
+          .status h2 { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: #7d8f92; margin: 0 0 12px; font-weight: 400; }
+          .status .rows { border-top: 1px solid #22302f; }
+          .status .r { display: grid; grid-template-columns: 100px 1fr 88px; gap: 12px; padding: 10px 0; border-bottom: 1px solid #22302f; align-items: center; font-size: 12.5px; }
+          .status .r .st { color: #6fd3a8; }
+          .status .r .st.warn { color: #e0b34a; }
+          .status .r .meta { color: #7d8f92; text-align: right; font-size: 11px; }
+          .status .spark { display: flex; align-items: flex-end; gap: 3px; height: 76px; padding-top: 6px; }
+          .status .spark i { flex: 1; background: #2b4a44; display: block; }
+          .status .spark i.hot { background: #6fd3a8; }
+          .status .log { background: #0b0e10; border: 1px solid #22302f; padding: 12px 14px; font-size: 12px; line-height: 1.95; color: #9fb0b2; }
+          .status .log .ok { color: #6fd3a8; }
+          .status .log .dim { color: #5f7173; }
+          @media (max-width: 820px) { .status .panels { grid-template-columns: 1fr 1fr; } .status .body { grid-template-columns: 1fr; } }
+        </style>
+
+        <div class="head">
+          <span class="id">MSL / CONTROL ROOM</span>
+          <span>all systems nominal</span>
+          <span class="sp">last deploy 4h ago - 6 services tracked</span>
+        </div>
+
+        <div class="panels">
+          <div class="kpi"><b>99.9%</b><span>UPTIME, 6 SERVICES</span><em>90-day window</em></div>
+          <div class="kpi"><b>413</b><span>SHIPPED COMMITS / 90D</span><em>+12% vs prior</em></div>
+          <div class="kpi"><b>0</b><span>FAILED DEPLOYS / 30D</span><em>green pipeline</em></div>
+          <div class="kpi"><b>100+</b><span>ENGINEERS MENTORED</span><em>28 this quarter</em></div>
+        </div>
+
+        <div class="body">
+          <div>
+            <h2>Services</h2>
+            <div class="rows">
+              <div class="r"><span class="st">&#9679; up</span><span>portfolio-v2</span><span class="meta">p95 41ms</span></div>
+              <div class="r"><span class="st">&#9679; up</span><span>growth-community-bot</span><span class="meta">p95 88ms</span></div>
+              <div class="r"><span class="st">&#9679; up</span><span>term-of-the-day api</span><span class="meta">p95 120ms</span></div>
+              <div class="r"><span class="st warn">&#9679; degrade</span><span>playground / wasm rust</span><span class="meta">cold starts</span></div>
+            </div>
+            <h2 style="margin-top:22px">Commit activity, 20 days</h2>
+            <div class="spark">
+              <i style="height:34%"></i><i style="height:52%"></i><i style="height:28%"></i><i class="hot" style="height:76%"></i>
+              <i style="height:44%"></i><i style="height:61%"></i><i style="height:38%"></i><i style="height:22%"></i>
+              <i class="hot" style="height:88%"></i><i style="height:57%"></i><i style="height:47%"></i><i style="height:66%"></i>
+              <i style="height:31%"></i><i class="hot" style="height:72%"></i><i style="height:49%"></i><i style="height:26%"></i>
+              <i style="height:58%"></i><i style="height:69%"></i><i class="hot" style="height:81%"></i><i style="height:42%"></i>
+            </div>
+          </div>
+          <div>
+            <h2>Deploy log</h2>
+            <div class="log">
+              <div><span class="ok">ok</span> portfolio-v2 - build 1.2s - cf pages <span class="dim">4h</span></div>
+              <div><span class="ok">ok</span> lint 0 - types 0 - tests 34 <span class="dim">4h</span></div>
+              <div><span class="ok">ok</span> growth-bot - deploy 18s <span class="dim">1d</span></div>
+              <div><span class="ok">ok</span> term-api - migration 0042 <span class="dim">3d</span></div>
+              <div><span class="dim">--</span> incident 0 in 90 days</div>
+            </div>
+            <h2 style="margin-top:22px">Selected work</h2>
+            <div class="rows">
+              <div class="r"><span class="st">&#8599;</span><span>Internal approval product, Go</span><span class="meta">-70% manual</span></div>
+              <div class="r"><span class="st">&#8599;</span><span>Incident reporting feature</span><span class="meta">-60% time</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pros">
+      <div>
+        <h3>Wins</h3>
+        <ul>
+          <li>Answers the senior question directly: this person runs software.</li>
+          <li>Distinctive without nostalgia. Nothing else on the market looks like it.</li>
+          <li>Numbers become live evidence, not a stat card.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Costs and risks</h3>
+        <ul>
+          <li>Needs real data sources. Faked telemetry is worse than none.</li>
+          <li>Empty or stale panels look bad. Define the fallback state first.</li>
+          <li>Cold and impersonal unless a human section sits beside it.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule" />
+
+  <h2 style="letter-spacing:-.02em">Comparison</h2>
+  <table class="matrix">
+    <thead>
+      <tr><th>Direction</th><th>Identity</th><th>Hiring signal</th><th>Build cost</th><th>Mobile risk</th><th>Keeps pixel work</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>01 Operators desk</td><td>Very high</td><td>Craft, playfulness</td><td>High (3-5 days)</td><td>High</td><td>Yes, as the system</td></tr>
+      <tr><td>02 Swiss dossier</td><td>Medium</td><td>Clarity, discipline</td><td>Low (1-2 days)</td><td>Low</td><td>Partly</td></tr>
+      <tr><td>03 Zine press</td><td>High</td><td>Taste, authorship</td><td>Medium (2-3 days)</td><td>Low</td><td>Yes, as halftone</td></tr>
+      <tr><td>04 Build status</td><td>High</td><td>Operational proof</td><td>Medium (2-3 days)</td><td>Low</td><td>No</td></tr>
+    </tbody>
+  </table>
+
+  <p class="lede" style="margin-top:28px">Recommended combination: <b>02 as the skeleton</b>, <b>04 as the evidence layer</b>, and your existing pixel sprite as the single signature detail. That keeps the recruiter path fast, keeps the engineer path convincing, and removes the generic rail without a full rebuild.</p>
+
+</div>
+</body>
+</html>

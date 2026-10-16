@@ -1,263 +1,302 @@
 ---
-import PixelPortrait from "../components/PixelPortrait.astro";
+import { Image } from "astro:assets";
 import Base from "../layouts/Base.astro";
-import PixelField from "../components/PixelField.astro";
+import PixelPortrait from "../components/PixelPortrait.astro";
 import PixelSprite from "../components/PixelSprite.astro";
+import PixelLamp from "../components/PixelLamp.astro";
 import ContactForm from "../components/ContactForm";
-import { profile } from "../data/profile";
 import photo from "../assets/kyomel_anime_v4.png";
+import { profile } from "../data/profile";
+import { buildFacts, metrics, records } from "../data/evidence";
 
-const nameWords = profile.name.split(" ");
-let chIndex = 0;
-const navItems = [
-  { n: "01", label: "About", href: "#about" },
-  { n: "02", label: "Resume", href: "#resume" },
-  { n: "03", label: "Work", href: "#work" },
-  { n: "04", label: "Contact", href: "#contact" },
+const shortRoles = profile.roles.split(",").slice(0, 3).join(" / ").trim();
+const facts = buildFacts();
+const builds = profile.projects.map((p) => ({
+  label: p.category,
+  value: p.title,
+  detail: `${p.desc} Stack: ${p.tags.join(", ")}.`,
+}));
+const nav = [
+  { label: "Profile", href: "#profile" },
+  { label: "Record", href: "#record" },
+  { label: "Contact", href: "#contact" },
 ];
 ---
 
-<Base title="KyoMel" description={profile.tagline}>
-  <PixelField />
-  <div class="shell" id="top">
-    <aside class="rail">
-      <div class="rail-top">
-        <a class="brand" href="#top">KyoMel</a>
-        <button
-          class="theme-toggle"
-          type="button"
-          aria-label="Switch color theme"
-        >
+<Base title={`${profile.name} - Software Engineer`} description={profile.tagline}>
+  <div class="page">
+    <header class="masthead">
+      <p class="who">
+        <b>{profile.name}</b>
+        <span class="ref"> / {profile.location}</span>
+      </p>
+      <div class="masthead-right">
+        <nav class="topnav" aria-label="Sections">
+          {nav.map((n) => <a href={n.href}>{n.label}</a>)}
+        </nav>
+        <button class="theme-toggle" type="button" aria-label="Switch color theme">
           <svg class="sun" viewBox="0 0 8 8" width="16" height="16" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><rect x="3" y="0" width="1" height="1"/><rect x="1" y="1" width="1" height="1"/><rect x="5" y="1" width="1" height="1"/><rect x="2" y="2" width="3" height="1"/><rect x="1" y="3" width="5" height="1"/><rect x="1" y="4" width="5" height="1"/><rect x="2" y="5" width="3" height="1"/><rect x="1" y="6" width="1" height="1"/><rect x="5" y="6" width="1" height="1"/><rect x="3" y="7" width="1" height="1"/></svg>
           <svg class="moon" viewBox="0 0 8 8" width="16" height="16" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><rect x="2" y="0" width="3" height="1"/><rect x="1" y="1" width="2" height="1"/><rect x="1" y="2" width="1" height="1"/><rect x="0" y="3" width="2" height="1"/><rect x="0" y="4" width="2" height="1"/><rect x="1" y="5" width="1" height="1"/><rect x="1" y="6" width="2" height="1"/><rect x="2" y="7" width="3" height="1"/></svg>
         </button>
       </div>
+    </header>
 
-      <div class="rail-body">
-        <div class="rail-photo-slot" data-px-host>
-          <PixelPortrait src={photo} alt={`${profile.name} profile photo`} />
-          <PixelSprite class="rail-bot" size="md" />
-        </div>
-        <p class="eyebrow rail-hello">Hello, I'm</p>
-        <h1 class="rail-name" aria-label={profile.name}>
+    <section class="section" id="top">
+      <p class="label"><b>01</b> Summary</p>
+      <div class="body">
+        <h2 class="headline">
+          Software engineer, five years, measured work.
+        </h2>
+        <p class="lead">{profile.tagline}</p>
+        <div class="facts reveal">
           {
-            nameWords.map((w) => (
-              <span class="word" aria-hidden="true">
-                {[...w].map((c) => (
-                  <span class="ch" style={`--i:${chIndex++}`}>
-                    {c}
-                  </span>
-                ))}
-              </span>
-            ))
-          }
-        </h1>
-        <p class="roles">
-          <span class="sr-only">{profile.roles}</span>
-          <span data-scramble aria-hidden="true">{profile.roles}</span>
-        </p>
-        <p class="tagline">{profile.tagline}</p>
-
-        <nav class="rail-nav" aria-label="Sections">
-          {
-            navItems.map((item) => (
-              <a href={item.href}>
-                <span class="n">{item.n}</span>
-                <span class="t">{item.label}</span>
-              </a>
-            ))
-          }
-        </nav>
-        <a class="rail-mail" href={`mailto:${profile.email}`}>{profile.email}</a>
-        <div class="socials">
-          {
-            profile.socials.map((s) => (
-              <a href={s.url} target="_blank" rel="noopener">
-                {s.label}
-              </a>
+            metrics.map((m) => (
+              <div class="fact">
+                <span class="n">
+                  {m.value}
+                  {m.unit && <i>{m.unit}</i>}
+                </span>
+                <span class="k">{m.label}</span>
+                <span class="note">{m.note}</span>
+              </div>
             ))
           }
         </div>
       </div>
-    </aside>
+    </section>
 
-    <main class="main">
-      <section id="about">
-        <div class="wrap">
-          <p class="eyebrow">01 / About</p>
-          <h2>Software Engineer based in Yogyakarta</h2>
-          <div class="stats">
-            {
-              profile.stats.map((s) => (
-                <div class="stat">
-                  <span class="stat-value">{s.value}</span>
-                  <span class="stat-label">{s.label}</span>
-                </div>
-              ))
-            }
+    <section class="section" id="profile">
+      <p class="label"><b>02</b> Profile</p>
+      <div class="body">
+        <div class="prose">
+          {profile.about.map((p) => <p>{p}</p>)}
+        </div>
+
+        <h3 class="sub" style="margin-top:34px">Method</h3>
+        <dl class="derived">
+          <div>
+            <dt>Focus</dt>
+            <dd>
+              Web products, internal tools, Web3
+              <small>
+                React front ends against Node.js and Go services, from problem
+                statement to deploy.
+              </small>
+            </dd>
           </div>
-          <div class="about-grid">
-            <dl class="details">
+          <div>
+            <dt>Working style</dt>
+            <dd>
+              Outcome first, then the smallest change that moves it
+              <small>
+                Approval automation, incident reporting, and refactors were all
+                scoped against a number before any code was written.
+              </small>
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="section" id="record">
+      <p class="label"><b>03</b> Record</p>
+      <div class="body">
+        <h3 class="sub">Experience, newest first</h3>
+        <div class="record">
+          {
+            records.map((r) => (
+              <article class="row reveal">
+                <p class="per">
+                  {r.period}
+                  {r.current && <span class="now">now</span>}
+                </p>
+                <div>
+                  <h4 class="org">{r.org}</h4>
+                  <p class="role">{r.role}</p>
+                  <p class="place">{r.place}</p>
+                </div>
+                <div>
+                  <ul class="out">
+                    {r.outcomes.map((o) => (
+                      <li>
+                        <span class="m">{o.metric}</span>
+                        <span class="t">{o.text}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  {r.detail && (
+                    <span class="out detail">{r.detail.join(" ")}</span>
+                  )}
+                  {
+                    r.outcomes.some((o) => o.proofs?.length) && (
+                      <p class="proof">
+                        {r.outcomes
+                          .flatMap((o) => o.proofs ?? [])
+                          .map((p) =>
+                            p.external ? (
+                              <a href={p.href} target="_blank" rel="noopener">
+                                {p.label}
+                              </a>
+                            ) : (
+                              <span>{p.label}, private</span>
+                            ),
+                          )}
+                      </p>
+                    )
+                  }
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="label"><b>04</b> Stack</p>
+      <div class="body">
+        <h3 class="sub">Tools used in shipped work</h3>
+        <ul class="stack">
+          {
+            profile.stack.map((s) => (
+              <li>
+                <span>{s}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="label"><b>05</b> Education</p>
+      <div class="body">
+        <dl class="derived">
+          {
+            profile.education.map((e) => (
+              <div>
+                <dt>{e.period}</dt>
+                <dd>
+                  {e.school}
+                  <small>
+                    {e.degree} - {e.place}
+                  </small>
+                </dd>
+              </div>
+            ))
+          }
+          {
+            builds.map((b) => (
+              <div>
+                <dt>{b.label}</dt>
+                <dd>
+                  {b.value}
+                  <small>{b.detail}</small>
+                </dd>
+              </div>
+            ))
+          }
+          <div>
+            <dt>Licenses</dt>
+            <dd>
+              Certifications in Go, identity and access engineering, front-end
+              and back-end web development, data science
+              <small>
+                {profile.certificationsNote}{" "}
+                <a href={profile.linkedin} target="_blank" rel="noopener">
+                  Full list on LinkedIn
+                </a>
+              </small>
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="label"><b>06</b> Proof</p>
+      <div class="body">
+        <div class="plate">
+          <figure class="plate-figure">
+            <div class="plate-slot" data-px-host>
+              <PixelPortrait
+                src={photo}
+                alt={`${profile.name} portrait`}
+                block={4}
+                class="pp-warm"
+              />
+              <PixelLamp class="plate-lamp" block={4} />
+              <PixelSprite class="plate-bot" size="md" />
+            </div>
+            <figcaption class="plate-caption">
+              <span>Plate 01 - portrait</span>
+              <span>Lamp on - tap to sharpen</span>
+            </figcaption>
+          </figure>
+          <div>
+            <h3 class="sub">This page, measured at build time</h3>
+            <dl class="derived">
               {
-                profile.details.map((d) => (
+                facts.map((f) => (
                   <div>
-                    <dt>{d.label}</dt>
-                    <dd>{d.value}</dd>
+                    <dt>{f.label}</dt>
+                    <dd>
+                      {f.value}
+                      {f.detail && <small>{f.detail}</small>}
+                    </dd>
                   </div>
                 ))
               }
             </dl>
-            <div>
-              {profile.about.map((p) => <p class="reveal">{p}</p>)}
-              <p class="eyebrow" style="margin-top: 28px">Tech Stack</p>
-              <ul class="tags">
-                {profile.stack.map((s) => <li class="tag">{s}</li>)}
-              </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <p class="label"><b>07</b> Contact</p>
+      <div class="body">
+        <div class="contact">
+          <div>
+            <h3 class="sub">Direct</h3>
+            <div class="contact-list">
+              <a href={`mailto:${profile.email}`}>
+                <span class="k">Email</span>
+                <span class="v">{profile.email}</span>
+              </a>
+              {
+                profile.socials.map((s) => (
+                  <a href={s.url} target="_blank" rel="noopener">
+                    <span class="k">{s.label}</span>
+                    <span class="v">{s.url.replace("https://", "")}</span>
+                  </a>
+                ))
+              }
+              <span>
+                <span class="k">Location</span>
+                <span class="v">{profile.location}</span>
+              </span>
             </div>
+            <p class="contact-note">
+              Open to conversations about software engineering, Web3, AI, and
+              mentoring. The form sends straight to email.
+            </p>
           </div>
+          <ContactForm client:load />
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section id="resume">
-        <div class="wrap">
-          <p class="eyebrow">02 / Resume</p>
-          <h2>Experience & Education</h2>
-          <h3 style="margin-top: 40px">Experience</h3>
-          <div class="timeline">
-            {
-              profile.experience.map((e, i) => (
-                <div class="entry reveal">
-                  <span class="idx" aria-hidden="true">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <div class="period">{e.period}</div>
-                  <div>
-                    <h4>{e.company}</h4>
-                    <p>{e.role}</p>
-                    <p>{e.place}</p>
-                    {e.highlights && (
-                      <ul class="highlights">
-                        {e.highlights.map((h) => (
-                          <li>{h}</li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                </div>
-              ))
-            }
-          </div>
-          <h3 style="margin-top: 48px">Education</h3>
-          <div class="timeline">
-            {
-              profile.education.map((e, i) => (
-                <div class="entry reveal">
-                  <span class="idx" aria-hidden="true">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <div class="period">{e.period}</div>
-                  <div>
-                    <h4>{e.school}</h4>
-                    <p>{e.degree}</p>
-                    <p>{e.place}</p>
-                  </div>
-                </div>
-              ))
-            }
-          </div>
-          <h3 style="margin-top: 48px">Licenses & Certifications</h3>
-          <div class="cert-pointer reveal">
-            <p>{profile.certificationsNote}</p>
-            <a class="btn" href={profile.linkedin} target="_blank" rel="noopener">
-              View All on LinkedIn
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <section id="work">
-        <div class="wrap">
-          <p class="eyebrow">03 / Portfolio</p>
-          <h2>Featured Projects</h2>
-          <div class="projects" style="margin-top: 32px">
-            {
-              profile.projects.map((p) => (
-                <article class="card reveal">
-                  <span class="category">{p.category}</span>
-                  <h3>{p.title}</h3>
-                  <p>{p.desc}</p>
-                  <ul class="tags">
-                    {p.tags.map((t) => (
-                      <li class="tag">{t}</li>
-                    ))}
-                  </ul>
-                </article>
-              ))
-            }
-          </div>
-        </div>
-      </section>
-
-      <section id="contact">
-        <div class="wrap">
-          <p class="eyebrow">04 / Contact</p>
-          <h2>Let's build something together.</h2>
-          <div class="contact-grid">
-            <div>
-              <p class="muted">
-                I'm always open to discussing new projects, creative ideas, or
-                opportunities to be part of your visions.
-              </p>
-              <div class="contact-info">
-                <span>{profile.location}</span>
-                <a href={`mailto:${profile.email}`}>{profile.email}</a>
-                <div class="contact-socials">
-                  {
-                    profile.socials.map((s) => (
-                      <a href={s.url} target="_blank" rel="noopener">
-                        {s.label} ↗
-                      </a>
-                    ))
-                  }
-                </div>
-              </div>
-            </div>
-            <ContactForm client:load />
-          </div>
-        </div>
-      </section>
-
-      <footer class="site-footer">
-        <div class="wrap foot-row">
-          <span>© {new Date().getFullYear()} {profile.name}</span>
-          <button class="fx-toggle" type="button" aria-pressed="true">
-            <span class="fx-dot" aria-hidden="true"></span>
-            <span class="fx-label">motion: on</span>
-          </button>
-        </div>
-      </footer>
-    </main>
+    <footer class="footer">
+      <span>(c) {new Date().getFullYear()} {profile.name}</span>
+      <span>Astro, static, no framework shipped to the browser</span>
+    </footer>
   </div>
 
   <script>
     const root = document.documentElement;
     const btn = document.querySelector<HTMLButtonElement>(".theme-toggle");
     const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
-
-    // footer motion control: silences the ambient pixel layer
-    const fxBtn = document.querySelector<HTMLButtonElement>(".fx-toggle");
-    const fxLabel = fxBtn?.querySelector<HTMLElement>(".fx-label");
-    const setMotion = (on: boolean) => {
-      root.dataset.motion = on ? "on" : "off";
-      if (fxLabel) fxLabel.textContent = `motion: ${on ? "on" : "off"}`;
-      fxBtn?.setAttribute("aria-pressed", String(on));
-    };
-    fxBtn?.addEventListener("click", () => {
-      const on = root.dataset.motion === "off";
-      localStorage.setItem("motion", on ? "on" : "off");
-      setMotion(on);
-    });
-    if (localStorage.getItem("motion") === "off") setMotion(false);
 
     type VTDocument = Document & {
       startViewTransition?: (cb: () => void) => { ready: Promise<void> };
@@ -304,50 +343,5 @@ const navItems = [
         })
         .catch(() => {});
     });
-
-    const rolesEl = document.querySelector<HTMLElement>("[data-scramble]");
-    if (rolesEl && !reducedMotion.matches) {
-      const roles = (rolesEl.textContent ?? "")
-        .split(",")
-        .map((s) => s.trim())
-        .filter(Boolean);
-      const glyphs =
-        "ABCDEFGHKLMNPQRSTUVWXYZabcdefghkmnpqrstuvwxyz23456789";
-      const paint = (target: string, done: number) => {
-        let out = "";
-        for (let i = 0; i < target.length; i++) {
-          const c = target.charAt(i);
-          out +=
-            i < done || c === " "
-              ? c
-              : glyphs.charAt((Math.random() * glyphs.length) | 0);
-        }
-        rolesEl.textContent = out;
-      };
-      const scrambleIn = (target: string) =>
-        new Promise<void>((resolve) => {
-          let f = -10;
-          const step = () => {
-            f += 2;
-            paint(target, f);
-            if (f < target.length) requestAnimationFrame(step);
-            else resolve();
-          };
-          requestAnimationFrame(step);
-        });
-      const cycle = async () => {
-        let idx = 0;
-        for (;;) {
-          if (root.dataset.motion === "off") {
-            await new Promise((r) => setTimeout(r, 600));
-            continue;
-          }
-          await scrambleIn(roles[idx]);
-          await new Promise((r) => setTimeout(r, 2400));
-          idx = (idx + 1) % roles.length;
-        }
-      };
-      if (roles.length) cycle();
-    }
   </script>
 </Base>

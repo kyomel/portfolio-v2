@@ -1,0 +1,123 @@
+---
+/**
+ * Desk lamp: the light source of the plate. 9x8 blocks, drawn in code.
+ * It is the only moving ambient detail on the page. `flicker` drives the gentle
+ * lamp pulse; prefers-reduced-motion renders it steady.
+ */
+interface Props {
+  class?: string;
+  block?: number;
+}
+
+const { class: cls = "", block = 3 } = Astro.props;
+const BLOCK = block;
+
+// p = post, s = shade, g = glow, k = ink line
+const ART = [
+  "....gg...",
+  "...gsss..",
+  "..gsssss.",
+  "..gsssss.",
+  "....p....",
+  "....p....",
+  "....p....",
+  "..kkkkk..",
+];
+---
+
+<canvas
+  class:list={["px-lamp", cls]}
+  data-block={BLOCK}
+  aria-hidden="true"
+  style={`--b:${BLOCK}px`}></canvas>
+
+<style is:global>
+  .px-lamp {
+    width: calc(9 * var(--b));
+    height: calc(8 * var(--b));
+    image-rendering: pixelated;
+    vertical-align: baseline;
+    pointer-events: none;
+  }
+
+  /* the one flicker: a slow pulse, no randomness, so it never distracts */
+  @media (prefers-reduced-motion: no-preference) {
+    .px-lamp[data-flicker="on"] {
+      animation: lamp-pulse 4.6s steps(6, end) infinite;
+    }
+  }
+
+  @keyframes lamp-pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    42% {
+      opacity: 0.94;
+    }
+    58% {
+      opacity: 0.88;
+    }
+    74% {
+      opacity: 0.96;
+    }
+  }
+</style>
+
+<script>
+  const ART = [
+    "....gg...",
+    "...gsss..",
+    "..gsssss.",
+    "..gsssss.",
+    "....p....",
+    "....p....",
+    "....p....",
+    "..kkkkk..",
+  ];
+  const COLS = 9;
+
+  function draw(cv: HTMLCanvasElement) {
+    const b = Number(cv.dataset.block) || 3;
+    const dpr = Math.min(2, Math.max(1, Math.round(devicePixelRatio)));
+    cv.width = COLS * b * dpr;
+    cv.height = ART.length * b * dpr;
+    const ctx = cv.getContext("2d")!;
+    ctx.imageSmoothingEnabled = false;
+    ctx.scale(dpr, dpr);
+
+    const read = (v: string) => {
+      cv.style.color = `var(${v})`;
+      const c = getComputedStyle(cv).color;
+      cv.style.color = "";
+      return c;
+    };
+    const ink = read("--fg");
+    const shade = read("--accent");
+    const glow = read("--wash");
+
+    ctx.clearRect(0, 0, COLS * b, ART.length * b);
+    ART.forEach((row, y) => {
+      [...row].forEach((ch, x) => {
+        if (ch === ".") return;
+        ctx.fillStyle = ch === "k" ? ink : ch === "s" ? shade : glow;
+        ctx.fillRect(x * b, y * b, b, b);
+      });
+    });
+  }
+
+  const lamps = [...document.querySelectorAll<HTMLCanvasElement>("canvas.px-lamp")];
+  lamps.forEach((cv) => {
+    // the glow reads as light only in the dark palette; keep the pulse there
+    cv.dataset.flicker = "on";
+    draw(cv);
+  });
+
+  // repaint on theme change so the lamp follows the palette
+  const repaint = () => lamps.forEach(draw);
+  new MutationObserver(repaint).observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["data-theme"],
+  });
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", repaint);
+</script>

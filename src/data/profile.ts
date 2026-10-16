@@ -34,8 +34,9 @@ export const profile = {
     { label: "DEV", url: "https://dev.to/kyomel" },
   ],
   about: [
-    "Software Engineer with 5+ years of experience building web products end to end. I work across ReactJS front-ends and Node.js and Go back-ends. I currently build Web3 products at Orbitum.",    "I care about outcomes you can measure. At Xapiens Teknologi Indonesia I built an internal Go product that automated the approval process and cut manual work by 70%. An incident reporting feature cut reporting time by 60% and raised data accuracy by 40%. Refactoring lifted application responsiveness by 35%.",
-    "I also grow engineers. As Team Lead at RevoU I guided 14 students and led 3 final-project teams. Two of them won \"Best Team\". Through Dicoding, Bangkit, and Binar Academy I have mentored hundreds of students. In the SWE Growth community I run daily tech-term programs and System Design sessions.",
+    "Software Engineer with 5+ years of experience building web products end to end. I work across ReactJS front-ends and Node.js and Go back-ends. I currently build Web3 products at Orbitum.",
+    "How I work: find the outcome that matters, scope the smallest change that moves it, then ship and measure. Approvals, incident reporting, and performance work all started as a number on a page, not as a rewrite.",
+    "I also grow engineers, through team leads, structured mentoring programs, and a community that meets every weekday. Growing people is the part of the work that outlives the release.",
     "I am open to conversations about software engineering, Web3, AI, and mentoring. The fastest way to reach me is michaellapandio04@gmail.com.",
   ],
   stats: [
