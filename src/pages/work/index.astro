@@ -23,8 +23,8 @@ const count = caseStudies.length;
       </p>
       {
         people && (
-          <div class="facts narrow reveal">
-            <div class="fact">
+          <div class="facts narrow">
+            <div class="fact reveal">
               <span class="n">
                 <span class="num" data-to={people.value}>{people.value}</span>
                 {people.unit && <i>{people.unit}</i>}
@@ -52,7 +52,7 @@ const count = caseStudies.length;
               <article class="row reveal">
                 <p class="per">{c.period}</p>
                 <div>
-                  <h2 class="org">
+                  <h2 class="org" style={`view-transition-name: case-${c.slug}`}>
                     <a href={`/work/${c.slug}/`}>{c.title}</a>
                   </h2>
                   <p class="role">

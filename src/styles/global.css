@@ -1230,17 +1230,141 @@ html[data-motion="off"] *::after {
   animation-play-state: paused !important;
 }
 
-/* Scroll-driven entry; browsers without view() show the final state at once. */
+/* Scroll-driven entry; browsers without view() show the final state at once.
+   The timeline sits in its own @supports rule on purpose: the CSS minifier
+   folds animation-timeline into the animation shorthand, and browsers reject
+   that shorthand, which would drop the reveal animation entirely. */
 .reveal {
   animation: fade-up steps(6, end) both;
-  animation-timeline: view();
-  animation-range: entry 0% entry 60%;
 }
 
+@supports (animation-timeline: view()) {
+  .reveal {
+    animation-timeline: view();
+    animation-range: entry 0% entry 60%;
+  }
+}
+
+/* Stagger: each item enters one step after the one before it. sibling-index() is
+   Baseline newly available (Chrome 138+, Safari 26.2+, Firefox 154+); without it
+   the declaration is dropped and every item keeps the shared range above. */
+.record > .row,
+.facts > .fact,
+.lanes > .lane {
+  animation-range: entry calc(sibling-index() * 5%) entry calc(
+      55% + sibling-index() * 5%
+    );
+}
+
+/* ---------- view transitions ---------- */
+
+/* Cross-document transitions between pages: Chrome 126+, Safari 18.2+. Firefox
+   has no support yet and falls back to a normal navigation. */
+@view-transition {
+  navigation: auto;
+  types: dossier;
+}
+
+/* The masthead is the room, not the page: it holds still while the page changes. */
+.masthead {
+  view-transition-name: masthead;
+}
+
+/* Elements that keep their identity across a navigation and morph instead. The
+   page label is named here: only the first label on a page matches, so the name
+   stays unique per page. Case study titles get their name inline, per slug. */
+.row .org,
+.section .headline,
+.page > .section:first-of-type > .label {
+  view-transition-class: morph;
+}
+
+.page > .section:first-of-type > .label {
+  view-transition-name: page-label;
+}
+
+@keyframes vt-out {
+  to {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes vt-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+/* Base: no cross-fade. The theme toggle draws its own circle on top of this. */
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation: none;
   mix-blend-mode: normal;
+}
+
+/* A page change lands in whole steps, like every other motion on the site. */
+html:active-view-transition-type(dossier)::view-transition-old(root) {
+  animation: vt-out 260ms steps(4, end) both;
+}
+
+html:active-view-transition-type(dossier)::view-transition-new(root) {
+  animation: vt-in 260ms steps(4, end) both;
+}
+
+/* The masthead and its rule hold still; only the page under it moves. */
+html:active-view-transition-type(dossier)::view-transition-group(masthead),
+html:active-view-transition-type(dossier)::view-transition-old(masthead),
+html:active-view-transition-type(dossier)::view-transition-new(masthead) {
+  animation: none;
+}
+
+/* Titles and the page label morph in whole steps too. */
+html:active-view-transition-type(dossier)::view-transition-group(.morph) {
+  animation-duration: 320ms;
+  animation-timing-function: steps(6, end);
+}
+
+html:active-view-transition-type(dossier)::view-transition-old(.morph),
+html:active-view-transition-type(dossier)::view-transition-new(.morph) {
+  animation-duration: 320ms;
+  animation-timing-function: steps(6, end);
+}
+
+/* ---------- the masthead marks the stuck state ---------- */
+
+/* scroll-state queries are Chrome 133+ only; other engines keep the plain rule.
+   The container must be the sticky element itself; the rule is its child. */
+.masthead {
+  container-type: scroll-state;
+}
+
+.masthead-rule {
+  position: absolute;
+  inset: auto 0 -1px 0;
+  height: 2px;
+  background-image: var(--dither);
+  background-size: var(--dither-size);
+  background-repeat: repeat-x;
+  opacity: 0;
+  transition: opacity 180ms steps(3, end);
+}
+
+@container scroll-state(stuck: top) {
+  .masthead-rule {
+    opacity: 1;
+  }
+}
+
+/* the footer switch stops the page transitions as well */
+html[data-motion="off"]::view-transition-group(root),
+html[data-motion="off"]::view-transition-old(root),
+html[data-motion="off"]::view-transition-new(root),
+html[data-motion="off"]::view-transition-group(.morph),
+html[data-motion="off"]::view-transition-old(.morph),
+html[data-motion="off"]::view-transition-new(.morph) {
+  animation: none !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1253,6 +1377,15 @@ html[data-motion="off"] *::after {
   *::after {
     animation: none !important;
     transition: none !important;
+  }
+
+  ::view-transition-group(root),
+  ::view-transition-old(root),
+  ::view-transition-new(root),
+  ::view-transition-group(.morph),
+  ::view-transition-old(.morph),
+  ::view-transition-new(.morph) {
+    animation: none !important;
   }
 }
 

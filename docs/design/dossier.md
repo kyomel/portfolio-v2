@@ -55,6 +55,13 @@ the page, dithered rules instead of hairlines, and pixel objects drawn in code.
   integer steps when they enter the viewport. Everything stops under
   `prefers-reduced-motion`, and the footer motion switch freezes it on demand
   (WCAG 2.2.2); the choice survives reload.
+- Navigation is motion too (2026-10-16): cross-document view transitions carry
+  the masthead across pages unchanged, morph the page label and the case-study
+  titles in `steps(6)`, and land the page itself in `steps(4)`. Rows enter one
+  step after the one before them (`sibling-index()`, Baseline 2026). The
+  masthead marks its stuck state with the dithered rule through a
+  `scroll-state()` query. Each of these is a layer with a plain fallback: no
+  support means the page navigates, lists, and reveals exactly as before.
 
 ## Rules that hold the look
 

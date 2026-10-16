@@ -29,7 +29,9 @@ const total = String(caseStudies.length).padStart(2, "0");
       {position} / {total}
     </p>
     <div class="body">
-      <h1 class="headline">{study.title}</h1>
+      <h1 class="headline" style={`view-transition-name: case-${study.slug}`}>
+        {study.title}
+      </h1>
       <p class="lead">{study.oneLiner}</p>
       <dl class="derived">
         <div>

@@ -24,22 +24,22 @@ const merged = upstream.filter((p) => p.merged).length;
         Pull requests into other people's projects, and the repositories I
         maintain for the community. Counted from the GitHub API on {measured}.
       </p>
-      <div class="facts reveal">
-        <div class="fact">
+      <div class="facts">
+        <div class="fact reveal">
           <span class="n">
             <span class="num" data-to={totals.merged}>{totals.merged}</span>
           </span>
           <span class="k">Merged pull requests</span>
           <span class="note">Across {totals.repos} repositories, {measured}</span>
         </div>
-        <div class="fact">
+        <div class="fact reveal">
           <span class="n">
             <span class="num" data-to={totals.prs}>{totals.prs}</span>
           </span>
           <span class="k">Pull requests opened</span>
           <span class="note">Six were closed without a merge</span>
         </div>
-        <div class="fact">
+        <div class="fact reveal">
           <span class="n">
             <span class="num" data-to={resources.reduce((n, r) => n + r.stars, 0)}>
               {resources.reduce((n, r) => n + r.stars, 0)}

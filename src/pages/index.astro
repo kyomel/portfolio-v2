@@ -35,10 +35,10 @@ const lanes = [
     <div class="body">
       <h1 class="headline">{profile.headline}</h1>
       <p class="lead">{profile.tagline}</p>
-      <div class="facts reveal">
+      <div class="facts">
         {
           metrics.map((m) => (
-            <div class="fact">
+            <div class="fact reveal">
               <span class="n">
                 <span class="num" data-to={m.value}>{m.value}</span>
                 {m.unit && <i>{m.unit}</i>}
@@ -58,7 +58,7 @@ const lanes = [
       <div class="lanes">
         {
           lanes.map((l) => (
-            <a class="lane" href={l.href}>
+            <a class="lane reveal" href={l.href}>
               <span class="n">{l.n}</span>
               <span class="k">{l.k}</span>
               <span class="d">{l.d}</span>
