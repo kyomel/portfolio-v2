@@ -36,14 +36,16 @@ public/                      # favicon set, og.png, brand font subset
 
 ## Deployment
 
-The site is a static build (`dist/`) deployed to **Cloudflare Pages** with GitHub Actions.
+The site is a static build (`dist/`) served by the **Cloudflare Worker** `portfolio-v2` through Workers Builds (git-connected). One deployer: push `main` and Cloudflare builds and deploys.
 
 ```
-push main -----> build (bun) -> wrangler pages deploy dist --project-name=portfolio-v2
-pull request --> build only, no deploy
+push main -----> Workers Builds: bun install -> bun run build -> npx wrangler deploy
+pull request --> GitHub Actions: build only, no deploy (validation)
 ```
 
-Workflow: `.github/workflows/deploy.yml`.
+`wrangler.jsonc` is assets-only (no script, no bindings): `wrangler deploy` serves `dist/` from Cloudflare's asset CDN. The repo owns the config, so Cloudflare's automatic framework configuration never runs - the build is the same locally, in Actions, and on Cloudflare.
+
+Workflow: `.github/workflows/ci.yml` (build validation only).
 
 ### Bun version
 
@@ -54,39 +56,15 @@ Workflow: `.github/workflows/deploy.yml`.
 | GitHub Actions   | `oven-sh/setup-bun` via `bun-version-file`  |
 | Cloudflare build | the build image provisions tools with asdf  |
 
-Keep `.tool-versions`, `bun.lock`, and your local Bun on the same version. If a Cloudflare build still reports Bun 1.2.15, set the `BUN_VERSION` environment variable to `1.4.2` in the project's build settings.
+Keep `.tool-versions`, `bun.lock`, and your local Bun on the same version. If a Cloudflare build still reports Bun 1.2.15, set the `BUN_VERSION` environment variable to `1.4.2` in the Worker's build settings (dashboard > portfolio-v2 > Settings > Build).
 
-### One deployer only
+### Site URL
 
-This Pages project is Direct Upload, so CI is the only deployer. Do not connect the repo through the dashboard Git integration (Workers & Pages > Connect to Git): that flow creates a Worker with Workers Builds, which then builds on every push next to this workflow and deploys somewhere else. If such a Worker already exists, delete it or turn its automatic builds off.
-
-### One-time setup
-
-1. Create the Pages project. CI cannot create it for you:
-
-   ```
-   bunx wrangler login
-   bunx wrangler pages project create portfolio-v2 --production-branch=main
-   ```
-
-2. Create an API token: Cloudflare dashboard > My Profile > API Tokens > Create Token > Custom token > Permissions: `Account` / `Cloudflare Pages` / `Edit`.
-
-3. Copy your Cloudflare account ID. It shows in the right sidebar of any dashboard page.
-
-4. Add two repository secrets: GitHub > Settings > Secrets and variables > Actions.
-
-   | Secret                  | Value                 |
-   | ----------------------- | --------------------- |
-   | `CLOUDFLARE_API_TOKEN`  | API token from step 2 |
-   | `CLOUDFLARE_ACCOUNT_ID` | Account ID from step 3 |
-
-   Without `CLOUDFLARE_API_TOKEN`, the deploy job fails with `In a non-interactive environment, it's necessary to set a CLOUDFLARE_API_TOKEN environment variable for wrangler to work`.
-
-5. Push `main` to GitHub. The workflow deploys to `https://portfolio-v2-6be.pages.dev` (Cloudflare appended the suffix because the plain name was taken).
+`site` in `astro.config.mjs` is the live URL `https://portfolio-v2.michaellapandio04.workers.dev`; the `og:image` meta tag is built from it. Update it when a custom domain is added.
 
 ### Custom domain
 
-1. Add the domain in the Pages project: dashboard > portfolio-v2 > Custom domains.
+1. Add the domain on the Worker: dashboard > Workers & Pages > portfolio-v2 > Domains.
 2. Set `site` in `astro.config.mjs` so the `og:image` meta tag gets an absolute URL:
 
    ```js
