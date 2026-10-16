@@ -45,7 +45,7 @@ pull request --> GitHub Actions: build only, no deploy (validation)
 
 `wrangler.jsonc` is assets-only (no script, no bindings): `wrangler deploy` serves `dist/` from Cloudflare's asset CDN. The repo owns the config, so Cloudflare's automatic framework configuration never runs - the build is the same locally, in Actions, and on Cloudflare.
 
-Workflow: `.github/workflows/ci.yml` (build validation only).
+Workflow: `.github/workflows/ci.yml` (type check + build validation only).
 
 ### Bun version
 
