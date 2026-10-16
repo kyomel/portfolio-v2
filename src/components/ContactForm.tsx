@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useState, type SubmitEvent } from "react";
 import { profile } from "../data/profile";
 
 export default function ContactForm() {
@@ -9,7 +9,7 @@ export default function ContactForm() {
     message: "",
   });
 
-  function submit(event: FormEvent) {
+  function submit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     const body = encodeURIComponent(
       `${form.message}\n\n- ${form.name} (${form.email})`,
