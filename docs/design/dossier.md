@@ -17,6 +17,8 @@ record, proof.
 /               hub: summary metrics, two doors (Build & Grow, Contribute), proof, contact
 /work/          case studies, then the record: one row per role, jobs and community programs
 /work/<slug>/   one case study: problem, decisions, outcome
+/daily-terms/   term index: facts, then one section per month, newest first
+/daily-terms/<y>/<m>/<slug>/   one term: derived meta, archive markdown, keep reading
 /contribute/    pull requests upstream, community repos, maintained resources
 /about/         bio, education, licenses, stack
 /contact/       direct links and the React form
@@ -62,6 +64,9 @@ the page, dithered rules instead of hairlines, and pixel objects drawn in code.
   masthead marks its stuck state with the dithered rule through a
   `scroll-state()` query. Each of these is a layer with a plain fallback: no
   support means the page navigates, lists, and reveals exactly as before.
+- Term pages render the archive markdown in `.term-body`: section labels in
+  mono, code blocks on the surface colour with shiki tokens that follow the
+  page theme, and tables that scroll inside the column.
 
 ## Rules that hold the look
 

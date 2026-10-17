@@ -1,6 +1,6 @@
 # portfolio-v2
 
-Personal CV portfolio of Michael Stevan Lapandio ([KyoMel](https://github.com/kyomel)). Single-page Swiss dossier: label rail, evidence-first record rows, light/dark theme, one pixel signature element. Design note: `docs/design/dossier.md`.
+Personal CV portfolio of Michael Stevan Lapandio ([KyoMel](https://github.com/kyomel)). Multi-page Swiss dossier: label rail, evidence-first record rows, light/dark theme, one pixel signature element. Design note: `docs/design/dossier.md`.
 
 ## Stack
 
@@ -15,13 +15,19 @@ Personal CV portfolio of Michael Stevan Lapandio ([KyoMel](https://github.com/ky
 src/
   data/profile.ts            # all CV content (typed)
   data/evidence.ts           # record rows, headline metrics, build-time facts
-  pages/index.astro          # the single page
+  data/daily-terms.ts        # helpers shared by the /daily-terms/ pages
+  content.config.ts          # content collections (daily terms)
+  content/daily-terms/       # one markdown file per term, generated - never edit
+  pages/index.astro          # home
+  pages/daily-terms/         # term index + one page per term
   layouts/Base.astro         # head: favicon, OG tags, theme restore script
   components/ContactForm.tsx # only React island; builds a mailto: link
   components/PixelPortrait.astro  # pixel plate for the portrait
   components/PixelSprite.astro    # the signature bot
   styles/global.css          # all styling
   assets/                    # profile photo (optimized by astro:assets)
+scripts/
+  fetch-daily-terms.ts       # syncs the daily-term-SE-Growth archive into content/
 public/                      # favicon set, og.png, brand font subset
 ```
 
@@ -33,6 +39,7 @@ public/                      # favicon set, og.png, brand font subset
 | `bun run dev`     | Dev server at `localhost:4321` |
 | `bun run build`   | Production build to `./dist/`  |
 | `bun run preview` | Preview the production build   |
+| `bun run fetch:terms` | Regenerate `src/content/daily-terms/` from the archive |
 
 ## Deployment
 
@@ -45,7 +52,22 @@ pull request --> GitHub Actions: build only, no deploy (validation)
 
 `wrangler.jsonc` is assets-only (no script, no bindings): `wrangler deploy` serves `dist/` from Cloudflare's asset CDN. The repo owns the config, so Cloudflare's automatic framework configuration never runs - the build is the same locally, in Actions, and on Cloudflare.
 
-Workflow: `.github/workflows/ci.yml` (type check + build validation only).
+Workflows: `.github/workflows/ci.yml` (type check + build validation only) and
+`.github/workflows/update-daily-terms.yml` (daily terms sync, see below).
+
+## Daily terms
+
+The `/daily-terms/` pages are generated from the
+[daily-term-SE-Growth](https://github.com/swegrowthid/daily-term-SE-Growth)
+archive: one markdown file per term in `src/content/daily-terms/`.
+
+- `bun run fetch:terms` regenerates the content. It shallow-clones the archive;
+  pass `-- --src <dir>` to convert an existing checkout instead.
+- `.github/workflows/update-daily-terms.yml` runs it daily at 06:00 WIB
+  (23:00 UTC), commits the diff as `github-actions[bot]`, and pushes. The push
+  deploys through Workers Builds. `workflow_dispatch` allows manual runs.
+- Never edit `src/content/daily-terms/` by hand. Edit the archive, then re-run
+  the script.
 
 ### Bun version
 

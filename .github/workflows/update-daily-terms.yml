@@ -1,0 +1,46 @@
+name: Update daily terms
+
+on:
+  schedule:
+    # 06:00 WIB (UTC+7) daily; the archive delivers Monday to Friday
+    - cron: "0 23 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: update-daily-terms
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    name: Sync content
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: .tool-versions
+
+      - name: Regenerate daily terms
+        run: bun run scripts/fetch-daily-terms.ts
+
+      - name: Commit and push if the archive changed
+        run: |
+          if [ -z "$(git status --porcelain src/content/daily-terms)" ]; then
+            echo "no changes"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/content/daily-terms
+          git commit -m "chore(daily-terms): sync from daily-term-SE-Growth"
+          for attempt in 1 2 3; do
+            git push && exit 0
+            git pull --rebase
+          done
+          exit 1

@@ -1,0 +1,102 @@
+---
+import Site from "../../../../layouts/Site.astro";
+import { getCollection, render } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import { byOldest, termHref } from "../../../../data/daily-terms";
+import { profile } from "../../../../data/profile";
+
+export async function getStaticPaths() {
+  const terms = (await getCollection("dailyTerms")).sort(byOldest);
+  return terms.map((entry, index) => ({
+    params: {
+      year: String(entry.data.year),
+      month: String(entry.data.month).padStart(2, "0"),
+      slug: entry.data.termSlug,
+    },
+    props: {
+      entry,
+      position: index + 1,
+      total: terms.length,
+      older: terms[index - 1] ?? null,
+      newer: terms[index + 1] ?? null,
+    },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<"dailyTerms">;
+  position: number;
+  total: number;
+  older: CollectionEntry<"dailyTerms"> | null;
+  newer: CollectionEntry<"dailyTerms"> | null;
+}
+
+const { entry, position, total, older, newer } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+const pad = String(position).padStart(3, "0");
+const padTotal = String(total).padStart(3, "0");
+---
+
+<Site
+  title={`${d.title} - ${profile.brand}`}
+  description={d.excerpt || `Daily term: ${d.title}`}
+>
+  <section class="section">
+    <p class="label">
+      <b>Term {pad}</b>
+      {pad} / {padTotal}
+    </p>
+    <div class="body">
+      <h1 class="headline" style={`view-transition-name: term-${d.termSlug}`}>
+        {d.title}
+      </h1>
+      <dl class="derived">
+        <div>
+          <dt>Month</dt>
+          <dd>
+            {d.monthName} {d.year}
+          </dd>
+        </div>
+        <div>
+          <dt>Day</dt>
+          <dd>{d.day !== null ? d.day : "not dated"}</dd>
+        </div>
+        <div>
+          <dt>Source</dt>
+          <dd>
+            <a href={d.sourceUrl} target="_blank" rel="noopener">
+              {d.source}
+            </a>
+          </dd>
+        </div>
+      </dl>
+      <article class="term-body">
+        <Content />
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <p class="label"><b>Keep reading</b></p>
+    <div class="body">
+      <div class="case-nav">
+        {
+          older && (
+            <a class="more" href={termHref(older)}>
+              Older: {older.data.title}
+            </a>
+          )
+        }
+        {
+          newer && (
+            <a class="more" href={termHref(newer)}>
+              Newer: {newer.data.title}
+            </a>
+          )
+        }
+        <a class="more" href="/daily-terms/">All terms</a>
+      </div>
+    </div>
+  </section>
+</Site>

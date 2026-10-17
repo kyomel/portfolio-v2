@@ -1,0 +1,101 @@
+---
+import Site from "../../layouts/Site.astro";
+import { getCollection } from "astro:content";
+import type { DailyTerm } from "../../data/daily-terms";
+import { DAILY_TERMS_REPO, byOldest, termHref } from "../../data/daily-terms";
+import { profile } from "../../data/profile";
+
+const terms = (await getCollection("dailyTerms")).sort(byOldest);
+
+const months: { key: string; label: string; terms: DailyTerm[] }[] = [];
+for (const term of terms) {
+  const key = `${term.data.year}-${String(term.data.month).padStart(2, "0")}`;
+  const last = months[months.length - 1];
+  if (last?.key === key) last.terms.push(term);
+  else
+    months.push({
+      key,
+      label: `${term.data.monthName} ${term.data.year}`,
+      terms: [term],
+    });
+}
+months.reverse();
+
+const newest = terms[terms.length - 1];
+const oldest = terms[0];
+---
+
+<Site
+  title={`Daily Terms - ${profile.brand}`}
+  description="A term a day: software engineering concepts studied in public, with definitions, worked examples, and the reasoning between them."
+>
+  <section class="section">
+    <p class="label">
+      <b>Daily Terms</b>
+      since {oldest.data.monthName} {oldest.data.year}
+    </p>
+    <div class="body">
+      <h1 class="headline">One term a day, studied in public.</h1>
+      <p class="lead">
+        Definitions, worked examples, and the reasoning between them, from my
+        daily engineering journal. Every entry below is synced from the
+        <a href={DAILY_TERMS_REPO} target="_blank" rel="noopener"
+          >daily-term-SE-Growth</a
+        > archive.
+      </p>
+      <div class="facts narrow">
+        <div class="fact reveal">
+          <span class="n">
+            <span class="num" data-to={terms.length}>{terms.length}</span>
+          </span>
+          <span class="k">terms studied</span>
+          <span class="note">
+            Monday to Friday, {oldest.data.monthName} {oldest.data.year} onward
+          </span>
+        </div>
+        <div class="fact reveal">
+          <span class="n">
+            <span class="num" data-to={months.length}>{months.length}</span>
+          </span>
+          <span class="k">months covered</span>
+          <span class="note">
+            {
+              `latest: ${newest.data.title}, ${newest.data.monthName} ${newest.data.year}`
+            }
+          </span>
+        </div>
+      </div>
+      <a class="more" href={DAILY_TERMS_REPO} target="_blank" rel="noopener">
+        Read the archive on GitHub
+      </a>
+    </div>
+  </section>
+
+  {
+    months.map((month) => (
+      <section class="section">
+        <p class="label">
+          <b>{month.label}</b>
+          {month.terms.length} terms
+        </p>
+        <div class="body">
+          <ul class="terms">
+            {month.terms.map((term) => (
+              <li class="term-row reveal">
+                <a href={termHref(term)}>
+                  <span class="t">{term.data.title}</span>
+                  <span class="meta">
+                    {term.data.day !== null
+                      ? `Day ${term.data.day}`
+                      : `Entry ${term.data.order}`}
+                  </span>
+                </a>
+                {term.data.excerpt && <p class="ex">{term.data.excerpt}</p>}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    ))
+  }
+</Site>

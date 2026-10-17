@@ -1250,7 +1250,8 @@ html[data-motion="off"] *::after {
    the declaration is dropped and every item keeps the shared range above. */
 .record > .row,
 .facts > .fact,
-.lanes > .lane {
+.lanes > .lane,
+.terms > .term-row {
   animation-range: entry calc(sibling-index() * 5%) entry calc(
       55% + sibling-index() * 5%
     );
@@ -1389,6 +1390,230 @@ html[data-motion="off"]::view-transition-new(.morph) {
   }
 }
 
+/* ---------- daily terms ---------- */
+
+.terms {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--border-strong);
+}
+
+.term-row {
+  padding: 16px 0 18px;
+  border-bottom: 1px solid var(--border);
+}
+
+.term-row a {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 24px;
+  flex-wrap: wrap;
+}
+
+.term-row .t {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.term-row a:hover .t,
+.term-row a:focus-visible .t {
+  color: var(--accent);
+}
+
+.term-row .meta {
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
+.term-row .ex {
+  max-width: 78ch;
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+/* one term page: the archive markdown, typeset like the rest of the dossier */
+.term-body {
+  max-width: 78ch;
+  margin-top: 30px;
+  padding-top: 26px;
+  border-top: 1px solid var(--border-strong);
+}
+
+.term-body > *:first-child {
+  margin-top: 0;
+}
+
+/* the Definition / Example rails inside an entry read as section labels */
+.term-body h2,
+.term-body h3 {
+  margin: 38px 0 14px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.term-body h2:first-child,
+.term-body h3:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.term-body h4 {
+  margin: 24px 0 10px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.term-body p {
+  margin: 0 0 14px;
+}
+
+.term-body ul,
+.term-body ol {
+  margin: 0 0 14px;
+  padding-left: 22px;
+}
+
+.term-body li {
+  margin: 0 0 4px;
+}
+
+.term-body li > ul,
+.term-body li > ol {
+  margin: 4px 0 0;
+}
+
+.term-body a {
+  border-bottom: 1px solid var(--border);
+}
+
+.term-body a:hover,
+.term-body a:focus-visible {
+  color: var(--accent);
+  border-bottom-color: transparent;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--accent) 0 4px,
+    transparent 4px 8px
+  );
+  background-size: 8px 2px;
+  background-repeat: repeat-x;
+  background-position: 0 100%;
+}
+
+.term-body strong {
+  font-weight: 600;
+}
+
+.term-body code {
+  padding: 1px 5px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 0.86em;
+  overflow-wrap: anywhere;
+}
+
+.term-body pre {
+  margin: 0 0 16px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.term-body pre code {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: inherit;
+}
+
+/* wide tables scroll inside the column instead of breaking the layout */
+.term-body table {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  margin: 0 0 16px;
+  border-collapse: collapse;
+  overflow-x: auto;
+  font-size: 14px;
+}
+
+.term-body th,
+.term-body td {
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.term-body th {
+  background: var(--surface);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.term-body blockquote {
+  margin: 0 0 16px;
+  padding: 2px 0 2px 16px;
+  border-left: 2px solid var(--border-strong);
+  color: var(--muted);
+}
+
+.term-body hr {
+  margin: 22px 0;
+  border: 0;
+  border-top: 1px solid var(--border);
+}
+
+.term-body img {
+  margin: 0 0 16px;
+}
+
+/* shiki dual themes: tokens follow the page theme, the block keeps our surface */
+pre.astro-code {
+  color: var(--shiki-light);
+  background-color: var(--surface) !important;
+}
+
+pre.astro-code span {
+  color: var(--shiki-light);
+}
+
+:root[data-theme="dark"] pre.astro-code,
+:root[data-theme="dark"] pre.astro-code span {
+  color: var(--shiki-dark);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) pre.astro-code,
+  :root:not([data-theme="light"]) pre.astro-code span {
+    color: var(--shiki-dark);
+  }
+}
+
 /* ---------- breakpoints ---------- */
 
 @media (max-width: 1080px) {
@@ -1445,6 +1670,12 @@ html[data-motion="off"]::view-transition-new(.morph) {
   .row .out li {
     grid-template-columns: 1fr;
     gap: 1px;
+  }
+
+  .term-row a {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
   }
 
   .plate,
