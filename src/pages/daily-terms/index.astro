@@ -7,7 +7,14 @@ import { profile } from "../../data/profile";
 
 const terms = (await getCollection("dailyTerms")).sort(byOldest);
 
-const months: { key: string; label: string; terms: DailyTerm[] }[] = [];
+const months: {
+  key: string;
+  label: string;
+  short: string;
+  year: number;
+  span: string;
+  terms: DailyTerm[];
+}[] = [];
 for (const term of terms) {
   const key = `${term.data.year}-${String(term.data.month).padStart(2, "0")}`;
   const last = months[months.length - 1];
@@ -16,10 +23,33 @@ for (const term of terms) {
     months.push({
       key,
       label: `${term.data.monthName} ${term.data.year}`,
+      short: term.data.monthName.slice(0, 3),
+      year: term.data.year,
+      span: "",
       terms: [term],
     });
 }
 months.reverse();
+
+// collapsed months read "day 1-30" instead of repeating the rail's count
+for (const month of months) {
+  const days = month.terms
+    .map((term) => term.data.day)
+    .filter((day) => day !== null);
+  month.span =
+    days.length === 0
+      ? `${month.terms.length} terms`
+      : Math.min(...days) === Math.max(...days)
+        ? `day ${days[0]}`
+        : `day ${Math.min(...days)}-${Math.max(...days)}`;
+}
+
+const jumpYears: { year: number; months: typeof months }[] = [];
+for (const month of months) {
+  const last = jumpYears[jumpYears.length - 1];
+  if (last?.year === month.year) last.months.push(month);
+  else jumpYears.push({ year: month.year, months: [month] });
+}
 
 const newest = terms[terms.length - 1];
 const oldest = terms[0];
@@ -38,10 +68,8 @@ const oldest = terms[0];
       <h1 class="headline">One term a day, studied in public.</h1>
       <p class="lead">
         Definitions, worked examples, and the reasoning between them, from my
-        daily engineering journal. Every entry below is synced from the
-        <a href={DAILY_TERMS_REPO} target="_blank" rel="noopener"
-          >daily-term-SE-Growth</a
-        > archive.
+        daily engineering journal. Search by name or by phrase, jump by month,
+        or scan the <a href="/daily-terms/a-z/">A-Z index</a>.
       </p>
       <div class="facts narrow">
         <div class="fact reveal">
@@ -65,37 +93,183 @@ const oldest = terms[0];
           </span>
         </div>
       </div>
-      <a class="more" href={DAILY_TERMS_REPO} target="_blank" rel="noopener">
-        Read the archive on GitHub
-      </a>
+      <form class="term-search" role="search">
+        <label class="sr-only" for="term-q">Search terms</label>
+        <input
+          id="term-q"
+          name="q"
+          type="search"
+          autocomplete="off"
+          spellcheck="false"
+          placeholder={`Search ${terms.length} terms`}
+        />
+      </form>
+      <p class="term-status" id="term-status" aria-live="polite" hidden></p>
+      <div class="more-row">
+        <a class="more" href="#jump">Jump to a month</a>
+        <a class="more" href="/daily-terms/a-z/">A-Z index</a>
+        <a class="more" href={DAILY_TERMS_REPO} target="_blank" rel="noopener">
+          Read the archive on GitHub
+        </a>
+      </div>
     </div>
   </section>
 
-  {
-    months.map((month) => (
-      <section class="section">
-        <p class="label">
-          <b>{month.label}</b>
-          {month.terms.length} terms
-        </p>
-        <div class="body">
-          <ul class="terms">
-            {month.terms.map((term) => (
-              <li class="term-row reveal">
-                <a href={termHref(term)}>
-                  <span class="t">{term.data.title}</span>
-                  <span class="meta">
-                    {term.data.day !== null
-                      ? `Day ${term.data.day}`
-                      : `Entry ${term.data.order}`}
-                  </span>
-                </a>
-                {term.data.excerpt && <p class="ex">{term.data.excerpt}</p>}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-    ))
-  }
+  <ul class="terms" id="term-results" aria-label="Search results" hidden></ul>
+
+  <div id="browse">
+    <section class="section" id="jump">
+      <p class="label">
+        <b>Jump</b>
+        {months.length} months
+      </p>
+      <div class="body">
+        <nav class="jump" aria-label="Months">
+          {
+            jumpYears.map((group) => (
+              <p class="jump-year">
+                <span>{group.year}</span>
+                {group.months.map((month) => (
+                  <a href={`#m-${month.key}`}>
+                    {month.short}
+                    <i>{month.terms.length}</i>
+                  </a>
+                ))}
+              </p>
+            ))
+          }
+        </nav>
+      </div>
+    </section>
+
+    {
+      months.map((month) => (
+        <section class="section">
+          <p class="label">
+            <b>{month.label}</b>
+            {month.terms.length} terms
+          </p>
+          <div class="body">
+            <details
+              class="month"
+              id={`m-${month.key}`}
+              open={month === months[0]}
+            >
+              <summary>{month.span}</summary>
+              <ul class="terms">
+                {month.terms.map((term) => (
+                  <li class="term-row reveal">
+                    <a href={termHref(term)}>
+                      <span class="t">{term.data.title}</span>
+                      <span class="meta">
+                        {term.data.day !== null
+                          ? `Day ${term.data.day}`
+                          : `Entry ${term.data.order}`}
+                      </span>
+                    </a>
+                    {term.data.excerpt && <p class="ex">{term.data.excerpt}</p>}
+                  </li>
+                ))}
+              </ul>
+            </details>
+          </div>
+        </section>
+      ))
+    }
+  </div>
 </Site>
+
+<script>
+  type SearchTerm = { t: string; u: string; m: string; e: string };
+
+  const input = document.querySelector<HTMLInputElement>("#term-q");
+  const results = document.querySelector<HTMLUListElement>("#term-results");
+  const status = document.querySelector<HTMLParagraphElement>("#term-status");
+  const browse = document.querySelector<HTMLElement>("#browse");
+
+  if (input && results && status && browse) {
+    let terms: SearchTerm[] = [];
+    let loaded = false;
+    const load = async () => {
+      if (loaded) return;
+      loaded = true;
+      try {
+        terms = await fetch("/daily-terms/search.json").then((response) =>
+          response.json(),
+        );
+      } catch {
+        terms = [];
+      }
+    };
+
+    // a jump to a collapsed month opens it first
+    document.querySelectorAll<HTMLAnchorElement>(".jump a").forEach((link) => {
+      link.addEventListener("click", () => {
+        const el = link.hash
+          ? document.getElementById(link.hash.slice(1))
+          : null;
+        if (el instanceof HTMLDetailsElement) el.open = true;
+      });
+    });
+
+    const render = () => {
+      const query = input.value.trim().toLowerCase();
+      const searching = query.length > 0;
+      results.hidden = !searching;
+      browse.hidden = searching;
+      status.hidden = !searching;
+      if (!searching) return;
+
+      const tokens = query.split(/\s+/);
+      const ranked = terms
+        .filter((term) => {
+          const haystack = `${term.t} ${term.e}`.toLowerCase();
+          return tokens.every((token) => haystack.includes(token));
+        })
+        .map((term) => {
+          const title = term.t.toLowerCase();
+          const rank = title.startsWith(query) ? 0 : title.includes(query) ? 1 : 2;
+          return { term, rank };
+        })
+        .sort((a, b) => a.rank - b.rank || a.term.t.localeCompare(b.term.t))
+        .slice(0, 50);
+
+      const items = ranked.map(({ term }) => {
+        const item = document.createElement("li");
+        item.className = "term-row";
+        const link = document.createElement("a");
+        link.href = term.u;
+        const title = document.createElement("span");
+        title.className = "t";
+        title.textContent = term.t;
+        const meta = document.createElement("span");
+        meta.className = "meta";
+        meta.textContent = term.m;
+        link.append(title, meta);
+        item.append(link);
+        if (term.e) {
+          const excerpt = document.createElement("p");
+          excerpt.className = "ex";
+          excerpt.textContent = term.e;
+          item.append(excerpt);
+        }
+        return item;
+      });
+      results.replaceChildren(...items);
+      status.textContent =
+        ranked.length === 0
+          ? "No matches."
+          : `${ranked.length}${ranked.length === 50 ? "+" : ""} matches`;
+    };
+
+    input.addEventListener("focus", () => {
+      void load();
+    });
+    input.addEventListener("input", () => {
+      void load().then(render);
+    });
+    input.form?.addEventListener("submit", (event) => {
+      event.preventDefault();
+    });
+  }
+</script>

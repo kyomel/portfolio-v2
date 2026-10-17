@@ -19,7 +19,7 @@ src/
   content.config.ts          # content collections (daily terms)
   content/daily-terms/       # one markdown file per term, generated - never edit
   pages/index.astro          # home
-  pages/daily-terms/         # term index + one page per term
+  pages/daily-terms/         # index with search, A-Z page, one page per term
   layouts/Base.astro         # head: favicon, OG tags, theme restore script
   components/ContactForm.tsx # only React island; builds a mailto: link
   components/PixelPortrait.astro  # pixel plate for the portrait
@@ -68,6 +68,10 @@ archive: one markdown file per term in `src/content/daily-terms/`.
   deploys through Workers Builds. `workflow_dispatch` allows manual runs.
 - Never edit `src/content/daily-terms/` by hand. Edit the archive, then re-run
   the script.
+- Findability: the index carries a lazily-loaded client-side search
+  (`/daily-terms/search.json`, titles plus excerpts, ~34 KB gzipped) behind a
+  ~2 KB inline script, a month jump rail that opens collapsed months, and an
+  A-Z page at `/daily-terms/a-z/`. No library, no framework shipped.
 
 ### Bun version
 

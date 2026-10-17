@@ -17,7 +17,8 @@ record, proof.
 /               hub: summary metrics, two doors (Build & Grow, Contribute), proof, contact
 /work/          case studies, then the record: one row per role, jobs and community programs
 /work/<slug>/   one case study: problem, decisions, outcome
-/daily-terms/   term index: facts, then one section per month, newest first
+/daily-terms/   term index: search box, month jump rail, collapsible month sections
+/daily-terms/a-z/   the whole glossary in alphabetical order, letter jumps
 /daily-terms/<y>/<m>/<slug>/   one term: derived meta, archive markdown, keep reading
 /contribute/    pull requests upstream, community repos, maintained resources
 /about/         bio, education, licenses, stack
@@ -66,7 +67,10 @@ the page, dithered rules instead of hairlines, and pixel objects drawn in code.
   support means the page navigates, lists, and reveals exactly as before.
 - Term pages render the archive markdown in `.term-body`: section labels in
   mono, code blocks on the surface colour with shiki tokens that follow the
-  page theme, and tables that scroll inside the column.
+  page theme, and tables that scroll inside the column. The term index stays
+  zero-framework: search is a ~2 KB inline script over a lazily-fetched
+  title+excerpt index, months collapse into native `details` with a jump rail
+  that opens them, and the A-Z page is pure build-time HTML.
 
 ## Rules that hold the look
 

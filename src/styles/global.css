@@ -1614,6 +1614,180 @@ pre.astro-code span {
   }
 }
 
+/* find & browse: search box, month jump rail, collapsible months, A-Z index */
+
+.term-search {
+  max-width: 420px;
+  margin: 2px 0 0;
+}
+
+.term-search input {
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
+
+.term-status {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.more-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 26px;
+  margin-top: 18px;
+}
+
+.more-row .more {
+  margin-top: 0;
+}
+
+.jump {
+  display: grid;
+  gap: 10px;
+}
+
+.jump-year {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 8px;
+  margin: 0;
+}
+
+.jump-year > span {
+  min-width: 46px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+
+.jump a {
+  padding: 2px 7px;
+  border: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.jump a i {
+  margin-left: 5px;
+  font-style: normal;
+  font-size: 9.5px;
+  color: var(--border-strong);
+}
+
+.jump a:hover,
+.jump a:focus-visible {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.month > summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 10px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  cursor: pointer;
+  list-style: none;
+}
+
+.month > summary::-webkit-details-marker {
+  display: none;
+}
+
+.month > summary::before {
+  content: "+";
+  width: 14px;
+  border: 1px solid var(--border);
+  text-align: center;
+  line-height: 1.35;
+}
+
+.month[open] > summary::before {
+  content: "-";
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.month > summary:hover {
+  color: var(--fg);
+}
+
+/* A-Z index page */
+
+.az-jump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 7px;
+  margin: 0 0 4px;
+}
+
+.az-jump a {
+  min-width: 28px;
+  padding: 3px 0;
+  border: 1px solid var(--border);
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.az-jump a:hover,
+.az-jump a:focus-visible {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.az-list {
+  margin: 0;
+  border-top: 1px solid var(--border-strong);
+}
+
+.az-list > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 4px 24px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.az-list dt {
+  font-size: 15.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.az-list dt a:hover,
+.az-list dt a:focus-visible {
+  color: var(--accent);
+}
+
+.az-list dd {
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
 /* ---------- breakpoints ---------- */
 
 @media (max-width: 1080px) {
@@ -1676,6 +1850,11 @@ pre.astro-code span {
     flex-direction: column;
     align-items: flex-start;
     gap: 3px;
+  }
+
+  .az-list > div {
+    grid-template-columns: 1fr;
+    gap: 2px;
   }
 
   .plate,

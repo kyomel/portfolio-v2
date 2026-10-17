@@ -1,0 +1,86 @@
+---
+import Site from "../../layouts/Site.astro";
+import { getCollection } from "astro:content";
+import type { DailyTerm } from "../../data/daily-terms";
+import { DAILY_TERMS_REPO, byOldest, termHref } from "../../data/daily-terms";
+import { profile } from "../../data/profile";
+
+const terms = (await getCollection("dailyTerms")).sort(byOldest);
+
+const groups = new Map<string, DailyTerm[]>();
+for (const term of terms) {
+  const first = term.data.title[0].toUpperCase();
+  const letter = /[A-Z]/.test(first) ? first : "#";
+  const list = groups.get(letter) ?? [];
+  list.push(term);
+  groups.set(letter, list);
+}
+for (const list of groups.values())
+  list.sort((a, b) => a.data.title.localeCompare(b.data.title));
+const letters = [...groups.keys()].sort((a, b) =>
+  a === "#" ? 1 : b === "#" ? -1 : a.localeCompare(b),
+);
+---
+
+<Site
+  title={`Daily Terms A-Z - ${profile.brand}`}
+  description={`All ${terms.length} daily terms in alphabetical order, from the daily engineering journal.`}
+>
+  <section class="section">
+    <p class="label">
+      <b>Daily Terms</b>
+      A-Z, {terms.length} terms
+    </p>
+    <div class="body">
+      <h1 class="headline">Every term, A to Z.</h1>
+      <p class="lead">
+        The whole journal in alphabetical order. This page is for a name you
+        already know; the <a href="/daily-terms/">month index</a> keeps the
+        chronology and carries the search.
+      </p>
+      <nav class="az-jump" aria-label="Jump to letter">
+        {
+          letters.map((letter) => (
+            <a href={`#letter-${letter === "#" ? "num" : letter.toLowerCase()}`}>
+              {letter === "#" ? "0-9" : letter}
+            </a>
+          ))
+        }
+      </nav>
+      <div class="more-row">
+        <a class="more" href="/daily-terms/">Browse by month</a>
+        <a class="more" href={DAILY_TERMS_REPO} target="_blank" rel="noopener">
+          Read the archive on GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {
+    letters.map((letter) => (
+      <section
+        class="section"
+        id={`letter-${letter === "#" ? "num" : letter.toLowerCase()}`}
+      >
+        <p class="label">
+          <b>{letter === "#" ? "0-9" : letter}</b>
+          {groups.get(letter)!.length} terms
+        </p>
+        <div class="body">
+          <dl class="az-list">
+            {groups.get(letter)!.map((term) => (
+              <div>
+                <dt>
+                  <a href={termHref(term)}>{term.data.title}</a>
+                </dt>
+                <dd>
+                  {term.data.monthName.slice(0, 3)} {term.data.year}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+    ))
+  }
+</Site>
