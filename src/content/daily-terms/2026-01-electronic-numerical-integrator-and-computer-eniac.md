@@ -28,6 +28,7 @@ Simple Analogy
 
 ENIAC vs Modern Computer:
 
+```text
 🏢 ENIAC (1945):
 ├─ Size: Entire room (1,800 sq ft)
 ├─ Weight: 30 tons (like 6 elephants)
@@ -45,6 +46,7 @@ ENIAC vs Modern Computer:
 ├─ Memory: Billions of numbers
 ├─ Programming: Download apps instantly
 └─ Cost: $1,000
+```
 
 Your phone is 200,000,000× faster and fits in your pocket!
 
@@ -55,7 +57,7 @@ The Problem
 Artillery Question:
 "If I fire a shell at 45° angle with velocity 500 m/s, where does it land?"
 
-```
+```text
 Manual Calculation (1943)
 
 Human "Computer" Process:

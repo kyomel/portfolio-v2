@@ -16,6 +16,7 @@ A Hybrid Stack is an architecture that combines two or more fundamentally differ
 
 The term appears in many contexts — but the common thread is always the same: a single technology has strengths and weaknesses, and a hybrid stack uses each technology where it excels while compensating for its weaknesses with complementary technologies.
 
+```text
 THE CORE PRINCIPLE:
 ═══════════════════════════════════════════════════════════════
 
@@ -56,12 +57,13 @@ THE CORE PRINCIPLE:
   ✅ Each technology does what it's BEST at
   ✅ Weaknesses of one are covered by another
   ✅ Overall system is stronger than any single tool
+```
 
 ### Example:
 
 A visual comparison of single-technology vs. hybrid stacks across three real-world scenarios.
 
-```
+```text
 Web App Data Storage
 ═══════════════════════════════════════════════════════════════
   THE PROBLEM: An e-commerce app needs to store:

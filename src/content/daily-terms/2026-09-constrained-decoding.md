@@ -27,10 +27,10 @@ The constraint source decides the automaton:
   FUNCTION CALLING     →  a JSON-schema constraint with a different framing
 ```
 
+```text
 NAIVE (PROMPT-ONLY) vs CONSTRAINED (MASKED):
 ════════════════════════════════════════════════════════════════════════
 
-```
   NAIVE — ask nicely in the prompt, then parse the result:
 
     prompt ──► [ MODEL ] ──► free text ──► [ parse ] ──► maybe OK
@@ -99,7 +99,7 @@ One step of the loop, spelled out:
 
 The trade-offs, stated honestly:
 
-```
+```text
   ┌──────────────────────────────────────────────────────────────┐
   │  PRO                                                         │
   │  • Valid by construction — no parse lane, no retry lane.     │
@@ -232,7 +232,7 @@ The honest part is what the constraint still does **not** buy:
      schema "minimum" / "maximum" annotations
 ```
 
-```
+```text
 THE FULL PICTURE — where each guarantee comes from
 ════════════════════════════════════════════════════════════════════════
 

@@ -26,7 +26,7 @@ AMQP (Advanced Message Queuing Protocol) is an open standard messaging protocol 
 
 Microservices Communication
 
-```
+```text
 [Order Service] ──→ [AMQP Exchange] ──→ [Payment Queue] ──→ [Payment Service]
                          │
                          ├──→ [Inventory Queue] ──→ [Inventory Service]

@@ -28,7 +28,7 @@ Commercial ERP (Enterprise Resource Planning) is a pre-built, vendor-developed s
 Manufacturing Company Operations
 Scenario: Furniture company managing daily operations
 
-```
+```text
 With Commercial ERP (Unified System):
 
 ┌─────────────────────────────────────────────────────┐

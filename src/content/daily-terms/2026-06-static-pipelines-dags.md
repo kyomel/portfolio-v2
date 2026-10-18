@@ -27,9 +27,11 @@ Acyclic: There's no "send the plated sushi back to the rice cooker" — the belt
 Static: The manager designed this layout Monday morning and it stays the same all week. Every order follows the exact same path.
 
 If a customer orders miso soup too, the pipeline forks:
+```text
 ┌→ Rolling → Plating → Customer
 Rice Cooker ──┤
 └→ Soup Pot → Plating → Customer
+```
 
 The soup and sushi prep can happen in parallel (they're independent), but both must hit "Plating" before reaching the customer. The DAG captures this without any manual coordination.
 

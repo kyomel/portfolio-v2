@@ -20,7 +20,7 @@ The problem it fixes is the price of a system call. A blocking `read()` must ent
 
 io_uring changes the direction of the control path. The kernel no longer receives one request per system call. The kernel takes requests from memory.
 
-```
+```text
 ONE SYSCALL PER OPERATION              SHARED RINGS (io_uring)
 ═══════════════════════════════        ════════════════════════════════
 
@@ -59,7 +59,7 @@ Both rings live in memory that the application maps with `io_uring_setup()` and 
 
 Every request is a **submission queue entry (SQE)** of 64 bytes. Every result is a **completion queue entry (CQE)** of 16 bytes. An SQE holds the opcode, the file descriptor, the offset, the buffer, the flags, and a `user_data` field. The kernel copies that same `user_data` into the CQE. That field is how the application knows which request finished. A build can opt into 128-byte SQEs and 32-byte CQEs.
 
-```
+```text
 ANATOMY OF THE SHARED MEMORY
 ═══════════════════════════════════════════════════════════════════
 
@@ -189,7 +189,7 @@ A platform team runs PostgreSQL 18 on Kubernetes. The storage is network-attache
 
 PostgreSQL 17 issued one blocking read at a time from the backend. PostgreSQL 18 (GA, 25 September 2025) added an asynchronous I/O subsystem for reads. The `io_method` setting selects the path, and it needs a server restart.
 
-```
+```text
 THREE READ PATHS — SAME QUERY, DIFFERENT WAIT
 ═══════════════════════════════════════════════════════════════════
 

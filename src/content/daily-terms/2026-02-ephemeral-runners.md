@@ -18,6 +18,7 @@ Simple analogy: Like using disposable plates at a party instead of washing dishe
 
 How Ephemeral Runners Work
 
+```text
 ┌─────────────────────────────────────────────────────┐
 │ Ephemeral Runner Lifecycle │
 └─────────────────────────────────────────────────────┘
@@ -61,6 +62,7 @@ Step 4: Cleanup & Destruction
 └─────────────────────────────────┘
 │
 ▼
+```
 [Done] ✅
 
 ### Example:

@@ -16,6 +16,7 @@ The Retry Budget Pattern is a resilience strategy that caps the total amount of 
 
 It's the direct answer to the retry storm problem (which we covered earlier in "Congestion Bug"): naive retries create a positive feedback loop where more failures trigger more retries, which cause more load, which cause more failures. The retry budget breaks that loop by making the system give up gracefully when retries would do more harm than good.
 
+```text
 NAIVE RETRIES vs. RETRY BUDGET:
 ═══════════════════════════════════════════════════════════════
 
@@ -64,6 +65,7 @@ NAIVE RETRIES vs. RETRY BUDGET:
     │  ✅ Load on downstream is controlled                    │
     │                                                         │
     └─────────────────────────────────────────────────────────┘
+```
 
 ### Example:
 

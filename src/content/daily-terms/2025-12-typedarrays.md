@@ -27,7 +27,7 @@ TypedArrays are array-like objects in JavaScript that provide a mechanism for re
 TypedArray
 Scenario: Storing image pixel values (0-255)
 
-```
+```text
 // TypedArray - optimized for bytes (0-255)
 const pixels = new Uint8Array([255, 128, 64, 255, 0, 128, 200, 100]);
 

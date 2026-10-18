@@ -16,6 +16,7 @@ RASP (Runtime Application Self-Protection) is a security technology that is embe
 
 The key difference from traditional security tools: RASP has context. A firewall sees requests and patterns; RASP sees what the application is actually doing with those requests — which functions it calls, what data it accesses, whether input is being used in a dangerous way. This lets RASP catch attacks that signature-based tools miss, with far fewer false positives.
 
+```text
 RASP vs. TRADITIONAL SECURITY:
 ═══════════════════════════════════════════════════════════════
 
@@ -53,12 +54,13 @@ RASP vs. TRADITIONAL SECURITY:
                            │         │ BLOCK attacks live │
                            │         └────────────────────│
                            └──────────────────────────────┘
+```
 
 ### Example:
 
 A visual comparison of how a WAF vs. RASP handles two real attacks.
 
-```
+```text
 SQL Injection Attack
 ═══════════════════════════════════════════════════════════════
   THE ATTACK: A user submits: username = "' OR '1'='1"

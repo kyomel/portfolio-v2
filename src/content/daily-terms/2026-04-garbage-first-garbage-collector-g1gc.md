@@ -21,6 +21,7 @@ G1GC was built to replace the Concurrent Mark Sweep (CMS) and Parallel GC collec
 The Fundamental Concept — Regions
 The single most important thing to understand about G1GC:
 
+```text
 Traditional GC Heap Layout:
 ┌──────────────────┬──────────────┬──────────────────────────┐
 │   Young Gen      │  Survivor    │      Old Generation       │
@@ -39,6 +40,7 @@ G1GC Heap Layout:
 ├────┼────┼────┼────┼────┼────┼────┼────┼────┼────┼────┼────┤
 │ O  │ O  │ E  │ H  │ O  │ E  │ O  │ O  │ E  │ O  │ O  │ E  │
 └────┴────┴────┴────┴────┴────┴────┴────┴────┴────┴────┴────┘
+```
 
 E = Eden region    (new objects)
 S = Survivor region (surviving young objects)

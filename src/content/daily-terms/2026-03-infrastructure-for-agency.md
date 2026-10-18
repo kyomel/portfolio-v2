@@ -27,7 +27,7 @@ Infrastructure for Agency is a concept coined by Matthew Skelton and Manuel Pais
 E-Commerce Company Adopting AI Agents
 A retail company deploys AI agents across their engineering organization. Two approaches — one without Infrastructure for Agency, one with.
 
-```
+```text
 Company applies Team Topologies as Infrastructure for Agency:
 
 Step 1: Define bounded stream-aligned teams (human + AI):

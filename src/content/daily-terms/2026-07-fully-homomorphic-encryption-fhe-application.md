@@ -16,6 +16,7 @@ Fully Homomorphic Encryption (FHE) is a revolutionary encryption technique that 
 
 Think about what that enables: a cloud server can run analytics on your medical records, calculate your taxes, or process your financial transactions — without ever seeing your raw data. The server works on ciphertext, produces an encrypted result, and only the person with the decryption key can see the actual output.
 
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │                                                              │
 │              TRADITIONAL ENCRYPTION                          │
@@ -41,6 +42,7 @@ Think about what that enables: a cloud server can run analytics on your medical 
 │                    Server NEVER sees raw data                │
 │                                                              │
 └─────────────────────────────────────────────────────────────┘
+```
 
 The "Fully" in FHE means it supports both addition AND multiplication on encrypted data — which means it can theoretically compute ANY function (since any computation can be built from these two operations). Earlier versions of homomorphic encryption were "partially" or "somewhat" homomorphic (could only do addition OR multiplication, or only a limited number of operations). FHE removes those limits.
 
@@ -48,7 +50,7 @@ The "Fully" in FHE means it supports both addition AND multiplication on encrypt
 
 APPLICATION 1: Privacy-Preserving Medical Diagnosis 🏥
 
-```
+```text
 Scenario: A hospital wants to use a cloud AI service to analyze
            patient medical records for early cancer detection.
 

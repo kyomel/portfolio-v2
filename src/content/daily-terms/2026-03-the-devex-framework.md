@@ -20,6 +20,7 @@ DevEx is not about ping-pong tables or free snacks — it is the scientific fram
 
 The Three Core Dimensions
 
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │                    DevEx Framework                          │
 │                                                             │
@@ -35,6 +36,7 @@ The Three Core Dimensions
 │              Measured across three lenses:                  │
 │      Perceptions │ Workflows/Behaviors │ KPIs/Systems       │
 └─────────────────────────────────────────────────────────────┘
+```
 
 ### Example:
 Engineering Team Applying the DevEx Framework

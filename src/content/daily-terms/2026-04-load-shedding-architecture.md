@@ -21,6 +21,7 @@ Every system has a capacity limit — and what happens beyond that limit defines
 
 What happens when traffic exceeds capacity:
 
+```text
   WITHOUT Load Shedding:
     Traffic doubles beyond capacity
          │
@@ -61,12 +62,13 @@ What happens when traffic exceeds capacity:
     50% get fast "try again" response
 
   Partial service > total collapse — always
+```
 
 ### Example:
 Streaming Platform During Live Event
 A streaming platform hosts a massive live concert — expecting 10x normal traffic. Here is how Load Shedding Architecture keeps the platform alive.
 
-```
+```text
                      Internet
                         │
                  50M concurrent users

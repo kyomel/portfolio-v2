@@ -22,10 +22,10 @@ The broken link is a **read-write anti-dependency**. Transaction 1 writes a row 
 
 Berenson and co-authors named the anomaly in 1995, in *A Critique of ANSI SQL Isolation Levels*. That paper also defined snapshot isolation and showed that its "repeatable read" does not prevent this case. Adya's formal model calls the same case **G2** and **G2-item**.
 
+```text
 LOST UPDATE vs WRITE SKEW — the isolation check only compares rows:
 ═══════════════════════════════════════════════════════════════════════════
 
-```
   LOST UPDATE — both transactions write the SAME row
   ───────────────────────────────────────────────────
 
@@ -62,10 +62,10 @@ The canonical example is the hospital on-call rule. The rule says: at least one 
 
 Only one isolation level prevents write skew: **SERIALIZABLE**. PostgreSQL implements it with Serializable Snapshot Isolation (SSI, version 9.1 and later). SSI does not track the full graph. It uses a theorem: every non-serializable SI history contains two adjacent read-write anti-dependencies, a "dangerous structure".
 
+```text
 THE SHAPE SSI HUNTS FOR — two adjacent rw anti-dependencies:
 ═══════════════════════════════════════════════════════════════════════════
 
-```
     T1 ──rw──► T2 ──rw──► T3
                 ▲
                 └─ pivot. T3 is the first transaction to commit.
@@ -104,7 +104,7 @@ The honest limits of the fix:
 
 Rina keeps Rp 300.000 in each sub-account. Her combined balance is Rp 600.000. At 20:14 two requests arrive at almost the same time: Rp 400.000 from the ATM, and Rp 400.000 from the online app. The service runs the check inside the transaction, and the isolation level is PostgreSQL's default `READ COMMITTED` with an application-level snapshot read.
 
-```
+```text
 THE INVARIANT DIES SILENTLY
 ═══════════════════════════════════════════════════════════════════════════
 

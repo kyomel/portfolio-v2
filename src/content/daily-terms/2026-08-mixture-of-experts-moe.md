@@ -16,6 +16,7 @@ Mixture of Experts (MoE) is a neural network architecture that makes a model dra
 
 The key idea is **conditional computation**: instead of every neuron firing on every token (a "dense" model), MoE routes each token to just the experts best suited to it. This is the engine behind the current generation of highly efficient LLMs — DeepSeek-V3/R1, Mixtral, Qwen, and many open models use some form of MoE to deliver frontier quality at a fraction of the inference cost. It is a direct answer to the question: *"How do we make a model smarter, without making every single request slower and more expensive?"*
 
+```text
 DENSE vs. MIXTURE OF EXPERTS:
 ═══════════════════════════════════════════════════════════════
 
@@ -64,6 +65,7 @@ DENSE vs. MIXTURE OF EXPERTS:
     │  ❌ Needs a router + balance to avoid experts   │
     │     being ignored or overloaded                │
     └─────────────────────────────────────────────────┘
+```
 
 The trick that makes MoE work: **sparsity**. "100 total, 2 active" means the model's *capacity* can grow ~50x with near-flat *compute*. That decoupling — capacity from cost — is the whole point.
 
@@ -71,7 +73,7 @@ The trick that makes MoE work: **sparsity**. "100 total, 2 active" means the mod
 
 How a token flows through an MoE LLM layer — the difference between "one big block" and "many experts + a router."
 
-```
+```text
 A model generates the sentence "The cat sat on the mat."
 Focus on the layer processing the token "sat".
 ═══════════════════════════════════════════════════════════════

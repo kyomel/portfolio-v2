@@ -37,7 +37,7 @@ maximize   E[ r(x, y) ]  -  beta * KL( pi(y|x)  ||  pi_ref(y|x) )
 
 The method comes from Christiano et al. (2017). InstructGPT (Ouyang et al., 2022) is the standard worked example. It applied the three stages to GPT-3.
 
-```
+```text
 WITHOUT vs WITH RLHF
 ═══════════════════════════════════════════════════════════════════════
 

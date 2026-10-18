@@ -18,6 +18,7 @@ It exists because of a brutal asymmetry in networks: **a lost response does not 
 
 The name comes from algebra: an operation is *idempotent* when doing it twice equals doing it once (`f(f(x)) = f(x)`). The pattern does not literally make the operation run once — it makes the **system converge on one visible result**, no matter how many times the request arrives. That distinction ("deterministic convergence", not "exactly-once") is the whole game in distributed systems.
 
+```text
 NON-IDEMPOTENT POST — same request sent twice = side effect twice:
 ════════════════════════════════════════════════════════════════════
 
@@ -69,6 +70,7 @@ IDEMPOTENT POST — same key = same logical operation:
   │  KEY IDEA: the server remembers the OUTCOME of a key, so a       │
   │  retry with that key is answered from memory, never re-executed. │
   └──────────────────────────────────────────────────────────────────┘
+```
 
 How it works in practice:
 
@@ -107,7 +109,7 @@ THE CRASH WINDOW — the store alone is not enough
 
 Kyomel's fasting-bot launches a paid "Pro" tier. Users pay through a checkout API, and the payment service is written in Go behind a load balancer. It is 11 PM, and a user on a flaky mobile connection taps "Upgrade to Pro" on a slow bus — the request reaches the server, the charge commits, but the response dies somewhere in the tunnel before coming back. The phone retries.
 
-```
+```text
 RETRY-SAFE CHECKOUT — idempotency middleware + DB backstop
 ═══════════════════════════════════════════════════════════
 

@@ -40,7 +40,7 @@ import random
 class SimpleHNSW:
     """Minimal HNSW for learning — not production-grade."""
 
-    def init(self, dim: int, M: int = 16, ef_construction: int = 200):
+    def __init__(self, dim: int, M: int = 16, ef_construction: int = 200):
         self.dim = dim
         self.M = M
         self.ef_construction = ef_construction
@@ -74,8 +74,8 @@ class SimpleHNSW:
                     dist_n = np.linalg.norm(query - self.nodes[neighbor])
                     furthest = max(result, key=lambda x: x[0])[0]
                     if dist_n < furthest or len(result) < ef:
-                        heapq.heappush(candidates, (dist_n, neighbor)) (2/4)
-result.append((dist_n, neighbor))
+                        heapq.heappush(candidates, (dist_n, neighbor))
+                        result.append((dist_n, neighbor))
                         result = heapq.nsmallest(ef, result, key=lambda x: x[0])
         return result
 
@@ -100,8 +100,8 @@ result.append((dist_n, neighbor))
             curr_entry = result[0][1]
 
         for l in range(min(level, self.max_level), -1, -1):
-            result = self._search_layer(vector, curr_entry, self.efconstruction, l)
-            neighbors = [n for , n in result[:self.M]]
+            result = self._search_layer(vector, curr_entry, self.ef_construction, l)
+            neighbors = [n for _, n in result[:self.M]]
             self.graphs[l][node_id] = set(neighbors)
             for n in neighbors:
                 self.graphs[l][n].add(node_id)
@@ -109,8 +109,8 @@ result.append((dist_n, neighbor))
                     n_neighbors = list(self.graphs[l][n])
                     n_dists = [(np.linalg.norm(self.nodes[n] - self.nodes[nn]), nn)
                                for nn in n_neighbors]
-                    ndists.sort(key=lambda x: x[0])
-                    self.graphs[l][n] = {nn for , nn in n_dists[:self.M]}
+                    n_dists.sort(key=lambda x: x[0])
+                    self.graphs[l][n] = {nn for _, nn in n_dists[:self.M]}
             curr_entry = result[0][1]
 
         if level > self.max_level:
@@ -124,7 +124,7 @@ result.append((dist_n, neighbor))
         for l in range(self.max_level, 0, -1):
             result = self._search_layer(query, curr_entry, 1, l)
             curr_entry = result[0][1]
-        result = self._search_layer(query, curr_entry, k, 0) (3/4)
-return [(dist, nid) for dist, nid in heapq.nsmallest(k, result, key=lambda x: x[0])]
+        result = self._search_layer(query, curr_entry, k, 0)
+        return [(dist, nid) for dist, nid in heapq.nsmallest(k, result, key=lambda x: x[0])]
 
 ```

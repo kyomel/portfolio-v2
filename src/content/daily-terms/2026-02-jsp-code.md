@@ -18,6 +18,7 @@ JSP code is written in .jsp files and gets compiled into servlets by the web con
 
 **Core Components of JSP Code**
 
+```text
 ┌──────────────────────────────────────────────────┐
 │ JSP File Structure │
 ├──────────────────────────────────────────────────┤
@@ -41,6 +42,7 @@ JSP code is written in .jsp files and gets compiled into servlets by the web con
 │ └─ <jsp:include> Standard operations │
 │ │
 └──────────────────────────────────────────────────┘
+```
 
 ### Example:
 

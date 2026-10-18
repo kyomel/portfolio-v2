@@ -15,6 +15,7 @@ excerpt: "Attribute-Based Access Control (ABAC) is an authorization model that g
 Attribute-Based Access Control (ABAC) is an authorization model that grants or denies access based on attributes of the user, the resource, the action, and the environment — evaluated against a set of policies written as rules. Instead of asking "who is this user?" (RBAC) or "what list is this user on?" (ACL), ABAC asks "does the full context of this request match the policy?"
 
 ABAC evaluates multiple attributes simultaneously to make a decision:
+```text
 WHAT ABAC EVALUATES:
 ═══════════════════════════════════════════════════════════════
 
@@ -62,12 +63,12 @@ WHAT ABAC EVALUATES:
                             │                                    │
                             │  → ALLOW ✅                        │
                             └──────────────────────────────────┘
+```
 
 ### Example:
 
 A visual flow of how ABAC handles a real-world scenario that would be impossible to express with roles alone.
 
-```
 A healthcare system. A doctor (Alice) needs to access a patient's medical record. The system has complex policies:
 
 - Doctors can read records of patients they are actively treating (4/12)
@@ -76,6 +77,7 @@ A healthcare system. A doctor (Alice) needs to access a patient's medical record
 - Access to mental health records requires additional clearance
 - Auditors can view access logs but not the records themselves
 - All access is logged regardless of allow/deny
+```text
 ═══════════════════════════════════════════════════════════════
   THREE ACCESS REQUESTS — THREE DIFFERENT OUTCOMES
 ═══════════════════════════════════════════════════════════════
@@ -215,3 +217,4 @@ A healthcare system. A doctor (Alice) needs to access a patient's medical record
     │          at 7:00 AM unless renewed.           │
     │                                              │
     └──────────────────────────────────────────────────────────┘
+```

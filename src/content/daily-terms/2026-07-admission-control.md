@@ -16,6 +16,7 @@ Admission Control is a gatekeeper that intercepts requests to a system before th
 
 The concept originated in Kubernetes (where Admission Controllers intercept API server requests before pod creation), but applies broadly to any system where you need to enforce "this must always be true" rules:
 
+```text
 WHERE ADMISSION CONTROL SITS:
 ═══════════════════════════════════════════════════════════════
 
@@ -59,17 +60,18 @@ WHERE ADMISSION CONTROL SITS:
   KEY: At the admission control stage, the request passes
   through AUTHENTICATION (who) and AUTHORIZATION (can they)
   before reaching ADMISSION CONTROL (should they).
+```
 
 ### Example:
 
 A visual flow of how Admission Control works in Kubernetes — showing a pod creation request going through multiple admission controllers before being accepted or rejected.
 
-```
 A developer tries to deploy a pod. The organization has three policies:
-Every pod MUST have resource limits
-Every pod MUST have a sidecar proxy injected
-NO pod can run as root(3/11)
+- Every pod MUST have resource limits
+- Every pod MUST have a sidecar proxy injected
+- NO pod can run as root(3/11)
 
+```text
 ═══════════════════════════════════════════════════════════════
   THE POD CREATION REQUEST
 ═══════════════════════════════════════════════════════════════

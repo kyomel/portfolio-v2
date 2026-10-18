@@ -28,7 +28,7 @@ Think of it like organizing a library: instead of checking every book to find on
 
 Uber - Finding Nearby Drivers
 
-```
+```text
 Problem: User requests ride in San Francisco
 - 5,000 drivers currently active in SF
 - Need to find closest 10 drivers

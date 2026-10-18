@@ -55,7 +55,7 @@ SAME TASK, MORE WORKERS — NAIVE EXPECTATION vs AMDAHL
 
 The ceiling table makes the arithmetic blunt:
 
-```
+```text
  CEILING OF THE SERIAL FRACTION (speedup at large N)
 ════════════════════════════════════════════════════════════════════════
  serial (1-p)   parallel p    N = 8     N = 64     N = ∞     half ceiling at
@@ -110,7 +110,7 @@ WHERE (1 - p) HIDES IN A 2026 SERVICE STACK
 
 Amdahl also keeps the serial fraction constant. Real systems do not. Coordination cost grows with N (chatty protocols, cache coherence, lock contention, garbage collection pauses). That extra term is the **Universal Scalability Law** (USL). It predicts something Amdahl never does: a peak, and then a fall.
 
-```
+```text
 AMDAHL FLATTENS — USL PEAKS AND FALLS
 ══════════════════════════════════════════════════════════════════════════
   speedup
@@ -178,7 +178,7 @@ SCALE-OUT PLAN vs WHAT THE LAW PAYS OUT
 
 The team does not buy 16 workers. The team fixes the serial section instead.
 
-```
+```text
 THE FIX — SHRINK (1-p), DO NOT ADD WORKERS
 ═══════════════════════════════════════════════════════════════════════════
    before   30 s serial    read the manifest per worker, commit row by row
@@ -200,7 +200,7 @@ The fix beats the extra fleet. Eight fixed workers finish in 27.3 s. Sixteen unf
 
 Tensor parallelism splits each layer of a model across GPUs. The forward pass scales well. The rest of the step does not.
 
-```
+```text
 TENSOR PARALLELISM — THE PART THAT DOES NOT SPLIT
 ═══════════════════════════════════════════════════════════════════════════
   TP = 4   [ matmul ████████████████ ]────────  all 4 GPUs busy

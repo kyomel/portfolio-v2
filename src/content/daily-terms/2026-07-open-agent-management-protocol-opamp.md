@@ -16,6 +16,7 @@ OpAMP (Open Agent Management Protocol) is a network protocol designed to remotel
 
 Before OpAMP, managing a fleet of data agents looked like this:
 
+```text
 BEFORE OpAMP — Every Agent, a Different Management Style:
 ═══════════════════════════════════════════════════════════════
 
@@ -43,6 +44,7 @@ BEFORE OpAMP — Every Agent, a Different Management Style:
   → No unified view of agent health
   → Config changes require SSH, scripts, or manual restarts
   → Zero awareness of agent version drift
+```
 
 OpAMP solves this by defining a single, standard protocol that any agent can implement, and any management server can speak. It's the "Kubernetes for agents" — not the container orchestration, but the control plane that tells agents what to do and reports back on their health.
 
@@ -50,12 +52,12 @@ OpAMP solves this by defining a single, standard protocol that any agent can imp
 
 A visual walkthrough of OpAMP's core operations — showing how it manages a fleet of OpenTelemetry Collectors across 3 scenarios.
 
-```
 An observability team manages 500 OpenTelemetry Collectors across 3 data centers. They need to:
 1. Roll out a new config to all agents
 2. Detect a misconfigured agent
 3. Upgrade agent versions
 
+```text
 ═══════════════════════════════════════════════════════════════
   SCENARIO 1: Rolling Out a New Config to 500 Agents
 ═══════════════════════════════════════════════════════════════

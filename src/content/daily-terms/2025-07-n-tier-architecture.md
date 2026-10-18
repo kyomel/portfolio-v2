@@ -24,7 +24,7 @@ N-Tier Architecture is a software design pattern that separates an application i
 
 - 3-Tier Architecture:
 
-```
+```text
 ┌─────────────────────┐
 │   Presentation      │ ← User Interface (Web/Mobile/Desktop)
 │      Tier           │
@@ -38,7 +38,7 @@ N-Tier Architecture is a software design pattern that separates an application i
 
 - 4-Tier Architecture:
 
-```
+```text
 ┌─────────────────────┐
 │   Presentation      │ ← Frontend (React, Angular)
 ├─────────────────────┤

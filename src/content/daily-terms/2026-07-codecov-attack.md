@@ -28,7 +28,7 @@ The attack is significant because:
 
 A step-by-step visual flow of how the Codecov supply chain attack unfolded — from initial compromise to mass data exfiltration.
 
-```
+```text
 ═══════════════════════════════════════════════════════════════
   Phases of the Codecov Attack
 ═══════════════════════════════════════════════════════════════

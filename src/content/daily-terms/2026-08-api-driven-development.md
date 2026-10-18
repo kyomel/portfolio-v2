@@ -16,6 +16,7 @@ API-Driven Development (also called API-first or API-centric development) is a s
 
 In API-driven development, the team defines the API contract (endpoints, request/response formats, data models) up front, and then all components — the server that implements it, the frontend that consumes it, the mobile apps, the third-party integrations — are built in parallel against that agreed contract. The API becomes the central agreement between all the pieces.
 
+```text
 TRADITIONAL vs. API-DRIVEN:
 ═══════════════════════════════════════════════════════════════
 
@@ -52,12 +53,13 @@ TRADITIONAL vs. API-DRIVEN:
   │  • The contract is the source of truth                  │
   │                                                         │
   └─────────────────────────────────────────────────────────┘
+```
 
 ### Example:
 
 A visual walkthrough of building a product API-first, with parallel teams working against the same contract.
 
-```
+```text
 A company builds a "book reviews" product — with a web app, a mobile app, and a public API for partners.
 ═══════════════════════════════════════════════════════════════
   STEP 1: DESIGN THE API CONTRACT (Before any code)

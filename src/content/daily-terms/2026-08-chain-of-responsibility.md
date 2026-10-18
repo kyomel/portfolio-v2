@@ -16,6 +16,7 @@ Chain of Responsibility is a behavioral design pattern where a request is passed
 
 The core idea: decouple the sender of a request from its receiver. The sender doesn't need to know who will process it or how — it just sends the request into the chain, and the chain figures out which handler is responsible.
 
+```text
 THE CHAIN OF RESPONSIBILITY:
 ═══════════════════════════════════════════════════════════════
 
@@ -43,12 +44,13 @@ THE CHAIN OF RESPONSIBILITY:
                                                   (unhandled —
                                                    or a default
                                                    handler)
+```
 
 ### Example:
 
 A visual walkthrough of the Chain of Responsibility pattern in three common real-world uses.
 
-```
+```text
 ═══════════════════════════════════════════════════════════════
   THE PATTERN: HTTP requests flow through middleware handlers
 ═══════════════════════════════════════════════════════════════

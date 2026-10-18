@@ -27,7 +27,7 @@ Manacher's Algorithm is a clever technique for finding the longest palindromic s
 Finding Longest Palindrome
 Scenario: Find the longest palindromic substring
 
-```
+```text
 ┌─────────────────────────────────────────────────────┐
 │        PALINDROME FINDING COMPARISON                │
 ├─────────────────────────────────────────────────────┤

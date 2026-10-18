@@ -21,7 +21,7 @@ Load distribution: Spread read traffic across multiple replicas
 
 ### Example:
 E-commerce Website
-```
+```text
 👥 Users writing reviews/orders ──► 📊 Primary DB (Writes only)
                                       │
                                       ├── Sync ──► 📖 Read Replica 1

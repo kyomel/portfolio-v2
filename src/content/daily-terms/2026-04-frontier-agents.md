@@ -20,6 +20,7 @@ Background — Why Frontier Agents Exist
 
 The Problem With Standard Agents — The Awareness Gap:
 
+```text
   Standard Agent (Level 2) workflow:
     Receive goal
         │
@@ -31,6 +32,7 @@ The Problem With Standard Agents — The Awareness Gap:
         │
         ▼
     Return result (or get stuck)
+```
 
   What standard agents CANNOT do:
     ❌ Notice their tools have changed mid-execution

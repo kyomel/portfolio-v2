@@ -16,6 +16,7 @@ Principal Drift is the gradual separation between a human authority who authoriz
 
 In traditional systems, the chain is simple: a human logs in, performs an action, and the audit log records "User X did Y at time Z." In agentic systems, the chain looks like this:
 
+```text
 TRADITIONAL SYSTEM:
 ───────────────────
 
@@ -68,14 +69,15 @@ AGENTIC SYSTEM (WITH PRINCIPAL DRIFT):
      The CRM Agent? No one knows.
   ❌ The "principal" (Alice) and the "executor" (billing-svc-v3)
      have DRIFTED apart.
+```
 
 ### Example:
 
 A flow comparison of a customer refund processed without and with principal drift safeguards.
 
-```
 SCENARIO: A customer service rep (Alice) needs to process a $50 refund for Customer Bob. Her company uses an agentic AI system.
 
+```text
 ═══════════════════════════════════════════════════════════════
   ❌ WITHOUT PRINCIPAL DRIFT GOVERNANCE
 ═══════════════════════════════════════════════════════════════

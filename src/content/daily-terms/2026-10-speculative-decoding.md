@@ -29,7 +29,7 @@ The residual step matters. Without it, the output drifts toward the intersection
 
 Leviathan et al. (2022) and Chen et al. (2023) introduced the method.
 
-```
+```text
 WITHOUT vs WITH SPECULATIVE DECODING
 ═══════════════════════════════════════════════════════════════════════════
 
@@ -115,7 +115,7 @@ The arithmetic of the speed-up is simple to state and hard to predict. Only the 
 
 Where the draft tokens come from decides the ceiling and the operational cost:
 
-```
+```text
   PROPOSAL METHOD LANDSCAPE (published 2026 figures)
   ┌────────────────────────┬───────────────────────┬──────────────────────────────┐
   │ METHOD                 │ TYPICAL GAIN          │ TRADE-OFF                    │
@@ -154,7 +154,7 @@ The go/no-go rule is the acceptance rate, measured on real traffic:
 
 The workload is friendly to speculation. Completion continues code that already sits in the prompt. Identifiers, brackets, and JSON keys repeat from the context. A cheap proposer can guess several of them before the big model speaks.
 
-```
+```text
 STEP-BY-STEP — one completion of a JSON field, K = 5 proposals
 ═══════════════════════════════════════════════════════════════════════════
 
@@ -190,7 +190,7 @@ STEP-BY-STEP — one completion of a JSON field, K = 5 proposals
 
 The team enables an EAGLE-3 speculator head for their model family, one configuration change:
 
-```
+```text
 SPECULATOR ON — vLLM, K = 5, feature-level draft from a trained head
 ────────────────────────────────────────────────────────────────────
 
@@ -217,7 +217,7 @@ SPECULATOR ON — vLLM, K = 5, feature-level draft from a trained head
 
 Then peak hours arrive, and the same setting backfires.
 
-```
+```text
 PEAK HOURS — the same GPU serves a batch, and the draft competes with it
 ═══════════════════════════════════════════════════════════════════════════
 

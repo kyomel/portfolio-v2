@@ -15,6 +15,7 @@ excerpt: "Engineering Complexity is the study of what makes software hard to bui
 Engineering Complexity is the study of what makes software hard to build, understand, and change — and the discipline of minimizing it. It distinguishes between two fundamentally different kinds of complexity: essential complexity (the inherent difficulty of the problem you're solving) and accidental complexity (the difficulty you create for yourself through poor design, wrong tools, or unnecessary abstractions).
 
 The core insight — first articulated by Fred Brooks in "No Silver Bullet" (1986) — is that essential complexity cannot be eliminated (the problem is what it is), but accidental complexity is entirely our own creation and we have an ethical obligation to minimize it.
+```text
 ═══════════════════════════════════════════════════════════════
   THE TWO KINDS OF COMPLEXITY
 ═══════════════════════════════════════════════════════════════
@@ -67,9 +68,11 @@ The core insight — first articulated by Fred Brooks in "No Silver Bullet" (198
                             └─────────────────────────────────────────────────────┘   │
                             │                                                         │
                             └─────────────────────────────────────────────────────────┘
+```
 
 ### Example:
 
+```text
 ═══════════════════════════════════════════════════════════════
   HOW COMPLEXITY KILLS ENGINEERING ORGANIZATIONS
 ═══════════════════════════════════════════════════════════════
@@ -91,6 +94,7 @@ The core insight — first articulated by Fred Brooks in "No Silver Bullet" (198
   │            Everyone is "managing complexity."            │
   │                                                         │
   └─────────────────────────────────────────────────────────┘
+```
 
   THE REALITY DISTORTION:
 

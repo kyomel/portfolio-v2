@@ -22,10 +22,10 @@ The method became the default in 2026 because it pays three bills at once:
 - **Bandwidth** — token generation is memory-bandwidth-bound, not compute-bound. Every decode step re-reads the weights and the KV cache. Fewer bytes per weight is less traffic per token, so latency falls.
 - **Compute** — modern accelerators ship FP8 and FP4 matrix units with 2× to 4× the BF16 throughput.
 
+```text
 FULL PRECISION (BF16) vs QUANTIZED (INT4, per-group scale):
 ═══════════════════════════════════════════════════════════════
 
-```
   BF16 — every value keeps its own 16-bit float
 
     0.4213 ─┐

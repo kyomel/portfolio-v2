@@ -15,6 +15,7 @@ excerpt: "Artificial Superintelligence (ASI) is a hypothetical future AI that su
 Artificial Superintelligence (ASI) is a hypothetical future AI that surpasses the best human minds in every domain — not just in narrow tasks like chess or coding, but in general intelligence: scientific creativity, strategic planning, social wisdom, emotional understanding, and the ability to recursively improve itself. ASI is not just smarter than humans at some things; it is smarter than humans at everything that intelligence enables, by a margin that may be as wide as human intelligence exceeds that of a goldfish.
 
 ASI is the third and final stage in the mainstream AI progression framework:
+```text
 THE AI PROGRESSION LADDER
 ═══════════════════════════
 
@@ -73,12 +74,13 @@ THE AI PROGRESSION LADDER
                               │  🧾 Code generation      │
                               │                          │
                               └──────────────────────────┘
+```
 
 ### Example:
 
 A visual thought experiment comparing how Human Intelligence, AGI, and ASI approach the same problem — curing a complex disease like Alzheimer's.
 
-```
+```text
 ═══════════════════════════════════════════════════════════════
   SCENARIO: "Find a cure for Alzheimer's disease."
 ═══════════════════════════════════════════════════════════════

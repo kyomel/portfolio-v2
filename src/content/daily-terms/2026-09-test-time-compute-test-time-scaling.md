@@ -18,6 +18,7 @@ For most of AI's recent history there was only ONE dial to turn. To make a model
 
 Reasoning models (o1-class and successors, which became mainstream through 2025–2026) opened a SECOND dial. Instead of answering in one shot, they generate an internal "chain of thought" — they pause, explore, backtrack, and verify — and the **length and thoroughness of that hidden thinking** is itself a knob you can turn per-request. That extra per-query reasoning is exactly what "test-time compute" means. The same model, given more compute budget at runtime, produces a measurably better answer. Quality now scales with *thinking time*, not just with parameters.
 
+```text
 CLASSICAL (training-time only) vs REASONING (test-time scaling):
 ═══════════════════════════════════════════════════════════════
 
@@ -67,6 +68,7 @@ CLASSICAL (training-time only) vs REASONING (test-time scaling):
   │  orthogonal scaling axes — training compute and            │
   │  test-time compute.                                        │
   └────────────────────────────────────────────────────────────┘
+```
 
 The dial is tunable at several levels: per deployment (a "deep reasoning" vs a "fast" model endpoint), per request (an API flag asking for more effort), or algorithmically via methods such as best-of-N sampling, majority voting (self-consistency), or letting the model search/verify before committing to an answer. The economics matter: total inference cost for hard tasks can rise sharply because a reasoning model spends many tokens thinking — so systems must decide WHEN high test-time compute is worth it.
 
@@ -74,7 +76,7 @@ The dial is tunable at several levels: per deployment (a "deep reasoning" vs a "
 
 A math tutoring app (fitting — exactly the kind of thing you'd build) where the SAME model must handle two very different requests: "what is 7×8?" (instant) vs a hard word problem that trips up one-shot answers.
 
-```
+```text
 THE SAME MODEL, ONE REQUEST, A PER-REQUEST THINKING BUDGET
 ═══════════════════════════════════════════════════════════════
 

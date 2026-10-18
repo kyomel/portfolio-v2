@@ -24,7 +24,7 @@ CoAP = Sending a postcard (just the essential message, minimal overhead, perfect
 Smart Home Temperature Sensors
 Scenario: 50 Temperature Sensors in a Building
 
-```
+```text
 ┌────────────────────────────────────────────────────┐
 │  Building IoT Network                              │
 └────────────────────────────────────────────────────┘

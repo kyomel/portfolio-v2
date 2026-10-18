@@ -18,6 +18,7 @@ Key principle: There's no "primary" or "backup" region—all regions are equal a
 
 Active-Active vs Active-Passive
 
+```text
 ┌──────────────────────────────────────────────────────┐
 │ Active-Passive (Traditional DR) │
 ├──────────────────────────────────────────────────────┤
@@ -96,12 +97,13 @@ Layer 4: Shared Services
 ├─ Centralized authentication
 ├─ Monitoring & observability
 └─ Cross-region networking (VPN/peering)
+```
 
 ### Example:
 
 E-Commerce Platform (Shopify-style)
 
-```
+```text
 Company: GlobalShop Inc.
 Requirements:
 

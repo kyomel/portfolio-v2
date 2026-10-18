@@ -21,6 +21,7 @@ At enterprise scale, content governance processes hundreds of millions of items.
 
 The Standard (Broken) Content Review Workflow:
 
+```text
   Machine classifier analyzes content
           │
           ▼
@@ -36,6 +37,7 @@ The Standard (Broken) Content Review Workflow:
           │
           ▼
   Human decision: APPROVE or REMOVE
+```
 
   Problems created in the ??????? phase:
     ❌ Inconsistency — different reviewers decide differently

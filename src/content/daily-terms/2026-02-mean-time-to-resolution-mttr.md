@@ -32,6 +32,7 @@ The acronym MTTR is confusing because it has 4 different meanings:
 
 Visual Comparison
 
+```text
 Incident Timeline:
 ═══════════════════════════════════════════════════════════
 
@@ -58,12 +59,13 @@ Incident Timeline:
 60min ────► Incident Closed & Verified
 │
 │ ◄──── Mean Time to RESOLVE (60min) ◄── Full lifecycle
+```
 
 ### Example:
 
 E-Commerce Website Crash
 
-```
+```text
 Company: ShopFast.com
 Date: Black Friday, 2:30 PM
 Impact: Checkout process down, losing $50,000/minute

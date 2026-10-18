@@ -18,7 +18,7 @@ Think of it like having a super-smart assistant who can instantly look up inform
 
 **Multi-ERP RAG Architecture**
 
-```
+```text
 ┌──────────────────────────────────────────────────────────┐
 │                    User Interface                         │
 │  "What's our inventory value across all divisions?"       │
@@ -52,7 +52,7 @@ Think of it like having a super-smart assistant who can instantly look up inform
 
 Manufacturing Company
 
-```
+```text
 Company Profile
 
 GlobalTech Manufacturing Inc.

@@ -29,10 +29,10 @@ Confidential computing moves that assumption down into the silicon. Instead of t
 
 Neither half works alone. Isolation without attestation is unverifiable (you cannot tell a genuine TEE from a simulator, or from a legitimate TEE running the attacker's image). Attestation without isolation is a notarized promise that nobody enforces. Together they are the product: **"prove what is running, then hand it secrets that even its own host cannot read."**
 
+```text
 WITHOUT CONFIDENTIAL COMPUTING — a standard VM: the host reads everything
 ════════════════════════════════════════════════════════════════════════════
 
-```
                     ┌─────────────────────────────────────────────┐
    patient data ───►│  CLOUD PROVIDER'S PHYSICAL MACHINE          │
    model weights    │                                             │
@@ -53,12 +53,10 @@ WITHOUT CONFIDENTIAL COMPUTING — a standard VM: the host reads everything
    Disk encryption and TLS BOTH END HERE — at the doorstep of the
    machine. The instant the CPU needs the bytes to compute on them,
    they are plaintext, and the operator owns the plaintext.
-```
 
 WITH CONFIDENTIAL COMPUTING — a Confidential VM (CVM) + GPU TEE
 ════════════════════════════════════════════════════════════════════════════
 
-```
                     ┌─────────────────────────────────────────────┐
    patient data ───►│  CLOUD PROVIDER'S PHYSICAL MACHINE          │
    model weights    │  (operator: untrusted, and now irrelevant)  │
@@ -99,7 +97,7 @@ The four pillars (as the Confidential Computing Consortium frames them) are a ch
 
 The 2026 hardware landscape, and why "the TEE" is usually several TEEs stitched together:
 
-```
+```text
 PROTECTING A FULL AI INFERENCE STACK — isolation at both ends of the bus
 ════════════════════════════════════════════════════════════════════════
 
@@ -137,7 +135,7 @@ What changed by 2026 — this is the reason the term moved from "compliance chec
 
 Where it fits — and where it does not:
 
-```
+```text
 ┌──────────────────────────────────────────────────────────────────────┐
 │  GOOD FIT (a TEE is doing real work)                                 │
 │  • Regulated data you cannot show the host: health, finance, gov     │
@@ -204,7 +202,7 @@ The pragmatic reading: **FHE is the stronger security claim, TEEs are the only o
 
 "KlinikSehat", a Jakarta health-tech, wants to launch an LLM triage assistant that reads patient records. Its constraints are brutal but normal: the hospital contracts forbid the cloud provider from ever accessing patient data; Indonesian personal-data law requires demonstrable technical controls; and the model is a fine-tuned, million-dollar asset that must not leak to the provider either. They refuse to build a datacenter. So they deploy a **confidential inference stack** — and the shape of the system changes from an architecture diagram into a *handshake*.
 
-```
+```text
 CONFIDENTIAL INFERENCE, END TO END — nothing readable until attestation passes
 ══════════════════════════════════════════════════════════════════════════════
 
@@ -273,7 +271,7 @@ Two design decisions carry most of the weight here, and both are easy to get wro
 
 **The verifier is not the cloud.** If KlinikSehat accepts the provider's own attestation service verdict, it has merely moved the trust, not removed it — the operator can lie about a quote it validates itself. The IETF RATS framework (RFC 9334) names the roles precisely: the **Attester** (the TEE) produces **Evidence**; the **Verifier** checks it against **Reference Values**; the **Relying Party** (KlinikSehat's KMS) decides whether to release the key. Two standard topologies fall out:
 
-```
+```text
 BACKGROUND CHECK MODEL — every relying party verifies independently
 ────────────────────────────────────────────────────────────────────
 

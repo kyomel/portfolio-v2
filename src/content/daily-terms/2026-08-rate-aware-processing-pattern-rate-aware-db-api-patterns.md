@@ -16,6 +16,7 @@ The Rate-Aware Processing Pattern is a design pattern that respects the rate lim
 
 The core tension it solves: every external system has limits (X requests per minute, Y operations per second). Ignore them and your system breaks (requests fail, throttled, or rejected). Respect them blindly and you leave performance on the table. The rate-aware pattern tracks the limit precisely so you use all of it — without exceeding it.
 
+```text
 THE PROBLEM THE PATTERN SOLVES:
 ═══════════════════════════════════════════════════════════════
 
@@ -65,12 +66,13 @@ THE PROBLEM THE PATTERN SOLVES:
     │  → No 429 failures, no retry storm, no tripled time     │
     │                                                         │
     └─────────────────────────────────────────────────────────┘
+```
 
 ### Example:
 
 A visual walkthrough of the rate-aware processing pattern applied to a real workload.
 
-```
+```text
 A system needs to process 500 customer records through an AI API that allows **60 requests per minute**.
 ═══════════════════════════════════════════════════════════════
   HOW RATE-AWARE PROCESSING WORKS (Step by Step)

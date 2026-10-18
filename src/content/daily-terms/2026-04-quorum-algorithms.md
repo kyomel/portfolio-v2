@@ -56,7 +56,7 @@ The Core Problem — Distributed Consensus:
 Distributed Database with Quorum Writes
 A financial services company runs a distributed database across 5 nodes for their account balance system. Here is how quorum algorithms protect every transaction.
 
-```
+```text
 Comparing quorum configurations for N=5 nodes:
 
   All satisfy R + W > N = 5

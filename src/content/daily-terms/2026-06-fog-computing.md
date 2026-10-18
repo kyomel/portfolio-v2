@@ -16,6 +16,7 @@ Fog Computing is a decentralized computing architecture that extends cloud capab
 
 The computing continuum looks like this:
 
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │                    CLOUD LAYER                               │
 │   Central data centers — unlimited storage, global compute   │
@@ -35,10 +36,11 @@ The computing continuum looks like this:
 │   IoT devices, sensors, actuators — data origination         │
 │   Latency: <5ms                                              │
 └─────────────────────────────────────────────────────────────┘
+```
 
 What makes fog different from edge computing:
 
-| Aspect | Fog Computing | Edge Computing | (1/8)
+| Aspect | Fog Computing | Edge Computing |
 |--------|--------------|---------------|
 | Location | Between cloud and edge (LAN/WAN gateways) | Directly on the device (sensor, camera, etc.) |
 | Processing | Aggregates, filters, and caches data from many devices | Processes data on the individual device |
@@ -108,7 +110,7 @@ class MachineSensor:
 
 class FogNode:
 
-"""Processes sensor data locally — only sends summaries to cloud."""
+    """Processes sensor data locally — only sends summaries to cloud."""
 
     def __init__(self, node_id: str, window_size: int = 10):
         self.node_id = node_id

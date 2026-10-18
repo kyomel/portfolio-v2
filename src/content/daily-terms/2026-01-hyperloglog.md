@@ -53,7 +53,7 @@ HyperLogLog Approach
 import hyperloglog
 
 # Create HyperLogLog counter (uses ~1.5 KB)
-hll = hyperloglog.HyperLogLog(0.01)  # 1% error rate
+hll = hyperloglog.HyperLogLog(0.02)  # 2% error rate
 
 # Add visitors
 hll.add("user_12345")

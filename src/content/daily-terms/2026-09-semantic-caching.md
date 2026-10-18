@@ -28,7 +28,7 @@ The cache lives at the application layer or at the AI gateway layer. The gateway
 
 Semantic caching is not the only cache in a modern LLM stack, and the three layers answer different questions. Provider **prompt caching** keys on a byte-identical prompt prefix (usually the system prompt). It reduces prefill compute and the model still generates a fresh answer, so it carries no correctness risk. **Exact-match caching** keys on the full prompt text and reuses the whole answer. **Semantic caching** keys on meaning and reuses the whole answer.
 
-```
+```text
 EXACT-MATCH + PROMPT CACHING  vs  SEMANTIC CACHING — what actually gets reused
 ═════════════════════════════════════════════════════════════════════════════
 
@@ -125,7 +125,7 @@ The first version called the model for every question. p50 latency was 900 ms pe
 
 The second version added a semantic cache at the gateway: one embedding call per question (about **8 ms**, **$0.00002**), one HNSW index, threshold **0.86** on cosine similarity, TTL 24 hours.
 
-```
+```text
 THE REQUEST PATH AFTER THE CACHE — and the numbers it produced
 ═══════════════════════════════════════════════════════════════════════
 

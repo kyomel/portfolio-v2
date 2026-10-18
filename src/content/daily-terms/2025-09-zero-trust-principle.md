@@ -18,7 +18,7 @@ he Zero Trust Principle is a cybersecurity philosophy that assumes "never trust,
 
 ### Example:
 - Google's BeyondCorp:
-```
+```text
 Employee wants to access Gmail admin panel:
 ┌─────────────────────────────────┐
 │ 1. Multi-factor authentication  │

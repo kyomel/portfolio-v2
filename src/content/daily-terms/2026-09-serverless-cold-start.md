@@ -23,7 +23,7 @@ That also tells you the three triggers — every cold start is one of these:
 
 COLD vs WARM — what actually happens on each path:
 
-```
+```text
 COLD START vs WARM START
 ════════════════════════════════════════════════════════════
 
@@ -89,7 +89,7 @@ The whole discipline boils down to one question: **is a human waiting on this ca
 
 A ticketing platform ("TiketKilat") runs a flash sale at 15:00 sharp. The checkout function is serverless, pay-per-use — and had zero traffic for the 30 minutes before the sale, so the platform reclaimed every idle environment.
 
-```
+```text
 FLASH SALE — ONE ENDPOINT, THREE MOMENTS
 ════════════════════════════════════════════════════════════
 
@@ -125,7 +125,7 @@ The fix is a direct application of the ladder. TiketKilat *knows* the sale is at
 - **Slim the bundle**: the checkout function was importing a whole SDK for one call — tree-shaken down from 41 MB to 6 MB, shaving hundreds of ms off the unavoidable cold starts.
 - **Move the non-blocking work off the hot path**: the confirmation email is pushed to a queue and processed by a separate function where a 1-second cold start is invisible — nobody is staring at it.
 
-```
+```text
 WITH THE FIX — same flash sale, same spike:
 ═══════════════════════════════════════════
   14:59:30  provisioned envs spin up (N = 30) ── paid, ready

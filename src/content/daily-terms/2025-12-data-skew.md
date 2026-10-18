@@ -24,7 +24,7 @@ Data Skew occurs when data is distributed unevenly across partitions or nodes in
 
 Imagine processing customer orders across 4 servers:
 
-```
+```text
 ❌ With Data Skew
 
 Server 1: ████████████████████████ (80,000 orders) ← Overloaded!

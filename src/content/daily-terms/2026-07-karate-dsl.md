@@ -16,6 +16,7 @@ Karate DSL is an open-source test automation framework that combines API testing
 
 The revolutionary idea behind Karate: API tests should NOT require programming knowledge. Product owners, QA analysts, and developers should all be able to read, write, and review the same test files.
 
+```text
 ═══════════════════════════════════════════════════════════════
   WHAT KARATE DSL REPLACES
 ═══════════════════════════════════════════════════════════════
@@ -71,17 +72,19 @@ The revolutionary idea behind Karate: API tests should NOT require programming k
     │  → Each line is self-explanatory English                │
     │                                                         │
     └─────────────────────────────────────────────────────────┘
+```
 
 ### Example:
 
 A visual walkthrough of a complete test scenario in Karate DSL — showing an API test, a data-driven test, and a mock server — all without writing any programming code.
 
-```
 SCENARIO: An e-commerce API. You need to test:
 1. Creating a product (POST)
 2. Looking up a product by ID (GET)
 3. Testing with MULTIPLE product types (data-driven)
 4. Mocking the payment service for isolated testing
+
+```text
 ═══════════════════════════════════════════════════════════════
   TEST 1: API CRUD — Create and Verify a Product
 ═══════════════════════════════════════════════════════════════

@@ -39,7 +39,7 @@ theta_j  =  base ^ ( -2 (j - 1) / d )        base = 10,000 by default
 
 Early pairs turn fast (short wavelength). Late pairs turn slow (long wavelength). The set forms a geometric ladder. A fast pair separates nearby tokens. A slow pair separates far tokens.
 
-```
+```text
 NAIVE ADDITIVE vs ROTARY  —  how the score sees position
 ════════════════════════════════════════════════════════════════════════════
 
@@ -122,7 +122,7 @@ THE INPUT — why 32K fails on an 8K-trained model (head_dim 128, base 10,000)
 
 The team compares three repairs on the same card and the same data:
 
-```
+```text
 THREE REPAIRS — 8,192 -> 32,768 (s = 4), same 7B model
 ════════════════════════════════════════════════════════════════════════════
 
@@ -149,7 +149,7 @@ THREE REPAIRS — 8,192 -> 32,768 (s = 4), same 7B model
 
 The result, after a short continued-training pass:
 
-```
+```text
 BEFORE / AFTER ON THE SAME 7B MODEL
 ════════════════════════════════════════════════════════════════════════════
 

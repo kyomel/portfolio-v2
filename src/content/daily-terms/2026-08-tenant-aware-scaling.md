@@ -16,6 +16,7 @@ Tenant-Aware Scaling is the ability of a multi-tenant system to scale its resour
 
 It's the operational answer to the "noisy neighbor" problem and the challenge of fairness in shared infrastructure: if one large tenant's traffic spikes, it shouldn't consume resources meant for 100 smaller tenants. Tenant-aware scaling ensures that scaling decisions account for who is causing the load, not just how much total load there is.
 
+```text
 UNIFORM SCALING vs. TENANT-AWARE SCALING:
 ═══════════════════════════════════════════════════════════════
 
@@ -56,12 +57,11 @@ UNIFORM SCALING vs. TENANT-AWARE SCALING:
   └─────────────────────────────────────────────────────────┘
 
   ─────────────────────────────────────────────────────────────
+```
 
   TENANT-AWARE SCALING (scale based on per-tenant needs):
 
 ### Example:
-
-```
 
 Analogy — The Apartment Building's Elevators 🏢
 
@@ -92,6 +92,7 @@ A visual comparison of **Uniform** vs. **Tenant-Aware** scaling during a real-wo
 
 Today is Black Friday. BigCorp's traffic spikes 10x.
 
+```text
 ═══════════════════════════════════════════════════════════════
   TENANT-AWARE SCALING TECHNIQUES
   ═══════════════════════════════════════════════════════════════

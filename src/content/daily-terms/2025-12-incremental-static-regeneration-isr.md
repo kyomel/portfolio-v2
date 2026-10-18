@@ -27,7 +27,7 @@ Incremental Static Regeneration (ISR) is a web development strategy that allows 
 News Website with 10,000 Articles
 Scenario: News site needs fast pages but updated content
 
-```
+```text
 Incremental Static Regeneration (ISR):
 
 Article updated at 2:00 PM

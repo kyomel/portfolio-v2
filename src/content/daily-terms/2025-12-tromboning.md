@@ -27,7 +27,7 @@ Tromboning is a network inefficiency where traffic takes an unnecessarily long, 
 Office Communication Problem
 Scenario: Two employees in the same building want to share a file
 
-```
+```text
 ❌ Tromboning (Inefficient):
 
 Alice (Floor 1)                    Bob (Floor 2)

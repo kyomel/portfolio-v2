@@ -29,6 +29,7 @@ A Correlation ID is that tracking number — for every single request inside you
 
 How It Works
 
+```text
 Client Service A Service B Service C
 │ │ │ │
 │ GET /order/42 │ │ │
@@ -48,6 +49,7 @@ Client Service A Service B Service C
 │ Every log line, every message, every DB row stamped with: "abc" │
 │ Search "abc" → full timeline instantly │
 └──────────────────────────────────────────────────────────────────────┘
+```
 
 ### Example:
 

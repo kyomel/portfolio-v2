@@ -35,7 +35,7 @@ Technology Speed Use Case Cost
 
 Video Streaming Platform
 
-```
+```text
 The Problem
 You need to serve 4K video to 100 million concurrent users with:
 

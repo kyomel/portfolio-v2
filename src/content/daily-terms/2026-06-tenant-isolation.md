@@ -85,7 +85,7 @@ class InsecureTaskService:
 # ═══════════════════════════════════════════════
 
 class SecureTaskService:
-"""Every query is scoped to the current tenant."""
+    """Every query is scoped to the current tenant."""
 
     def __init__(self, current_tenant_id: str):
         # Injected at the start of every request (from auth token)

@@ -40,7 +40,7 @@ A naive attention kernel walks the N x N matrix through HBM several times: write
 
 FlashAttention removes the matrix instead of compressing it:
 
-```
+```text
 NAIVE ATTENTION (materialize)  vs  FLASHATTENTION (tile + fuse)
 ═══════════════════════════════════════════════════════════════════════
 
@@ -102,7 +102,7 @@ Adoption is the reason this term is worth knowing: the flash kernel is the defau
 
 A coding agent sends one request with a 120,000-token repository context to a single 80 GB GPU. This is a prefill-heavy request: the model must run attention over all 120,000 tokens at once. Compare the two paths.
 
-```
+```text
 ONE 120K-TOKEN PREFILL REQUEST — WHERE THE MEMORY GOES
 ═══════════════════════════════════════════════════════════════════════
 
@@ -130,7 +130,7 @@ ONE 120K-TOKEN PREFILL REQUEST — WHERE THE MEMORY GOES
 
 The execution path, block by block:
 
-```
+```text
 PREFILL PATH — 120K tokens, one Q block at a time
 ═══════════════════════════════════════════════════════════════════════
 

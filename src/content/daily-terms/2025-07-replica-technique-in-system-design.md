@@ -30,7 +30,7 @@ Types of Replication:
 
 E-commerce Database Replication(scenario: Amazon-like online store)
 
-```
+```text
 ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
 │   Master    │    │   Slave 1   │    │   Slave 2   │
 │  Database   │───▶│  (US East)  │    │  (Europe)   │

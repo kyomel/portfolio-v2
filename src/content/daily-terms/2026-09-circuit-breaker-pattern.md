@@ -44,7 +44,7 @@ So the design problem is: **how do I stop paying the cost of waiting, when I alr
 
 The comparative picture:
 
-```
+```text
 WITHOUT A CIRCUIT BREAKER  vs  WITH A CIRCUIT BREAKER
 (retry + timeout only)         (retry + timeout + breaker)
 ═══════════════════════════    ═══════════════════════════════════
@@ -75,7 +75,7 @@ WITHOUT A CIRCUIT BREAKER  vs  WITH A CIRCUIT BREAKER
 
 The state machine is the core of the pattern, and it has three normal states — plus, importantly, **edges that are deliberately missing**:
 
-```
+```text
 CLOSED  ──failure rate ≥ threshold──►  OPEN
 OPEN    ──waitDurationInOpenState──►   HALF_OPEN
 HALF_OPEN ──probes succeed──► CLOSED
@@ -145,7 +145,7 @@ There is a deeper version of that trap, and it is the one that should make you c
 
 So the honest pro/con ledger:
 
-```
+```text
 ┌────────────────────────────────────────────────────────────────┐
 │  ✅ WHAT YOU GET                                               │
 │  • Converts "wait 10 s, then fail" into "fail in 0 ms"         │
@@ -240,7 +240,7 @@ breaker "exercise-catalog":
                    payment breaker)
 ```
 
-```
+```text
 WITH THE BREAKER — the same vendor outage, six minutes later
 ════════════════════════════════════════════════════════════════════
 

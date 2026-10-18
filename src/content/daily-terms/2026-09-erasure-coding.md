@@ -22,7 +22,7 @@ Replication keeps whole copies. Three-way replication keeps 3 complete copies an
 
 One rule decides whether the code works in practice: **the fragments must sit in different failure domains.** Spread them across drives first, then nodes, then racks. A code that puts 16 fragments on 16 drives in one rack survives 4 drive failures and 0 rack failures.
 
-```
+```text
 SCHEME A - THREE-WAY REPLICATION            SCHEME B - ERASURE CODING RS(12,4)
 ════════════════════════════════════════    ══════════════════════════════════════════
 
@@ -86,7 +86,7 @@ SCHEME A - THREE-WAY REPLICATION            SCHEME B - ERASURE CODING RS(12,4)
 
 The numbers below come from one simple model. Each fragment fails alone with yearly probability p = 0.01. Data loss needs more than m failures in one stripe. Measure the trade by overhead and by durability:
 
-```
+```text
   SCHEME           OVERHEAD   LOSSES OK   P(STRIPE LOSS / YEAR)   NINES
   ─────────────────────────────────────────────────────────────────────────
   3x replication    3.000x       2 of 3          1.0e-06           6.0
@@ -108,7 +108,7 @@ Wider stripes lower overhead, and they raise the repair cost. Reed-Solomon repai
 
 Locally Repairable Codes (LRC) attack that bill. Azure published the classic layout LRC(12,2,2): 12 data fragments, 2 local parities, 2 global parities, 16 fragments in total. The data splits into 2 groups of 6. Each group carries its own parity. A single loss inside a group comes back from the other 6 fragments of that group, not from all 12.
 
-```
+```text
   RS(12,4) - REPAIR READS EVERY DATA FRAGMENT
   ─────────────────────────────────────────────────────────────────────────────
    ┌────┬────┬────┬────┬────┬────┬────┬────┬────┬────┬────┬────┬────┬────┬────┬────┐
@@ -137,7 +137,7 @@ The first design is three-way replication. Usable capacity is 341 TiB. The team 
 
 The second design splits the lake into two pools. Small metadata and the Postgres WAL stay on replicated storage with 3 copies. Dataset shards and checkpoints move to an erasure-coded pool with RS(12,4). Usable capacity for the coded pool is 768 TiB, and the pool tolerates 4 drive failures.
 
-```
+```text
 CEPH - ONE POOL, ONE PROFILE, FOUR FAILURE DOMAINS
 ═══════════════════════════════════════════════════════════════════════════════
 
@@ -158,7 +158,7 @@ CEPH - ONE POOL, ONE PROFILE, FOUR FAILURE DOMAINS
 
 Then a drive fails at 02:14. The stripe holds 15 of 16 fragments, so reads still work. The read path rebuilds the missing fragment in RAM, and the caller sees more latency, not an error.
 
-```
+```text
 DRIVE d07 FAILS - DEGRADED READ PATH AND BACKGROUND HEAL PATH
 ═══════════════════════════════════════════════════════════════════════════════
 

@@ -16,6 +16,7 @@ excerpt: "\"Green Unit Tests\" is a critical concept about the false sense of se
 
 The term was popularized by a June 2026 HackerNoon article describing how a tool (postman2pytest) shipped as "Production/Stable" v1.0 with a fully green test suite — only for a fuzzer (property-based testing) to immediately find 5 categories of bugs that the green tests had completely missed.
 
+```text
 ═══════════════════════════════════════════════════════════════
   THE COMFORT BLANKET
 ═══════════════════════════════════════════════════════════════
@@ -64,13 +65,14 @@ The term was popularized by a June 2026 HackerNoon article describing how a tool
     │            — Mikhail Golikov, HackerNoon, June 2026      │
     │                                                         │
     └─────────────────────────────────────────────────────────┘
+```
 
 ### Example:
 
 A visual walkthrough of how a tool with a 100% green test suite shipped to production — and immediately failed on real-world input.
 
-```
 A developer builds postman2pytest — a tool that converts Postman API collections (JSON files) into pytest test suites. The test suite is 100% green. The tool is released as v1.0 "Production/Stable."
+```text
 ═══════════════════════════════════════════════════════════════
   THE GREEN TEST SUITE (What the developer tested)
 ═══════════════════════════════════════════════════════════════

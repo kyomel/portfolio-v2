@@ -20,7 +20,7 @@ The algorithm is greedy. One rule controls the whole run: **always work on the u
 
 That rule needs one condition. All edge weights must be zero or positive. With a positive weight, no later path can reach a settled node with a smaller cost. The proof is short. Every remaining path travels through the frontier. The frontier holds costs that are already larger than the settled cost. Any addition makes them larger again. A negative weight breaks that argument, and the algorithm returns a wrong answer.
 
-```
+```text
 THE THREE REGIONS DURING A RUN
 ═══════════════════════════════════════════════════════════════════
   ┌─────────────────┐   relax an edge   ┌──────────────────┐
@@ -66,7 +66,7 @@ The greedy rule gives a second property. The pop order is already sorted by cost
 
 The naive alternative is BFS. BFS counts hops, not cost. On an unweighted graph the two ideas agree. On a weighted graph they disagree at the first cheap detour.
 
-```
+```text
 FEWEST HOPS (BFS)  vs  LOWEST COST (DIJKSTRA)
 ══════════════════════════════════════════════════════════════════════
  EDGES, weight in minutes
@@ -88,7 +88,7 @@ FEWEST HOPS (BFS)  vs  LOWEST COST (DIJKSTRA)
 
 The data structure changes the running time. Nothing else does.
 
-```
+```text
  TIME COMPLEXITY BY PRIORITY QUEUE
 ═════════════════════════════════════════════════════════════════════
  STRUCTURE          TIME                  BEST WHEN
@@ -104,7 +104,7 @@ The data structure changes the running time. Nothing else does.
 
 **The negative weight boundary.** One negative edge is enough to break the result.
 
-```
+```text
 WHY NEGATIVE WEIGHTS BREAK THE GREEDY RULE
 ═══════════════════════════════════════════════════════════════════
    edges:  S -> A = 2      S -> B = 5      B -> A = -4
@@ -172,7 +172,7 @@ Honest status in 2026: this is a theory result. Production code still runs Dijks
 
 A delivery platform routes one courier from warehouse `W` to customer `D`. Edge weights are travel minutes. The graph has one trap: the shortest hop route is not the fastest route.
 
-```
+```text
 THE INPUT GRAPH (minutes, directed)
 ═══════════════════════════════════════════════════════════════════════
         W ──4──▶ A ──5──▶ C ──3──▶ D
@@ -205,7 +205,7 @@ Two relaxations changed a value that was already in the heap. Step 2 found a che
 
 The engine reconstructs the path from the `prev` pointer of each node.
 
-```
+```text
 THE TWO ROUTES THE ENGINE COULD RETURN
 ═══════════════════════════════════════════════════════════════════════
  BFS route      W ─▶ A ─▶ C ─▶ D            3 hops     12 minutes

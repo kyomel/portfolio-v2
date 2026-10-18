@@ -24,7 +24,7 @@ The reason CRDTs work is algebra, not consensus. The merge function must obey th
 
 These three laws define a **join-semilattice**. That is the whole trick. The network may drop, duplicate, delay, or reorder messages. The state still converges. No lock, no leader, no two-phase commit, no quorum.
 
-```
+```text
 NAIVE REPLICATION  vs  CRDT — two replicas edit the same data, no coordinator
 ════════════════════════════════════════════════════════════════════════════════
 
@@ -182,7 +182,7 @@ A FASTING BOT WITHOUT CRDT — one replay, one late message, two wrong numbers
 
 The same two behaviours against a CRDT-backed log:
 
-```
+```text
 THE SAME TWO EVENTS WITH A CRDT — replay and late arrival are absorbed
 ══════════════════════════════════════════════════════════════════════════════
 

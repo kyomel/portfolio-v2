@@ -18,6 +18,7 @@ Think of it like scaffolding left on a building after construction is done. It s
 
 How It Happens
 
+```text
   Dev adds a flag: if (newCheckoutFlow) { ... }
         │
         ▼
@@ -30,6 +31,7 @@ How It Happens
   A year later: 2 branches, 4x tests, no one remembers which is "real"
         ▼
   💸 That's flag debt.
+```
 
 ### Example:
 

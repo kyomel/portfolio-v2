@@ -27,7 +27,7 @@ Profile-First System is an architecture approach where user profiles serve as th
 Music Streaming Platform
 Scenario: Building a music streaming service
 
-```
+```text
 Profile-First System:
 
 Build Profile Foundation First:

@@ -31,7 +31,7 @@ Why slopsquatting is different and more dangerous:
 
  A slopsquatting operation targeted 47 popular open-source projects simultaneously. The attacker registered domains like prisma-orm.io, tailwind-css.org, zod-schema.com, and set up AI-generated documentation sites for each. The fake sites outranked the real documentation on Google for 3 months. The attacker's estimated profit from malicious npm packages and ad revenue: ~$300,000 before the operation was disrupted. The attack cost per site: ~$12.
 
- ```
+```text
  ═══════════════════════════════════════════════════════════════
    THE SCALE PROBLEM
  ═══════════════════════════════════════════════════════════════
@@ -55,6 +55,6 @@ Why slopsquatting is different and more dangerous:
                                                   100 more exist)
  
    ROI for attacker    Low (ransom model)        High (malware + ads + SEO)
- ```
+```
 
  ---

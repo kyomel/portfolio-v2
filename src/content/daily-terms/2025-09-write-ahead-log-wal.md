@@ -50,7 +50,7 @@ Standby Server:
 
 WAL in Distributed Systems:
 
-```
+```text
 ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
 │   Client    │    │   Node 1    │    │   Node 2    │
 └─────────────┘    └─────────────┘    └─────────────┘

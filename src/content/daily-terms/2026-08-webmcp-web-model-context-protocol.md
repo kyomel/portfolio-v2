@@ -15,6 +15,7 @@ excerpt: "WebMCP is a proposed web standard (from Chrome and the W3C Web Machine
 WebMCP is a proposed web standard (from Chrome and the W3C Web Machine Learning community group) that lets websites expose structured, machine-readable tools for AI agents — so an agent knows exactly how to interact with a page instead of guessing. It extends the Model Context Protocol (MCP) from the server side to the client side, inside the browser, treating each web page as an "in-page MCP server" that implements its tools in JavaScript and HTML rather than on a backend.
 
 The core problem WebMCP solves is actuation reliability. When an AI agent browses a website, it normally "reads" the page and tries to figure out what each button, field, and link does by looking at it — then simulates clicks and typing (actuation). This is slow, error-prone, and leaves every step open to interpretation. WebMCP removes the guessing: the website declares the purpose of its features, and the agent uses them correctly.
+```text
 TRADITIONAL AGENT ACTUATION vs. WEBMCP:
 ═══════════════════════════════════════════════════════════════
 
@@ -65,6 +66,7 @@ TRADITIONAL AGENT ACTUATION vs. WEBMCP:
     │  The agent uses the page's OWN logic — no guessing.     │
     │                                                         │
     └─────────────────────────────────────────────────────────┘
+```
 
 ### Example:
 

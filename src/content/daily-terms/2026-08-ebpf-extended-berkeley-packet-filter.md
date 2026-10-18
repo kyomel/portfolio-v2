@@ -16,6 +16,7 @@ eBPF is a Linux kernel technology that lets you run sandboxed programs inside th
 
 The name is historical (it evolved from the original BPF packet filter used for network packet filtering). But modern eBPF is far broader: it's a safe, general-purpose execution environment inside the kernel, used for observability, performance tracing, network monitoring, security enforcement, and more.
 
+```text
 WHAT eBPF DOES — THE CORE IDEA:
 ═══════════════════════════════════════════════════════════════
 
@@ -54,12 +55,13 @@ WHAT eBPF DOES — THE CORE IDEA:
   │  • Can attach/remove programs on a LIVE running system  │
   │                                                         │
     └─────────────────────────────────────────────────────────┘
+```
 
 ### Example:
 
 A visual walkthrough of how eBPF is used for three major applications — observability, networking, and security.
 
-```
+```text
 ═══════════════════════════════════════════════════════════════
   THE GOAL: See every HTTP request a container makes,
   with latency, without modifying the app.

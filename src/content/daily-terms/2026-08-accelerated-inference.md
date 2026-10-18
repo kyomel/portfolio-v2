@@ -16,6 +16,7 @@ Accelerated Inference is the use of specialized hardware and optimization techni
 
 At its core, inference (the model "running" to make a prediction) is mostly matrix multiplication — multiplying huge arrays of numbers billions of times. CPUs are great at sequential, varied tasks but have limited cores for parallel math. Accelerators (GPUs, TPUs, NPUs) have thousands of cores that do the same math simultaneously — making them dramatically faster for the parallel nature of neural networks.
 
+```text
 CPU vs. ACCELERATOR FOR INFERENCE:
 ═══════════════════════════════════════════════════════════════
 
@@ -40,7 +41,7 @@ CPU vs. ACCELERATOR FOR INFERENCE:
 
   ┌─────────────────────────────────────────────────────────┐
   │                                                         │
-  │  GPU (Graphics Processing Unit) — Parallel accelerator   │
+  │  GPU (Graphics Processing Unit) — Parallel accelerator  │
   │  ───────────────────────────────────────────            │
   │                                                         │
   │  • THOUSANDS of cores (thousands to tens of thousands)  │
@@ -48,21 +49,22 @@ CPU vs. ACCELERATOR FOR INFERENCE:
   │    thousands of matrix operations SIMULTANEOUSLY        │
   │  • Perfect for the parallel math of neural networks     │
   │                                                         │
-  │  [C][C][C][C][C][C][C][C][C][C][C][C][C][C][C][C][C]   │
-  │  [C][C][C][C][C][C][C][C][C][C][C][C][C][C][C][C][C]   │
-  │  [C][C][C][C][C][C][C][C][C][C][C][C][C][C][C][C][C]   │
-  │  (thousands of cores)                                  │
-    │                                                         │
-    │  A model might take 10-50 milliseconds per prediction   │
-    │  → 50-100x faster than CPU                              │
-    │                                                         │
-    └─────────────────────────────────────────────────────────┘
+  │  [C][C][C][C][C][C][C][C][C][C][C][C][C][C][C][C][C]    │
+  │  [C][C][C][C][C][C][C][C][C][C][C][C][C][C][C][C][C]    │
+  │  [C][C][C][C][C][C][C][C][C][C][C][C][C][C][C][C][C]    │
+  │  (thousands of cores)                                   │
+  │                                                         │
+  │  A model might take 10-50 milliseconds per prediction   │
+  │  → 50-100x faster than CPU                              │
+  │                                                         │
+  └─────────────────────────────────────────────────────────┘
+```
 
 ### Example:
 
 A visual walkthrough of accelerated inference in action — from server GPUs to on-device NPUs, and the optimization techniques involved.
 
-```
+```text
 Server-Side Inference (LLMs / Image Models)
 ═══════════════════════════════════════════════════════════════
   HOW A CLOUD LLM SERVES MILLIONS OF REQUESTS

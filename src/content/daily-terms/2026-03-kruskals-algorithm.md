@@ -32,7 +32,7 @@ Key Concepts First
 
 Building the MST step by step
 
-```
+```text
 Step 1 — Add C─E (weight 1)        Step 2 — Add A─C (weight 2)
     A       B                           A       B
             │                           │

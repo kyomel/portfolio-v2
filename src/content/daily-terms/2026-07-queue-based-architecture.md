@@ -15,6 +15,8 @@ excerpt: "Queue-Based Architecture is a design pattern where services communicat
 Queue-Based Architecture is a design pattern where services communicate asynchronously through an intermediary message queue, instead of calling each other synchronously and waiting for a response. A producer (sender) places a message into a queue, and a consumer (receiver) picks it up and processes it when ready. The two sides are decoupled — they don't need to know about each other, don't need to be running at the same time, and don't need to scale together.
 
 It's the architectural answer to a fundamental problem: what happens when the rate of work being produced exceeds the rate at which it can be processed?
+
+```text
 THE CORE IDEA:
 ═══════════════════════════════════════════════════════════════
 
@@ -44,13 +46,15 @@ THE CORE IDEA:
   If consumer is down → message waits safely in queue.
   If 10,000 messages arrive → queue buffers them.
   Producer and consumer can be up at DIFFERENT times.
+```
 
 ### Example:
 
 A visual walkthrough of how a queue-based architecture handles four real-world scenarios — showing why the queue is the essential glue.
 
-```
 An e-commerce platform. When a customer places an order, multiple things need to happen: email confirmation, inventory deduction, payment processing, analytics tracking. These are processed through a message queue.
+
+```text
 ═══════════════════════════════════════════════════════════════
   THE ORDER FLOW WITH A QUEUE
 ═══════════════════════════════════════════════════════════════

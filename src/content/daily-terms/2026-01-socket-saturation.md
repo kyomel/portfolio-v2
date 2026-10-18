@@ -26,7 +26,7 @@ Think of it like a highway: even if individual lanes (cores) have capacity, the 
 
 **What Gets Saturated?**
 
-```
+```text
 ┌─────────────────────────────────────────────┐
 │         CPU Socket (e.g., Intel Xeon)       │
 ├─────────────────────────────────────────────┤

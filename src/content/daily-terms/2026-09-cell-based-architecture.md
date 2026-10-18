@@ -23,6 +23,7 @@ The failure modes cells exist for are the ones redundancy does *not* fix. "A mac
 
 In a single shared pool all of these are fleet-wide events. AWS's Well-Architected guidance frames the design question better than any paraphrase: *"Is it better for 100% of customers to experience a 5% failure rate, or 5% of customers to experience a 100% failure rate?"* Cell-based architecture answers **the second, on purpose** — it trades a small, *bounded*, *known* group of users being fully degraded for the guarantee that nobody else notices. That bounded number is called the **blast radius**, and shrinking it is the entire point.
 
+```text
 SINGLE SHARED STACK vs CELL-BASED — where the blast radius is measured:
 ═══════════════════════════════════════════════════════════════════════
 
@@ -89,6 +90,7 @@ SINGLE SHARED STACK vs CELL-BASED — where the blast radius is measured:
   │  Cells are not "more servers"; they are a smaller number of   │
   │  users who can be sacrificed to keep the rest correct.        │
   └────────────────────────────────────────────────────────────────┘
+```
 
 **The three components.** Every cell-based system decomposes into exactly these, and getting the boundaries between them right is the whole design:
 
@@ -96,7 +98,7 @@ SINGLE SHARED STACK vs CELL-BASED — where the blast radius is measured:
 2. **The cell router** — the hardest component, because it is the *one thing that cannot be cellularized*. It is the only element holding shared state about all cells, so it must be brutally thin, stateless, deterministic, and unavailable-free: ideally a hash of the partition key against a mapping that is cached in-process and replicated (S3/CDN/Route 53/API-Gateway routing rules/edge worker), **never a call to a live control plane on the request path**. Two rules matter more than any implementation detail: the mapping must be **deterministic** (same tenant → same cell, always; hash the *tenant*, never the *request*, or you lose data locality and cache hits and start splitting a tenant's writes across cells), and the router must be **statically stable** — it must keep serving correctly with the control plane completely down.
 3. **The control plane** — everything that *manages* the fleet rather than serving traffic: provisioning cells, maintaining the tenant→cell mapping, deploying code, migrating tenants between cells, running migrations. It is deliberately **off the request path**. Cells move the deployment problem from "shipping to production" to "shipping to N productions", which is exactly why the control plane has to be fully automated: if creating cell 51 involves a manual step, you do not have a cell-based architecture, you have N snowflakes.
 
-```
+```text
 CONTROL PLANE vs DATA PLANE — static stability is the requirement
 ═══════════════════════════════════════════════════════════════════
 
@@ -156,7 +158,7 @@ Kyomel's **fasting-bot** outgrew the friend group. What started as one WhatsApp 
 
 Then **KomunitasGymBesar** joined. One workspace, 40,000 members, and a leaderboard feature that runs `SELECT member, COUNT(*) FROM fasting_logs ... GROUP BY member ORDER BY count DESC LIMIT 100` plus an "export my streak" CSV for every member. At **04:12 WIB** it saturated the shared connection pool, and 12,000 *unrelated* communities learned about it instantly.
 
-```
+```text
 BEFORE — 04:12 WIB, ONE POISON PILL, EVERY COMMUNITY HIT
 ═══════════════════════════════════════════════════════════════════
 
@@ -194,7 +196,7 @@ BEFORE — 04:12 WIB, ONE POISON PILL, EVERY COMMUNITY HIT
 
 They rebuilt it as a **cell-based architecture** — but with the same 12 app hosts they already ran. The stack was regrouped into **8 cells**, each cell being 1–2 app hosts plus its own small Postgres, its own Redis, and its own worker pool, with a stateless **cell router** at the WhatsApp gateway assigning every workspace deterministically via `hash(workspace_id) % 8`.
 
-```
+```text
 AFTER — same poison pill, same bad deploy: 1/8 of the fleet
 ═══════════════════════════════════════════════════════════════════
 

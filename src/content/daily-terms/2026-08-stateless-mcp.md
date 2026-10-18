@@ -18,6 +18,7 @@ MCP (Model Context Protocol) is the open standard that connects AI models to ext
 
 The concept comes from the same principle as stateless HTTP, stateless functions, and stateless services: each request contains everything the server needs to process it.
 
+```text
 STATEFUL vs. STATELESS MCP SERVER:
 ═══════════════════════════════════════════════════════════════
 
@@ -65,12 +66,13 @@ STATEFUL vs. STATELESS MCP SERVER:
     │  CONS: client must send ALL context every time,      │
     │        no built-in continuity                        │
     └─────────────────────────────────────────────────────┘
+```
 
 ### Example:
 
 A visual comparison of how Stateless vs. Stateful MCP servers handle the same two consecutive requests from an AI assistant.
 
-```
+```text
 An AI coding assistant needs to (1) look up a user's GitHub repositories, then (2) open a specific file from those results.
 ═══════════════════════════════════════════════════════════════
   STATEFUL MCP SERVER (Remembers between calls)

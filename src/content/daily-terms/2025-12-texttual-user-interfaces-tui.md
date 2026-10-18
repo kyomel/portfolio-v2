@@ -20,7 +20,7 @@ Key feature: Interactive text-based navigation using keyboard, not mouse clicks 
 
 Textual User Interface (TUI) - Organized visual layout:
 
-```
+```text
 ┌─────────── File Manager ───────────┐
 │ ┌─ Folders ─┐  ┌─── Files ───────┐│
 │ │ Documents │  │ → report.pdf    ││

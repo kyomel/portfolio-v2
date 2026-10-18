@@ -15,7 +15,7 @@ Tail Latency refers to the slowest response times in a system - the "long tail" 
 
 **Why It's Called "Tail" Latency**
 In a graph of response times, most requests cluster on the left (fast), but some stretch out to the right forming a "tail" of slow requests.
-```
+```text
 Number of Requests
      ▲
      │    📊
@@ -29,7 +29,7 @@ Number of Requests
 
 ### Example:
 - Amazon's Discovery
-```
+```text
 Tail latency increase of +100ms = -1% in sales
 Why? That 1% of slow users represents:
 ├─ 1 million daily visitors

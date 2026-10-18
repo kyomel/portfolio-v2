@@ -32,7 +32,7 @@ Hedging attacks that tail directly. The client sends the duplicate only when the
 
 That independence is the whole reason hedging works. Hedging does not make one backend faster. It makes the slow path rare enough to ignore.
 
-```
+```text
 SEQUENTIAL RETRY (reactive)                HEDGED REQUEST (proactive)
 ════════════════════════════════════════   ════════════════════════════════════
 
@@ -76,7 +76,7 @@ SEQUENTIAL RETRY (reactive)                HEDGED REQUEST (proactive)
 
 The hedge delay is the one number that decides the cost. The table below shows the trade. The numbers are the share of calls that cross the threshold.
 
-```
+```text
   HEDGE DELAY            EXTRA LOAD          WHAT IT REMOVES
   ────────────────────────────────────────────────────────────────────
   no delay (all at once) 100%                nothing. This is plain
@@ -153,7 +153,7 @@ The rules of the gRPC policy matter for the design:
 
 The flow after the change looks like this:
 
-```
+```text
 PRODUCT PAGE CALL — gRPC HEDGING ON catalog.v1.Catalog/GetItem
 ═══════════════════════════════════════════════════════════════════════
 

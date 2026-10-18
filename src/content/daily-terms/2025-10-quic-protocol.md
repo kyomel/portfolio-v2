@@ -37,7 +37,7 @@ Problem: Website loading is slow due to multiple round trips and connection setu
 
 Traditional HTTP/2 over TCP+TLS (slow):
 
-```
+```text
 Client ────────────────────────── Server
    │                                │
    │ TCP SYN                        │
@@ -64,7 +64,7 @@ Total: 5 round trips before data transfer
 
 HTTP/3 over QUIC (fast):
 
-```
+```text
 Client ────────────────────────── Server
    │                                │
    │ QUIC Initial (ClientHello +    │

@@ -96,7 +96,7 @@ def load_approved_spec(spec_path: str) -> Set[str]:
 
 def get_live_traffic_paths() -> Set[str]:
 
-"""Query the API gateway / WAF for paths receiving real traffic
+    """Query the API gateway / WAF for paths receiving real traffic
        in the last rolling window (e.g., last 24 hours).
     """
     # In real life: query Kong / AWS API Gateway / Envoy access logs

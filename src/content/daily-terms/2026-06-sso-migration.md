@@ -18,6 +18,7 @@ Think of it like changing the locks on every door in a massive office building w
 
 The Core Challenge
 
+```text
                     ┌─────────────────────┐
     Current state:  │       ONE IDP       │   ← e.g., Okta
                     │  (all apps trust it) │
@@ -28,6 +29,7 @@ The Core Challenge
      ┌────────┐      ┌────────┐      ┌────────┐
      │ GitHub │      │ Jira   │      │  Zoom  │   ...and 80+ more apps
      └────────┘      └────────┘      └────────┘
+```
 
 You need to point every single arrow to a new Identity Provider (IdP) — without those apps ever trusting a broken or missing identity.
 

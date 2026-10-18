@@ -60,8 +60,8 @@ class DiagnosisReport:
 ─── Stage 1: AI Inference ───
 class AIModel:
     """Simulates a chest X-ray classifier."""
- (2/7)
-def predict(self, scan: XRayScan) -> dict:
+
+    def predict(self, scan: XRayScan) -> dict:
         # Simulate: model returns findings + confidence score
         findings_pool = [
             "No significant abnormalities",
@@ -102,7 +102,7 @@ def route_for_review(scan: XRayScan) -> str:
 class Radiologist:
     """A human expert who reviews low-confidence predictions."""
 
-    def init(self, name: str):
+    def __init__(self, name: str):
         self.name = name
         self.reviews_completed = 0
 
@@ -113,8 +113,8 @@ class Radiologist:
         print(f"   AI findings: {scan.findings}")
         print(f"   AI confidence: {scan.ai_confidence:.2%}")
 
-        # Simulate human judgment — may agree, refine, or override (3/7)
-if random.random() > 0.15:  # 85% agreement
+        # Simulate human judgment — may agree, refine, or override
+        if random.random() > 0.15:  # 85% agreement
             final_diagnosis = scan.findings[0]
             notes = "Confirmed. No additional findings."
         else:
@@ -162,8 +162,8 @@ def run_hitl_pipeline(scans: list[XRayScan]) -> list[DiagnosisReport]:
             report = radiologist.review(scan, ai_summary)
             print(f"🔍 Scan {scan.image_id}: REVIEWED by {report.reviewed_by}")
             print(f"   Final diagnosis: {report.final_diagnosis}")
-            if report.radiologist_notes != "Confirmed. No additional findings.": (4/7)
-print(f"   ⚠️ Override: {report.radiologist_notes}")
+            if report.radiologist_notes != "Confirmed. No additional findings.":
+                print(f"   ⚠️ Override: {report.radiologist_notes}")
 
         reports.append(report)
 

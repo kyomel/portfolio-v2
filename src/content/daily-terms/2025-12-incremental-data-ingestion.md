@@ -27,7 +27,7 @@ Incremental Data Ingestion is a data loading strategy where only new, modified, 
 E-Commerce Orders Database
 Scenario: Daily sync of 10 million orders to data warehouse
 
-```
+```text
 FULL INGESTION:
 ┌─────────────┐         ┌─────────────┐
 │   SOURCE    │  ALL    │    DATA     │

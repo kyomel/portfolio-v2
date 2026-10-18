@@ -21,10 +21,10 @@ The pattern exists because of the **dual-write problem**. In any event-driven sy
 
 The outbox closes both windows with one trick: the event stops being a side effect and becomes **data**. You move the publish outside the transaction and outside the request path entirely, and the message broker becomes just one more *consumer of your database*.
 
+```text
 NAIVE DUAL-WRITE vs OUTBOX — where atomicity lives:
 ════════════════════════════════════════════════════════════════════════
 
-```
 NAIVE — two writes, two systems, NO shared atomicity:
 
   handler
@@ -62,17 +62,17 @@ OUTBOX — the event is a ROW, committed atomically with the change:
                   └───────┬───────┘
                           │ ④ consumers MUST be idempotent
                           ▼    (duplicates are expected, not bugs)
-```
 
   ┌────────────────────────────────────────────────────────────────┐
   │  KEY IDEA: you never "send" an event in the request path —     │
   │  you SAVE it. Delivery becomes a separate, retryable job       │
   │  owned by a relay, fully decoupled from the business write.    │
   └────────────────────────────────────────────────────────────────┘
+```
 
 How the relay works — two flavors, same job (read new rows → publish → mark dispatched):
 
-```
+```text
 POLLING PUBLISHER                          TRANSACTION LOG TAILING (CDC)
 ─────────────────────                      ─────────────────────────────
   app process, your code                    Debezium / CDC connector
@@ -111,7 +111,7 @@ When you should *not* reach for it: purely synchronous request/response with no 
 
 "KopiKode" — an online coffee-subscription shop — splits checkout into services. The `orders` service is the source of truth for orders. When a customer checks out, three other services must learn about it: `billing` (charge), `inventory` (reserve beans), and `notifications` (send "order received" email). The first version did the naive dual-write — and production found both failure modes within a week:
 
-```
+```text
 NAIVE VERSION — the week from hell:
 
   checkout handler
@@ -130,7 +130,7 @@ NAIVE VERSION — the week from hell:
 
 They rebuilt it with an outbox. The checkout handler now does exactly ONE transactional write; a polling relay (their Go service, `SELECT … FOR UPDATE SKIP LOCKED`, every 100 ms) does the publishing; and consumers dedupe on `event_id`:
 
-```
+```text
 WITH THE OUTBOX — order → event → three consumers, no lost or phantom events:
 
   CUSTOMER taps "Checkout"

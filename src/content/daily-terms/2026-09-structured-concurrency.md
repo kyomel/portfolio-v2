@@ -22,7 +22,7 @@ In the classic unstructured model, a task's lifetime is best described as "whoev
 
 UNSTRUCTURED vs STRUCTURED — what happens to the children:
 
-```
+```text
 UNSTRUCTURED CONCURRENCY            STRUCTURED CONCURRENCY
 (fire-and-forget)                   (scoped fork-join)
 ══════════════════════════          ══════════════════════════
@@ -94,7 +94,7 @@ return 200                          // "OK" is now a TRUE statement:
                                     // all three really completed
 ```
 
-```
+```text
 WITH ERRGROUP — the scope cannot exit until every child is joined:
 
  scope ──► ┌────────────────────────────────────────────────┐

@@ -24,7 +24,7 @@ The three problems that "order of data" covers are:
 
 A visual walkthrough of the three problems and their solutions.
 
-```
+```text
 ═══════════════════════════════════════════════════════════════
   SCENARIO: You run SELECT * FROM users LIMIT 3
   (No ORDER BY specified)

@@ -20,7 +20,7 @@ The core idea is one split: **deploy** is not **release**. Deploy puts the new c
 
 The naive path has no gap. You stop the old version. You start the new version on the same hosts. During the swap, no host serves traffic.
 
-```
+```text
 NAIVE SWAP (one environment)              BLUE-GREEN (two environments)
 ══════════════════════════════════        ══════════════════════════════════════
 
@@ -70,7 +70,7 @@ The cost is honest. Blue-green doubles the running fleet for the length of the w
 
 **In Kubernetes.** The standard tool in 2026 is Argo Rollouts. It replaces the `Deployment` kind with a `Rollout` kind. Two `Service` objects point the traffic:
 
-```
+```text
 KUBERNETES MECHANICS (Argo Rollouts blueGreen strategy)
 ═══════════════════════════════════════════════════════════════════════════
 

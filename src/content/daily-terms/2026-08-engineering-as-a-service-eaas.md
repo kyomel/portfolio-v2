@@ -17,6 +17,7 @@ Engineering as a Service (EaaS) is a delivery model where engineering capabiliti
 It's the engineering equivalent of how the industry moved from buying software to subscribing to SaaS. Instead of owning the capability (a standing team you pay for whether or not they're busy), you access it on demand (only pay for the engineering you actually use).
 
 The "as a Service" pattern across the stack:
+```text
 THE EVOLUTION TO "AS A SERVICE":
 ═══════════════════════════════════════════════════════════════
 
@@ -39,6 +40,7 @@ THE EVOLUTION TO "AS A SERVICE":
   │  "I don't staff a team, I consume engineering."        │
   │                                                         │
   └─────────────────────────────────────────────────────────┘
+```
 
 ### Example:
 

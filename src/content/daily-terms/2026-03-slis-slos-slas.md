@@ -31,6 +31,7 @@ SLA = the contract with customers: "if your cab takes more than 15 minutes, you 
 
 Visual Relationship
 
+```text
      What you          What you           What you
       MEASURE            TARGET             PROMISE
         │                  │                  │
@@ -40,6 +41,7 @@ Visual Relationship
 │ SLI │───▶│ SLO │───▶│ SLA │
 │ (metric) │ │ (goal) │ │ (contract) │
 └─────────────┘ └─────────────┘ └─────────────┘
+```
 "Our uptime "We aim for "We guarantee
 is 99.97%" 99.9% up" 99.5% or
 refund"

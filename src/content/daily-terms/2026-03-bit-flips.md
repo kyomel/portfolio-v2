@@ -50,6 +50,7 @@ What Causes Bit Flips?
 
 **Visual — What a Bit Flip Looks Like**
 
+```text
 Original data in memory:
 ┌───┬───┬───┬───┬───┬───┬───┬───┐
 │ 0 │ 1 │ 1 │ 0 │ 1 │ 1 │ 0 │ 1 │ = 109 decimal = ASCII letter 'm'
@@ -61,6 +62,7 @@ Original data in memory:
 ┌───┬───┬───┬───┬───┬───┬───┬───┐
 │ 0 │ 1 │ 1 │ 0 │ 1 │ 0 │ 0 │ 1 │ = 105 decimal = ASCII letter 'i'
 └───┴───┴───┴───┴───┴───┴───┴───┘
+```
 
 'm' silently became 'i' — with no error thrown ❌
 

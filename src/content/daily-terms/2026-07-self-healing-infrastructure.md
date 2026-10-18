@@ -15,6 +15,7 @@ excerpt: "Self-Healing Infrastructure is a system design approach where infrastr
 Self-Healing Infrastructure is a system design approach where infrastructure automatically detects, diagnoses, and recovers from failures without human intervention. Instead of waiting for an engineer to be paged, log in, investigate, and fix the problem, the infrastructure itself monitors its own health, identifies deviations from the desired state, and executes corrective actions — often within seconds or minutes of the failure occurring.
 
 It is NOT "magic" or "AI that fixes everything." It is a structured set of automated feedback loops at every layer of the stack:
+```text
 THE SELF-HEALING LOOP:
 ═══════════════════════════════════════════════════════════════
 
@@ -99,13 +100,15 @@ THE SELF-HEALING LOOP:
          │   → Escalate to human OR try alternative action      │
          │                                                      │
          └──────────────────────────────────────────────────────┘
+```
 
 ### Example:
 
 A visual walkthrough of a 3-node Kubernetes cluster handling 4 different failures — each one healed automatically at a different layer.
 
-```
 An e-commerce platform runs on a 3-node Kubernetes cluster. The "checkout-service" has 3 replicas, a database on persistent storage, and a Redis cache.
+
+```text
 ═══════════════════════════════════════════════════════════════
   FAILURE #1: Pod Crash (L1 — Instant Restart)
 ═══════════════════════════════════════════════════════════════

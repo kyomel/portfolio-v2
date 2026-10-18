@@ -20,8 +20,8 @@ The name comes from mathematics: in chemistry, "isomorphic" means "having the sa
 
 A visual flow comparison of how Server-Only, Client-Only (SPA), and Isomorphic handle the same scenario — displaying a user profile page.
 
-```
 A user visits example.com/profile/alice. The page needs to fetch Alice's data from a database, render her profile, and handle interactions (edit profile button).
+```text
 ═══════════════════════════════════════════════════════════════
   APPROACH 1: SERVER-ONLY (Traditional PHP/Rails)
 ═══════════════════════════════════════════════════════════════

@@ -19,7 +19,7 @@ The rule does not remove a copy. It moves the copy in time. A clone becomes chea
 - **Eager copy** pays once, up front: O(memory). The clone waits for a full duplicate of RAM.
 - **Copy-on-Write** pays O(metadata) at clone time, then O(pages written) over the lifetime.
 
-```
+```text
 EAGER COPY  vs  COPY-ON-WRITE — one 400 MB parent, one clone
 ══════════════════════════════════════════════════════════════════════
 
@@ -58,7 +58,7 @@ COPY-ON-WRITE — the clone starts at once, the pages stay shared
 
 Every first write runs the same four steps in the kernel:
 
-```
+```text
 ONE COPY-ON-WRITE FAULT — what a single first write costs
 ═══════════════════════════════════════════════════════════════════════
 
@@ -87,7 +87,7 @@ COW is not a fork feature. It is a general sharing rule, and it carries these sy
 
 The unit of the copy is the page. That one fact controls the size of the bill.
 
-```
+```text
 PAGE SIZE IS THE UNIT OF THE COPY — the setting that decides how big the bill gets
 ═════════════════════════════════════════════════════════════════════════════════
 
@@ -122,7 +122,7 @@ Kyomel's **fasting-bot** runs on one VPS with **1 vCPU and 1 GB RAM**. A small R
 
 The numbers below are the shape of this failure class, not a measurement of that box. The commands at the end let Kyomel check his own instance.
 
-```
+```text
 THE SAVE THAT KILLS THE BOX — one snapshot, one fork, one OOM
 ═══════════════════════════════════════════════════════════════════════
 

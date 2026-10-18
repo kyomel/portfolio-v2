@@ -28,7 +28,7 @@ The Polling Paradox is the counterintuitive problem where traditional polling ap
 Chat Application Checking for New Messages
 Scenario: User waiting for new messages in a chat app
 
-```
+```text
 The Paradox Illustrated:
 
 ┌─────────────────────────────────────────────────────┐

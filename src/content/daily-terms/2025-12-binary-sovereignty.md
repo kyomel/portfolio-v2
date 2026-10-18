@@ -29,7 +29,7 @@ Binary Sovereignty is the principle of maintaining complete control and ownershi
 Company Infrastructure Security
 Scenario: A financial company needs secure, auditable software
 
-```
+```text
 With Binary Sovereignty (Secure):
 
 ┌─────────────────────────────────────────────────────┐

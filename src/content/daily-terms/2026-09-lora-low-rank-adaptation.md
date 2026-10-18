@@ -18,6 +18,7 @@ The trick comes from an observation about fine-tuning: when you adapt a huge pre
 
 The forward pass becomes: **h = W₀x + (α/r)·BAx** — the frozen path carries all the pre-trained knowledge, and the small learned branch adds a task-specific correction. After training, the correction can be *merged* back into W (W′ = W₀ + (α/r)·BA), leaving a single normal model with zero extra inference cost.
 
+```text
 FULL FINE-TUNING vs LoRA:
 ═══════════════════════════════════════════════════════════════
 
@@ -63,6 +64,7 @@ FULL FINE-TUNING vs LoRA:
   │  what it needs. LoRA learns only the small, low-rank       │
   │  "delta" that points that knowledge at your task.          │
   └────────────────────────────────────────────────────────────┘
+```
 
 Key mechanics worth knowing:
 
@@ -79,7 +81,7 @@ RumahKode, a small studio, runs a customer-support copilot on a 7B open model fo
 
 Option A (full fine-tuning) is a non-starter: a 7B model needs ~110–140 GB of VRAM just for weights + gradients + optimizer — 6× their whole GPU. Option B is to fine-tune with LoRA (they use Hugging Face PEFT; with r=16, α=32 on the attention + MLP projections, ~0.2% of parameters train).
 
-```
+```text
 THE PIPELINE — one frozen base, a small learnable detour
 ═══════════════════════════════════════════════════════════════
 
@@ -114,7 +116,7 @@ After training, the copilot holds the refund policy and the right tone — witho
 
 The merge step is optional and that's where LoRA gets *really* interesting. Their second product is a fasting-app companion bot that needs three very different voices: a strict medical-accuracy mode, a relaxed "gym bro" motivator mode, and a Bahasa-Jawa-lite casual mode. Instead of three full fine-tunes (three × 14GB+ models), they train **three 26 MB LoRA adapters on the same frozen base** and load the right one per request — or even per user:
 
-```
+```text
 MULTI-LORA SERVING — one base model, three specialist skills
 ═══════════════════════════════════════════════════════════════
 

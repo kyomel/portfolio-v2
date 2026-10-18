@@ -28,7 +28,7 @@ Secure Software Development Lifecycle (SSDLC) is a framework that integrates sec
 Building a Banking Application
 Scenario: Developing a mobile banking app
 
-```
+```text
 SSDLC (Security at Every Phase):
 
 ┌─────────────────────────────────────────────────────┐

@@ -27,7 +27,7 @@ Cache Stampede (also called Thundering Herd or Dog-pile Effect) is a phenomenon 
 Popular Product Page
 Scenario: E-commerce site with cached product data
 
-```
+```text
 Proper Cache Handling (The Solution):
 
 Cache Status: Product #123 data EXPIRED at 10:00:00

@@ -28,6 +28,7 @@ Reading (find patient info): Check the logbook first, then check the filing cabi
 
 How It Works
 
+```text
     WRITE ──▶ [ Memtable (sorted, in RAM) ]    ← fastest
                     │
                     │ (when full, flush to disk)
@@ -39,6 +40,7 @@ How It Works
                     │ (background compaction)
                     ▼
               [ Merged SSTable ]               ← fewer files, garbage collected
+```
 
 ### Example:
 

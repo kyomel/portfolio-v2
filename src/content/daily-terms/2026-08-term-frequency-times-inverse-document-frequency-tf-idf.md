@@ -16,6 +16,7 @@ TF-IDF is a numerical formula that measures how important a word is to a documen
 
 The genius of TF-IDF is that it answers a subtle question: "which words actually matter?" Some words appear a lot in a document but don't tell you much (like "the," "and," "is"). Other words appear less often but are far more meaningful (like "quantum" or "algorithm"). TF-IDF separates the noise from the signal.
 
+```text
 It combines two scores:
 THE TWO PARTS OF TF-IDF:
 ═══════════════════════════════════════════════════════════════
@@ -63,6 +64,7 @@ THE TWO PARTS OF TF-IDF:
     │  ✅ Rare ACROSS the corpus (high IDF)                   │
     │                                                         │
     └─────────────────────────────────────────────────────────┘
+```
 
 ### Example:
 

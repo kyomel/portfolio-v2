@@ -66,7 +66,7 @@ Chubby is a distributed lock service developed by Google that provides coarse-gr
 
 Web service with multiple servers needs to elect a leader for background tasks
 
-```
+```text
 Initial state:
 ┌─────────────────────────────────┐
 │         Chubby Cell             │

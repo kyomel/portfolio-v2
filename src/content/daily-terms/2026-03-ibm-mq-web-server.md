@@ -38,7 +38,7 @@ mqweb solves this:
 E-Commerce Order System
 Imagine an e-commerce platform using IBM MQ to process orders, and using mqweb to integrate modern microservices with the MQ backbone.
 
-```
+```text
 Admin opens browser:
   https://mq-server:9443/ibmmq/console
 

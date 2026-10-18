@@ -18,6 +18,7 @@ It rests on a simple observation from 1970s database theory: a system does two v
 
 A quick word on the name: "Responsibility Segregation" just means "give each responsibility its own class/module/component" — it's the same idea as Separation of Concerns applied to reads vs. writes.
 
+```text
 TRADITIONAL (single model) vs CQRS (split models):
 ═══════════════════════════════════════════════════════════════
 
@@ -60,8 +61,10 @@ TRADITIONAL (single model) vs CQRS (split models):
   │  shapes, so give them DIFFERENT models instead of one       │
   │  bloated compromise.                                        │
   └────────────────────────────────────────────────────────────┘
+```
 
 When to use it (it is NOT for every app):
+```text
   ┌────────────────────────────────────────────────────────────┐
   │  GOOD FIT (use CQRS):                                      │
   │  • Read-heavy systems: 10×–1000× more reads than writes    │
@@ -76,6 +79,7 @@ When to use it (it is NOT for every app):
   │  • No read/write asymmetry → CQRS adds complexity          │
   │  • You need strong, immediate read-your-writes consistency │
   └────────────────────────────────────────────────────────────┘
+```
 
 CQRS is often (but not always) paired with **Event Sourcing** — commands produce events that are replayed to build the read model. They are separate patterns that complement each other; CQRS can exist without Event Sourcing.
 
@@ -83,7 +87,7 @@ CQRS is often (but not always) paired with **Event Sourcing** — commands produ
 
 A ticketing platform where 99% of traffic is people *viewing* event seats (reads) and only a tiny fraction is actually *booking* (writes).
 
-```
+```text
 WITHOUT CQRS — every page-view and every booking hit ONE table
 ═══════════════════════════════════════════════════════════════
 

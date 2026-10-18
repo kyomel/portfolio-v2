@@ -16,6 +16,7 @@ BASE stands for Basically Available, Soft state, Eventually consistent. It is th
 
 The core trade-off is simple:
 
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │                                                              │
 │   ACID                         vs.          BASE             │
@@ -28,6 +29,7 @@ The core trade-off is simple:
 │   Single-node friendly                    Distributed by design  │
 │                                                              │
 └─────────────────────────────────────────────────────────────┘
+```
 
 ### Example:
 
@@ -35,7 +37,7 @@ A visual flow comparison of how ACID vs. BASE handle the same scenario — an e-
 
 Scenario: A popular sneaker drops at 9:00 AM. 10,000 people try to buy the last 100 pairs. The inventory system is spread across 3 data centers (US-East, EU-West, Asia-Pacific).
 
-```
+```text
 ✅ BASE Approach (Available first, consistent later):
 
 Time │  US-East          │  EU-West           │  Asia-Pacific

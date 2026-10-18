@@ -16,6 +16,7 @@ Platform Engineering 2.0 is the evolution of Internal Developer Platforms (IDPs)
 
 The core shift: AI agents are now writing, reviewing, testing, and deploying code autonomously. The bottleneck has shifted from writing code to delivering it safely and quickly — and the platform must evolve to handle this new reality.
 
+```text
 ═══════════════════════════════════════════════════════════════
   PLATFORM ENGINEERING 1.0 vs. 2.0
 ═══════════════════════════════════════════════════════════════
@@ -49,14 +50,15 @@ The core shift: AI agents are now writing, reviewing, testing, and deploying cod
   Response         Reactive (fix issues)      Proactive (self-healing,
                    post-deploy)               self-optimizing, drift
                                               detection pre-deploy)
+```
 
 ### Example:
 
 A visual comparison of how a developer deploys a new microservice on Platform 1.0 vs. Platform 2.0 — and what happens when an AI agent does the same task.
 
-```
 SCENARIO: A team needs to deploy a new "payment-service" with GPU-accelerated fraud detection, strict cost controls, and compliance with PCI DSS.
 
+```text
 ═══════════════════════════════════════════════════════════════
   PLATFORM 1.0: Developer Deploys a Service
 ═══════════════════════════════════════════════════════════════

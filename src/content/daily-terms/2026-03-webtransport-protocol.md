@@ -23,6 +23,7 @@ WebTransport = Modern smartphone app (reliable when needed, fast when wanted, ea
 Why WebTransport Exists
 The Problem with Current Technologies
 
+```text
 ┌────────────────────────────────────────────────────┐
 │  Traditional Web Real-Time Communication          │
 └────────────────────────────────────────────────────┘
@@ -100,12 +101,14 @@ Example Solution:
   Lost video frame? → Skip it, send next frame
   Text message? → Always delivered in order
   → No interference between streams! ✅
+```
 
 ### Example:
 
 Real-Time Racing Game
 Game Requirements
 
+```text
 "TurboRace" - Browser-based racing game
 ├─ 60 FPS gameplay
 ├─ Player positions updated 20 times/second
@@ -113,7 +116,6 @@ Game Requirements
 ├─ Game state sync (reliable)
 └─ Player inputs (can drop old inputs)
 
-```
 Performance Comparison
 
 Test: 100 players, 20 position updates/second

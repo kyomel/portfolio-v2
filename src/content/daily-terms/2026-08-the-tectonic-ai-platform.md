@@ -20,6 +20,7 @@ The "tectonic" name captures two ideas:
 1. Tectonic as in plate tectonics — the constant, powerful, ground-shifting force of AI-generated apps that reshape the organization's landscape, for better or worse
 2. Tectonic as in a platform shift — AI as a foundational transformation (like electricity, the internet, or the smartphone) that demands new infrastructure, not just new features.
 
+```text
 THE PROBLEM THE PLATFORM SOLVES:
 ═══════════════════════════════════════════════════════════════
 
@@ -54,12 +55,13 @@ THE PROBLEM THE PLATFORM SOLVES:
   │  │  Each app invents its own roles & permissions,  │   │
   │  │  no unified view of who can access what         │   │
   │  └─────────────────────────────────────────────────┘   │
+```
 
 ### Example:
 
 A visual comparison of an organization without vs. with a Tectonic AI Platform as it scales AI development.
 
-```
+```text
 A company's teams start using AI to ship internal tools and automations rapidly over 12 months.
 ═══════════════════════════════════════════════════════════════
   WITHOUT A TECTONIC PLATFORM (Speed Without Structure)

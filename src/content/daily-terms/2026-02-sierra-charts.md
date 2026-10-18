@@ -27,7 +27,7 @@ Sierra Charts is a professional-grade desktop trading and charting platform desi
 
 Day Trading Session
 
-```
+```text
 Pre-Market Setup (8:00 AM)
 
 Trader's Sierra Charts Workspace:

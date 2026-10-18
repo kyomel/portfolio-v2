@@ -16,6 +16,7 @@ The Noisy Neighbor problem is a performance issue in shared, multi-tenant system
 
 It's the classic fairness failure of multi-tenancy: when multiple customers share pooled infrastructure, one misbehaving (or just extremely active) tenant can create a contention problem that makes the experience worse for everyone. The noisy neighbor doesn't necessarily intend harm — they might just have a legitimate spike (a big batch job, a sudden traffic surge, a heavy query) — but the effect is that other tenants suffer.
 
+```text
 THE PROBLEM IN ACTION:
 ═══════════════════════════════════════════════════════════════
 
@@ -45,12 +46,13 @@ THE PROBLEM IN ACTION:
   │  because of Tenant C. That's the noisy neighbor.        │
   │                                                         │
   └─────────────────────────────────────────────────────────┘
+```
 
 ### Example:
 
 A visual walkthrough of the noisy neighbor problem in three common scenarios — and the solutions.
 
-```
+```text
 ═══════════════════════════════════════════════════════════════
   THE PROBLEM: One tenant runs a huge batch job
 ═══════════════════════════════════════════════════════════════

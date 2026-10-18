@@ -34,7 +34,7 @@ Conway's Law states that "organizations which design systems... are constrained 
 
 cross-functional feature teams
 
-```
+```text
 🚀 CROSS-FUNCTIONAL FEATURE TEAMS
 =================================
 

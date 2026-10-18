@@ -27,7 +27,7 @@ Open Policy Agent (OPA) is a general-purpose policy engine that enables unified 
 Company File Access Control
 Scenario: Employees need different access levels to company documents.
 
-```
+```text
 ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
 │   Web App   │    │   Mobile    │    │   API       │
 │             │    │   App       │    │   Service   │

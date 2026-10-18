@@ -27,7 +27,7 @@ One important aspect of batch processing is the execution of the job by using ma
 
 - Payroll Processing System
 
-```
+```text
 Monthly Salary Calculation:
 ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
 │   Employee DB   │───▶│  Batch Processor │───▶│  Salary Reports │

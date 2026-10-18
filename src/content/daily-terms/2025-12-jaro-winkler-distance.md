@@ -27,7 +27,7 @@ Jaro-Winkler Distance is a string similarity metric that measures how similar tw
 Comparing Names
 Scenario: Matching customer names with typos
 
-```
+```text
 ┌─────────────────────────────────────────────────────┐
 │           JARO-WINKLER SIMILARITY                   │
 ├─────────────────────────────────────────────────────┤

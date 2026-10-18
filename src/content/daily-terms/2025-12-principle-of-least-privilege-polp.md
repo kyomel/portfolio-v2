@@ -27,7 +27,7 @@ Principle of Least Privilege (PoLP) is a security concept where users, applicati
 Company Employee Access
 Scenario: Different employees need different system access
 
-```
+```text
 With PoLP (Minimum Required Access):
 
 ┌─────────────────────────────────────────────────────┐

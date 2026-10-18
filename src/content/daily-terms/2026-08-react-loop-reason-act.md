@@ -15,6 +15,7 @@ excerpt: "The ReAct Loop is a prompting and agent-architecture pattern that inte
 The ReAct Loop is a prompting and agent-architecture pattern that interleaves Reasoning and Acting in a loop — letting an AI model alternate between thinking through a problem and taking actions (calling tools) to gather information or affect the world, then using the results to reason further. The name combines "Re" (Reasoning) and "Act" (Acting).
 
 It was introduced in the 2022 paper "ReAct: Synergizing Reasoning and Acting in Language Models" (Yao et al.). The key insight: reasoning alone can't access real-world information (the model might hallucinate facts it could just look up), and acting alone (blindly calling tools) lacks strategy. Combining them — reason, act, observe, reason again — produces much better results for tasks that need external knowledge or multi-step problem solving.
+```text
 THE ReAct LOOP:
 ═══════════════════════════════════════════════════════════════
 
@@ -60,12 +61,13 @@ THE ReAct LOOP:
     The loop repeats until the goal is reached.                 │
     Each iteration adds real information from the world         │
     that the model didn't know before.                          │
+```
 
 ### Example:
 
 A visual walkthrough of a ReAct loop solving a multi-step problem that requires external information.
 
-```
+```text
 User asks the agent: "What's the population of the capital of the country that won the most medals at the 2024 Olympics?"
 
 This requires multiple steps AND external information the model doesn't know.

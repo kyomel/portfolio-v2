@@ -16,6 +16,7 @@ Agentic SRE (Site Reliability Engineering) is the evolution of traditional SRE p
 
 The fundamental shift: In traditional SRE, humans operate systems and occasionally make mistakes. In Agentic SRE, both humans AND AI agents operate systems — and agents operate at machine speed, at massive scale, and with unpredictable behavior patterns. The SRE team must now be reliable for the agents (the platform they depend on) and reliable despite the agents (the mistakes they make).
 
+```text
 ═══════════════════════════════════════════════════════════════
   THE SRE EVOLUTION
 ═══════════════════════════════════════════════════════════════
@@ -42,14 +43,15 @@ The fundamental shift: In traditional SRE, humans operate systems and occasional
   Human error               Automation bugs             Agent misbehavior
   is expected.              are expected.               is expected AND
                                                          harder to predict.
+```
 
 ### Example:
 
 A visual comparison of how Traditional SRE vs. Agentic SRE handles the same scenario — a production incident where a new deployment causes increased error rates.
 
-```
 A canary deployment of "payment-service v2.3" causes a 5% increase in 500 errors. The system must respond within 3 minutes to stay within the error budget.
 
+```text
 ═══════════════════════════════════════════════════════════════
   TRADITIONAL SRE (Humans + Scripted Automation)
 ═══════════════════════════════════════════════════════════════

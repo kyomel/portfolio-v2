@@ -23,6 +23,7 @@ A Graph G = (V, E) consists of:
   V = Vertices (nodes) — the entities
   E = Edges — the relationships between entities
 
+```text
   Visual:
        [A]──────[B]
         │  \      │
@@ -46,6 +47,7 @@ A Graph G = (V, E) consists of:
     Directed:   A→B means A follows B (not necessarily vice versa)
     Weighted:   edges have numerical weights
     Heterogeneous: multiple types of nodes and edges
+```
 
 ### Example:
 

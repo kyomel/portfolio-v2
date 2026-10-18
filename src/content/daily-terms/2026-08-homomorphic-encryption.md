@@ -16,6 +16,7 @@ Homomorphic Encryption is a cryptographic technique that lets you perform comput
 
 It's the "holy grail" of data privacy: it allows an untrusted party (like a cloud server) to process your sensitive data while never seeing the actual data — only its encrypted form. The server does useful work on your behalf, but learns nothing about your information in the process.
 
+```text
 NORMAL ENCRYPTION vs. HOMOMORPHIC ENCRYPTION:
 ═══════════════════════════════════════════════════════════════
 
@@ -63,12 +64,13 @@ NORMAL ENCRYPTION vs. HOMOMORPHIC ENCRYPTION:
                       
                         The server computed on the ENCRYPTED data and never saw
                         the plaintext. Only the owner can decrypt the result.
+```
 
 ### Example:
 
 A visual walkthrough of homomorphic encryption in two real-world use cases.
 
-```
+```text
 Privacy-Preserving Healthcare Analytics
 ═══════════════════════════════════════════════════════════════
   THE GOAL: Compute statistics across hospitals' patient data

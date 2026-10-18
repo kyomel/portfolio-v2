@@ -24,7 +24,7 @@ Add features to your app without changing the main code by running helper servic
 
 ### Example:
 E-commerce Website with Security Sidecar
-```
+```text
 ┌─────────────────┐    ┌──────────────────┐
 │  Shopping App   │    │ Security Sidecar │
 │ ┌─────────────┐ │    │ ┌──────────────┐ │

@@ -36,7 +36,7 @@ Key idea: "Black-box" testing that attacks your app while it's running to find s
 
 Testing a Login Form
 
-```
+```text
 Normal User:
 ┌─────────────────────────┐
 │  Login Form             │

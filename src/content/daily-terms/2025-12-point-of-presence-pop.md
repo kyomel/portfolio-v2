@@ -27,7 +27,7 @@ Point of Presence (PoP) is a physical location where network infrastructure is d
 Video Streaming Service
 Scenario: Netflix serving users worldwide
 
-```
+```text
 With PoPs (Distributed):
 
 User in Tokyo                    Local PoP

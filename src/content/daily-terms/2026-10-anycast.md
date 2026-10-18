@@ -20,7 +20,7 @@ Anycast has no protocol of its own. It borrows BGP. The operator takes a prefix,
 
 RFC 4786 (BCP 126, published in 2006) names the parts. An anycast **node** is a group of hosts and routers that serve the address at one site. The **catchment** of a node is the region whose packets flow to that node.
 
-```
+```text
 UNICAST vs ANYCAST vs MULTICAST
 ═══════════════════════════════════════════════════════════════════════
 
@@ -85,7 +85,7 @@ One warning sits under the word **nearest**. BGP does not measure latency. It co
 
 A team runs a public DNS resolver on `198.51.100.53`. Three nodes announce this prefix. Each node runs its own BGP daemon.
 
-```
+```text
 THREE NODES ANNOUNCE THE SAME PREFIX
 ═══════════════════════════════════════════════════════════════════════
   NODE          AS        ANNOUNCEMENT        CATCHMENT
@@ -100,7 +100,7 @@ THREE NODES ANNOUNCE THE SAME PREFIX
 
 A user in Jakarta sends one query.
 
-```
+```text
 QUERY FROM JAKARTA — ROUTING DECIDES, NOT DNS
 ═══════════════════════════════════════════════════════════════════════
    laptop (Jakarta)
@@ -124,7 +124,7 @@ QUERY FROM JAKARTA — ROUTING DECIDES, NOT DNS
 
 Now the Singapore node fails.
 
-```
+```text
 FAILOVER WITHOUT A CLIENT CHANGE
 ═══════════════════════════════════════════════════════════════════════
    t = 0 s      the node fails its own health check

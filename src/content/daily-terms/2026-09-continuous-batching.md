@@ -37,7 +37,7 @@ CONSEQUENCE: decoding 1 sequence alone wastes ~95% of an H100.
 
 The fix is to change the **unit of scheduling** from a request to a **decode iteration**. This was formalized by the **Orca** paper (OSDI 2022), which named it iteration-level scheduling; **vLLM** (2023) made it runnable at scale by pairing it with **PagedAttention** — a paged KV cache where each sequence holds a list of fixed-size blocks instead of one contiguous reservation. That pairing is not optional, it is co-designed: dynamic admission/eviction means sequence memory is constantly being allocated and returned, and with naive contiguous allocation you get fragmentation plus up-to-60% memory waste, which in turn caps how many sequences you can keep in the batch. Continuous batching is the *scheduling* innovation; PagedAttention is the *memory* innovation that makes it possible.
 
-```
+```text
 STATIC BATCHING — the batch is FROZEN until the slowest member finishes
 ═══════════════════════════════════════════════════════════════════════════
 slot │                     decode iterations →
@@ -70,7 +70,7 @@ slot │  it0     it30      it31          it300      it301       it1500
 
 The mechanism, spelled out, is a three-step loop the engine runs forever:
 
-```
+```text
 EVERY DECODE ITERATION — the scheduler executes this, endlessly
 ┌──────────────────────────────────────────────────────────────────────┐
 │                                                                      │
@@ -127,7 +127,7 @@ Finally, one clarification that saves a lot of confusion: continuous batching is
 
 TokoKita runs a customer-support RAG bot ("KirimChat") on **one H100** with vLLM, serving ~40 req/s at peak. The prompt is a RAG context (~3,000 tokens) plus history, and answer lengths are wildly mixed: 60% are 20–60 token "status pesanan saya?" replies, 30% are 200–500 token explanations, and 10% are 1,500+ token policy walkthroughs. Their first version used a hand-rolled loop with static batches of 8. The Flash Sale at 20:00 WIB is where it fell over.
 
-```
+```text
 STATIC BATCH OF 8 — 20:03 WIB, measured on the same H100
 ════════════════════════════════════════════════════════════════════════
   R1 (policy walkthrough, 1,600 tok)  ████████████████████████████ ...
@@ -144,7 +144,7 @@ Two things made it structurally bad: the 7 short users waited ~11 s for a one-li
 
 The fix was a config change, not a rewrite: keep vLLM's default continuous batching, then tune it.
 
-```
+```text
 CONTINUOUS BATCHING + CHUNKED PREFILL — 20:03 WIB, same single H100
 ════════════════════════════════════════════════════════════════════════
  iteration │ running batch (max_num_seqs=192)
@@ -160,7 +160,7 @@ CONTINUOUS BATCHING + CHUNKED PREFILL — 20:03 WIB, same single H100
   Cost: $0.51 / 1M output tokens      ·  queue drained within 90 s
 ```
 
-```
+```text
 vLLM flags actually used
 ┌────────────────────────────────────────────────────────────────────┐
 │ --max-model-len 32768          keep the context they trained for   │

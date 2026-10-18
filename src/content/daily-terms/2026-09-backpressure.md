@@ -18,7 +18,7 @@ The need comes from simple arithmetic. Producers almost always run faster than c
 
 Backpressure adds one rule: the buffer has a ceiling, and the producer feels that ceiling.
 
-```
+```text
 WITHOUT BACKPRESSURE (no ceiling)      WITH BACKPRESSURE (bounded gate)
 ═════════════════════════════════      ═══════════════════════════════════
 
@@ -125,7 +125,7 @@ Monday 09:00. The fan-out sends 12,000 requests per second to the gateway. The G
 
 The queue degrades much faster than the GPU fleet grows. Queue growth wins the race.
 
-```
+```text
 THE RACE — 09:00 SPIKE, NO BACKPRESSURE
 ═══════════════════════════════════════════════════════════════════════
 
@@ -155,7 +155,7 @@ THE RACE — 09:00 SPIKE, NO BACKPRESSURE
 
 The fix uses four layers. Each layer answers a failure the layer below cannot.
 
-```
+```text
 CONTROL LOOP THAT HOLDS — SLO + BACKPRESSURE + SHEDDING + AUTOSCALING
 ═══════════════════════════════════════════════════════════════════════
 

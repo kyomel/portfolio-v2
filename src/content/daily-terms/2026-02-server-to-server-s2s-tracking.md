@@ -25,7 +25,7 @@ Server-to-Server (S2S) Tracking is a method of collecting and transmitting user 
 
 E-commerce Conversion Tracking
 
-```
+```text
 The Business Goal
 
 Company: ShoesRUs

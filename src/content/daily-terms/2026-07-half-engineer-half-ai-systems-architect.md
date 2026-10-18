@@ -21,6 +21,7 @@ This isn't about becoming a data scientist or training ML models. It's about bei
 - "How do we know when AI output is wrong in subtle, non-obvious ways?"
 - "Why did my teammate get terrible output from the same prompt that works for me?"
 
+```text
 The role split visualized:
 The Senior Developer (2026)
 ┌──────────────────────────────┐
@@ -46,6 +47,7 @@ premium for both halves                  │
 ────────────────────────                 │
           ┌────────────────────┘
           ▼
+```
 "Senior Developer" title now
 implicitly means both roles
 
@@ -66,7 +68,7 @@ Scenario: Your 12-person microservices team just started using AI coding assista
 
 ✅ ENGINEER + AI SYSTEMS ARCHITECT Approach: 
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │ PHASE 1: AUDIT & MAP (Week 1)                               │
 │ ┌─────────────────────────────────────────────────────────┐ │

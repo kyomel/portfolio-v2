@@ -20,7 +20,7 @@ The idea comes from the operating system. Virtual memory gives a process a flat 
 
 Classic serving systems store the cache of a request as one contiguous tensor. Deep learning frameworks want contiguous tensors, so the scheduler reserves a chunk sized for the **maximum** length (for example 2048 tokens) before the first token exists. Three kinds of waste follow:
 
-```
+```text
 THE THREE WASTES OF CONTIGUOUS RESERVATION
 ════════════════════════════════════════════════════════════════════════════
 
@@ -52,7 +52,7 @@ THE THREE WASTES OF CONTIGUOUS RESERVATION
 
 PagedAttention replaces the one big chunk with a pool of equal blocks and a lookup table:
 
-```
+```text
 NAIVE CONTIGUOUS vs PAGED BLOCKS
 ════════════════════════════════════════════════════════════════════════════
 
@@ -89,7 +89,7 @@ NAIVE CONTIGUOUS vs PAGED BLOCKS
 
 **One decode step through the table.** The kernel does not stream one tensor. It walks the block table of each sequence and gathers the keys and values of the listed blocks:
 
-```
+```text
 A DECODE STEP — how the kernel reads a non-contiguous cache
 ════════════════════════════════════════════════════════════════════════════
 
@@ -120,7 +120,7 @@ A DECODE STEP — how the kernel reads a non-contiguous cache
 
 **Sharing and copy-on-write.** Two sequences that hold the same prefix can point at the same physical blocks. A reference count tracks the users of a block. Read is free. Write is not. When a sequence must write into a shared block, the runtime copies the block for that sequence first, then writes. This is the copy-on-write rule from the OS, applied to the KV cache:
 
-```
+```text
 COPY-ON-WRITE ON A SHARED PREFIX
 ════════════════════════════════════════════════════════════════════════════
 
@@ -152,7 +152,7 @@ COPY-ON-WRITE ON A SHARED PREFIX
 
 Measured numbers from the paper:
 
-```
+```text
 PUBLISHED RESULTS (vLLM paper, SOSP 2023)
 ════════════════════════════════════════════════════════════════════════════
 
@@ -246,7 +246,7 @@ CONTIGUOUS RESERVATION — memory full, GPU mostly idle
 
 **After: paged KV cache.** The same 40 GiB pool now holds blocks, and the scheduler admits requests by block count.
 
-```
+```text
 PAGED KV CACHE — the same 40 GiB, used in 16-token steps
 ════════════════════════════════════════════════════════════════════════════
 
@@ -295,7 +295,7 @@ PREFIX SHARING — one copy of the system prompt, many users
 
 The operational numbers that matter, before and after:
 
-```
+```text
 BEFORE / AFTER ON THE SAME CARD
 ════════════════════════════════════════════════════════════════════════════
 

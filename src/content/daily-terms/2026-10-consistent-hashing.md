@@ -51,7 +51,7 @@ MODULO HASHING vs CONSISTENT HASHING          (4 nodes, then add 1 node)
 
 The repair is a **hash ring with virtual nodes**. A single point per node gives a node a random and often huge arc. Many points per node (16, 100, 256 — the number is a tuning knob) chop the ring into small arcs and drive the load error down.
 
-```
+```text
 WHY ONE POINT PER NODE IS NOT ENOUGH
 ═══════════════════════════════════════════════════════════════════
  ONE POINT PER NODE                   MANY POINTS PER NODE
@@ -119,7 +119,7 @@ Round-robin routing destroys that reuse. The prefix lands on R7, then R2, then R
 
 The fix is to route on the prefix instead of a random id, and to keep a load cap so affinity does not create a hot replica.
 
-```
+```text
 THE ROUTER — PREFIX AFFINITY WITH A LOAD CAP
 ═══════════════════════════════════════════════════════════════════════
  request: prefix P (2,400 tokens) + adapter "bantukode"

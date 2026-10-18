@@ -16,6 +16,7 @@ Lift-and-Shift (also called rehosting) is a cloud migration strategy where you m
 
 It is the fastest path to the cloud, but it leaves the application's internal architecture untouched. You get the operational benefits of the cloud (elastic infrastructure, pay-as-you-go, managed data centers) without any of the architectural benefits (auto-scaling, managed services, serverless, microservices).
 
+```text
 ═══════════════════════════════════════════════════════════════
   THE THREE CLOUD MIGRATION STRATEGIES
 ═══════════════════════════════════════════════════════════════
@@ -66,12 +67,13 @@ It is the fastest path to the cloud, but it leaves the application's internal ar
                                 │  • Cloud benefits: MINIMAL (infrastructure only)        │
                                 │                                                         │
                                 └─────────────────────────────────────────────────────────┘                            
+```
 
 ### Example:
 
 A visual walkthrough of the 5-question decision framework from the DZone article — helping you decide for each workload whether to lift-and-shift or modernize.
 
-```
+```text
 ═══════════════════════════════════════════════════════════════
   THE 5-QUESTION DECISION FRAMEWORK
 ═══════════════════════════════════════════════════════════════

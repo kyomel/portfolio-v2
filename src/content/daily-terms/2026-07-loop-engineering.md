@@ -16,38 +16,40 @@ Loop Engineering is the discipline of designing, optimizing, and debugging the i
 
 The core loop that every agent system runs looks like this:
 
-                    ┌─────────────────────────────┐
-                    │     1. PERCEIVE              │
-                    │   (read tools, environment)  │
-                    └─────────────┬───────────────┘
-                                  ▼
-                    ┌─────────────────────────────┐
-                    │     2. REASON                │
-                    │   (plan next action,         │
-                    │    evaluate context)         │
-                    └─────────────┬───────────────┘
-                                  ▼
-                    ┌─────────────────────────────┐
-                    │     3. ACT                   │
-                    │   (call a tool: terminal,    │
-                    │    read_file, web_search)    │
-                    └─────────────┬───────────────┘
-                                  ▼
-                    ┌─────────────────────────────┐
-                    │     4. OBSERVE               │
-                    │   (tool returns output)      │
-                    └─────────────┬───────────────┘
-                                  │
-                          ┌───────┴───────┐
-                          │               │
-                      Goal met?      Not yet?
-                          │               │
-                          ▼               │
-                    ┌──────────┐          │
-                    │   DONE   │          │
-                    └──────────┘          │
-                          ▲               │
-                          └───────────────┘
+```text
+┌─────────────────────────────┐
+│     1. PERCEIVE              │
+│   (read tools, environment)  │
+└─────────────┬───────────────┘
+              ▼
+┌─────────────────────────────┐
+│     2. REASON                │
+│   (plan next action,         │
+│    evaluate context)         │
+└─────────────┬───────────────┘
+              ▼
+┌─────────────────────────────┐
+│     3. ACT                   │
+│   (call a tool: terminal,    │
+│    read_file, web_search)    │
+└─────────────┬───────────────┘
+              ▼
+┌─────────────────────────────┐
+│     4. OBSERVE               │
+│   (tool returns output)      │
+└─────────────┬───────────────┘
+              │
+      ┌───────┴───────┐
+      │               │
+  Goal met?      Not yet?
+      │               │
+      ▼               │
+┌──────────┐          │
+│   DONE   │          │
+└──────────┘          │
+      ▲               │
+      └───────────────┘
+```
 
 Why the loop matters:
 
@@ -56,7 +58,7 @@ A non-agentic LLM call is one-shot: prompt → response. If the response is wron
 Key loop engineering patterns:
 
 | Pattern | What It Does | Example |
-|---------|-------------|---------| (2/11)
+|---------|-------------|---------|
 | ReAct Loop | Reason → Act → Observe — interleave thinking with tool use | "I need to find the file. Let me search for it. I found it. Now let me read it. I see the bug. Now let me fix it." |
 | Reflection Loop | Generate output → Critique output → Refine | Write code → Check for bugs → Fix bugs → Recheck |
 | Retry Loop | Try → Fail → Backoff → Retry | Call API → Timeout → Wait 1s → Retry (exponential backoff) |
